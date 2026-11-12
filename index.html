@@ -30,10 +30,10 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-emerald-50 via-white to-amber-50/40 text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
+<body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
 
   <!-- Cabeçalho / Navbar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group">
         <!-- Logotipo Oficial do PV (com fallback SVG fiel) -->
@@ -69,15 +69,14 @@
     <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
 
-      <!-- Banner Principal com capa.jpg em alta nitidez (sem filtro verde tapando a foto) -->
-      <section class="relative rounded-3xl overflow-hidden shadow-lg border border-emerald-200/70 bg-slate-900">
+      <!-- Banner Principal com capa.jpg em alta nitidez -->
+      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900">
         <img src="capa.jpg" alt="Comunidade Verde Cabo Frio - Capela de São Benedito e Igreja de Nossa Senhora da Guia" class="absolute inset-0 w-full h-full object-cover object-center opacity-90" />
-        <!-- Película neutra suave apenas para garantir leitura dos textos -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65"></div>
 
         <div class="relative z-10 px-6 py-10 sm:px-12 sm:py-14 text-center max-w-3xl mx-auto">
           <span class="inline-block bg-white/20 backdrop-blur-md text-white border border-white/30 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider mb-4 drop-shadow">
-            Santinho Digital Interativo
+            Apresentação Interativa da Comunidade
           </span>
           <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
             Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
@@ -100,7 +99,7 @@
           </button>
         </div>
 
-        <div class="relative bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden min-h-[390px] sm:min-h-[410px] flex flex-col justify-between p-6 sm:p-8 select-none">
+        <div class="relative bg-white rounded-3xl shadow-md border border-emerald-100/80 overflow-hidden min-h-[390px] sm:min-h-[410px] flex flex-col justify-between p-6 sm:p-8 select-none">
           <!-- Barras de Progresso -->
           <div id="progress-container" class="grid grid-cols-7 gap-1.5 mb-6 z-20 relative"></div>
 
@@ -280,7 +279,7 @@
           </a>
         </div>
 
-        <!-- Lista de Eventos (Fácil de editar no código) -->
+        <!-- Lista de Eventos -->
         <div class="space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70">
             <div class="flex items-start gap-4">
@@ -511,7 +510,7 @@
   </div>
 
   <script>
-    // ==================== DADOS DO SANTINHO DIGITAL (7 LÂMINAS) ====================
+    // ==================== DADOS DA APRESENTAÇÃO INTERATIVA (7 LÂMINAS) ====================
     const slides = [
       {
         tag: "1 • A Força da Comunidade",
@@ -606,7 +605,7 @@
           </div>
           ${slide.isCTA ? `
             <div class="pt-3 relative z-30">
-              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Vi%20o%20Santinho%20Digital%20e%20quero%20fazer%20parte%20da%204%C2%AA%20Escolha%20na%20Comunidade%20Verde!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
+              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20e%20quero%20fazer%20parte%20da%204%C2%AA%20Escolha%20na%20Comunidade%20Verde!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
                 <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
                 Entrar no Grupo da 4ª Escolha (WhatsApp)
               </a>
