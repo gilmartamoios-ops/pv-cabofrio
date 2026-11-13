@@ -198,7 +198,7 @@
             <div>
               <span class="text-[11px] font-bold uppercase tracking-wider text-sky-600">Leis & Fiscalização</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800 transition-colors">Câmara Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, votações nominais e proposições legislativas da comunidade.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, produtividade dos vereadores e votações nominais.</p>
             </div>
           </a>
         </div>
@@ -314,7 +314,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL (VOTAÇÃO NOMINAL AUTOMATIZADA) ==================== -->
+    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL (PRODUÇÃO & VOTAÇÃO NOMINAL) ==================== -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -334,12 +334,26 @@
       <div class="bg-sky-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
         <span class="text-xs font-extrabold uppercase tracking-wider bg-sky-700 px-3 py-1 rounded-full">Legislativo & Controle Social</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Monitoramento da Câmara Municipal</h2>
-        <p class="text-sm text-sky-100 mt-1">Acompanhe projetos, o tradutor cidadão de pautas e o voto nominal de cada vereador de Cabo Frio.</p>
+        <p class="text-sm text-sky-100 mt-1">Acompanhe a produção legislativa, o tradutor cidadão de pautas e o voto nominal de cada vereador de Cabo Frio.</p>
+      </div>
+
+      <!-- Painel Full Time de Produtividade dos Vereadores -->
+      <div id="camara-ranking-container" class="bg-white rounded-3xl border border-sky-100 p-6 sm:p-8 shadow-sm">
+        <div class="border-b border-slate-100 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Ranking Full Time</span>
+            <h3 class="text-xl font-extrabold text-slate-900 mt-2">Produtividade Legislativa do Mês</h3>
+          </div>
+          <span class="text-xs text-slate-500 font-semibold">Total de proposições registradas</span>
+        </div>
+        <div id="ranking-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div class="text-slate-500 text-xs py-4 text-center col-span-full animate-pulse">Calculando produção dos vereadores...</div>
+        </div>
       </div>
 
       <div class="space-y-6" id="camara-posts-container">
         <div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-500 text-sm font-medium animate-pulse">
-          Carregando dados e votações nominais da Câmara Municipal...
+          Carregando atos legislativos e votações nominais...
         </div>
       </div>
     </section>
@@ -583,25 +597,58 @@
         .then(csvText => {
           const rows = parseCSV(csvText);
           const container = document.getElementById('camara-posts-container');
+          const rankingContainer = document.getElementById('ranking-list');
           
           if (rows.length < 2) {
             container.innerHTML = `<div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-600 text-sm">Nenhum projeto cadastrado na planilha da Câmara.</div>`;
+            rankingContainer.innerHTML = `<div class="text-slate-500 text-xs py-2 text-center col-span-full">Sem dados de produtividade no momento.</div>`;
             return;
           }
 
-          const headers = rows[0]; // [Data, Projeto, Autor, Contexto, Status, Vereador1, Vereador2...]
+          // Ordem correta das colunas:
+          // [0] Data, [1] Ato Legislativo (Indicação, PL...), [2] Projeto, [3] Autor, [4] Contexto, [5] Status, [6+] Vereadores...
+          const headers = rows[0];
           const dataRows = rows.slice(1);
-          const councillors = headers.slice(5); // Nomes dos 17 vereadores a partir da coluna F
+          const councillors = headers.slice(6); // Nomes dos vereadores a partir da coluna G
 
+          // Contagem de produtividade por vereador (Full Time)
+          const productionCounts = {};
+          councillors.forEach(cName => { productionCounts[cName] = 0; });
+
+          dataRows.forEach(row => {
+            const author = (row[3] || '').trim();
+            // Se o autor corresponder a algum vereador da lista, incrementa a produtividade
+            councillors.forEach(cName => {
+              if (author.toLowerCase().includes(cName.toLowerCase().split(' - ')[0])) {
+                productionCounts[cName]++;
+              }
+            });
+          });
+
+          // Ordena vereadores do mais produtivo para o menos produtivo
+          const sortedRanking = councillors.map(cName => ({ name: cName, count: productionCounts[cName] }))
+                                           .sort((a, b) => b.count - a.count);
+
+          rankingContainer.innerHTML = sortedRanking.map((item, idx) => `
+            <div class="bg-sky-50/70 border border-sky-100 rounded-2xl p-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-sky-700 text-white font-extrabold text-xs flex items-center justify-center shrink-0">${idx + 1}º</span>
+                <span class="text-xs font-bold text-slate-800 truncate max-w-[140px] sm:max-w-[180px]">${item.name}</span>
+              </div>
+              <span class="bg-sky-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-xl shrink-0">${item.count} proposições</span>
+            </div>
+          `).join('');
+
+          // Renderização dos Cards de Atos Legislativos
           container.innerHTML = dataRows.map((row, index) => {
-            const [date, project, author, context, status] = row;
+            const [date, atoLegislativo, project, author, context, status] = row;
             if (!project) return '';
 
             const voteCounts = { Sim: 0, Não: 0, Abstenção: 0, Ausente: 0 };
             const votesByCat = { Sim: [], Não: [], Abstenção: [], Ausente: [] };
 
             councillors.forEach((cName, cIdx) => {
-              const voteVal = (row[5 + cIdx] || '').trim().toLowerCase();
+              const voteVal = (row[6 + cIdx] || '').trim().toLowerCase();
               if (voteVal.includes('sim')) {
                 voteCounts.Sim++;
                 votesByCat.Sim.push(cName);
@@ -622,7 +669,7 @@
             return `
               <article id="${cardId}" class="bg-white rounded-3xl border border-sky-100 shadow-sm overflow-hidden scroll-mt-24">
                 <div class="bg-sky-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
-                  <span>${author || 'Poder Legislativo'}</span>
+                  <span>${atoLegislativo || 'Ato Legislativo'} • Autor: ${author || 'Não informado'}</span>
                   <span>${date || 'Data não informada'} • Status: ${status || 'Em Tramitação'}</span>
                 </div>
                 <div class="p-6 sm:p-8 space-y-5">
@@ -682,7 +729,6 @@
             `;
           }).join('');
 
-          // Trata hash direto caso o usuário abra via link de compartilhamento
           const currentHash = window.location.hash.replace('#', '');
           if (currentHash.startsWith('camara-projeto-')) {
             setTimeout(() => {
