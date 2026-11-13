@@ -68,9 +68,9 @@
     <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
 
-      <!-- Banner Principal (Sem a faixa cinza indesejada) -->
+      <!-- Banner Principal (Sem faixa cinza) -->
       <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900">
-        <img src="capa.jpg" alt="Comunidade Verde Cabo Frio - Capela de São Benedito e Igreja de Nossa Senhora da Guia" class="absolute inset-0 w-full h-full object-cover object-center opacity-90" />
+        <img src="capa.jpg" alt="Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-center opacity-90" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65"></div>
 
         <div class="relative z-10 px-6 py-12 sm:px-12 sm:py-16 text-center max-w-3xl mx-auto">
@@ -130,9 +130,9 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
             </div>
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Debate & Editorial</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Blog & Artigos</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">Fórum Permanente</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial de pautas urgentes, cadeia logística do petróleo, Centro x Tamoios e propostas populares.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial com até 10 postagens independentes, pautas urgentes, cadeia logística e propostas populares.</p>
             </div>
           </a>
 
@@ -152,9 +152,9 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Planilha & Somatórios</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Planilha Oficial</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">Orçamento Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Discriminação transparente de receitas, royalties, emendas e acompanhamento dos recursos públicos.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e repasses integrados via Google Sheets para consulta pública.</p>
             </div>
           </a>
 
@@ -165,14 +165,14 @@
             <div>
               <span class="text-[11px] font-bold uppercase tracking-wider text-sky-600">Leis & Fiscalização</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800 transition-colors">Câmara Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Planilha de votações, projetos em tramitação e envio de propostas de lei de iniciativa popular.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, votações e proposições legislativas da comunidade.</p>
             </div>
           </a>
         </div>
       </section>
     </div>
 
-    <!-- ==================== SEÇÃO 1: FÓRUM & EDITORIAL ==================== -->
+    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOG COM ATÉ 10 POSTAGENS) ==================== -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
       <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -181,56 +181,103 @@
         </button>
         <button onclick="copyDirectLink('forum')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto desta página
+          Copiar link direto do Fórum
         </button>
       </div>
 
-      <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
-        <div class="bg-emerald-800 text-white px-6 py-4 flex items-center justify-between">
-          <span class="text-xs font-extrabold uppercase tracking-wider flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-            Editorial • Pauta Urgente
-          </span>
-          <span class="text-xs text-emerald-200">Atualizado pela Coordenação PV</span>
-        </div>
+      <div class="bg-emerald-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Blog Editorial</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Artigos, Pautas e Debates da Cidade</h2>
+        <p class="text-sm text-emerald-100 mt-1">Espaço editorial independente com análises profundas, denúncias fundamentadas e propostas para Cabo Frio.</p>
+      </div>
 
-        <div class="p-6 sm:p-8 space-y-5">
-          <img src="capa.jpg" alt="Imagem da Pauta Urgente" class="w-full h-56 sm:h-72 object-cover rounded-2xl border border-slate-100" />
-
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-            Cabo Frio na Rota do Petróleo: Por que R$ 1 Bilhão em Royalties não vira Renda e Infraestrutura para o Povo?
-          </h2>
-
-          <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
-            <p>
-              Nos últimos anos, apenas o distrito de Tamoios gerou cerca de <strong>R$ 1 bilhão em royalties do petróleo</strong>. Segundo o IBGE, Cabo Frio ostenta um PIB per capita superior a <strong>R$ 76 mil/ano</strong>, mas a realidade nos bairros é outra: a renda média do trabalhador cabofriense gira em torno de <strong>R$ 2.600/mês</strong>.
-            </p>
-            <p>
-              Enquanto municípios vizinhos estruturam distritos industriais e atraem empresas da <strong>cadeia logística offshore</strong>, Cabo Frio segue presa a um modelo econômico sazonal, dependente apenas do turismo de verão e da especulação imobiliária, deixando de lado o potencial da nossa imensa área rural e da nossa posição estratégica entre a Bacia de Campos e o Norte Fluminense.
-            </p>
+      <!-- Container das Postagens do Blog (Suporta até 10 artigos independentes) -->
+      <div class="space-y-6" id="blog-posts-container">
+        
+        <!-- Postagem 1 (Destaque Principal) -->
+        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
+          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+            <span>Postagem 01 • Pauta Urgente</span>
+            <span>Atualizado pela Coordenação PV</span>
           </div>
-
-          <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-            <span class="text-xs font-semibold text-slate-500">Tem uma denúncia ou proposta sobre este tema?</span>
-            <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Li%20o%20Editorial%20no%20F%C3%B3rum%20da%20Comunidade%20Verde%20e%20quero%20enviar%20uma%20proposta%20popular:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-sm transition-all">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-              Enviar Proposta Popular (Fórum)
-            </a>
+          <div class="p-6 sm:p-8 space-y-4">
+            <img src="capa.jpg" alt="Cabo Frio na Rota do Petróleo" class="w-full h-56 sm:h-72 object-cover rounded-2xl border border-slate-100" />
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+              Cabo Frio na Rota do Petróleo: Por que R$ 1 Bilhão em Royalties não vira Renda e Infraestrutura para o Povo?
+            </h3>
+            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: O abismo econômico entre os distritos e a falta de diversificação produtiva na cidade.</h4>
+            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
+              <p>
+                Nos últimos anos, apenas o distrito de Tamoios gerou cerca de <strong>R$ 1 bilhão em royalties do petróleo</strong>. Segundo o IBGE, Cabo Frio ostenta um PIB per capita superior a <strong>R$ 76 mil/ano</strong>, mas a realidade nos bairros é outra: a renda média do trabalhador cabofriense gira em torno de <strong>R$ 2.600/mês</strong>.
+              </p>
+              <p>
+                Enquanto municípios vizinhos estruturam distritos industriais e atraem empresas da cadeia logística offshore, Cabo Frio segue presa a um modelo sazonal dependente do turismo de verão e da especulação imobiliária.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex justify-end">
+              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20comentar%20sobre%20a%20postagem%20do%20Petr%C3%B3leo%20no%20F%C3%B3rum:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
+                Debater Postagem no WhatsApp
+              </a>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white p-6 rounded-2xl border border-emerald-100 shadow-sm">
-          <span class="text-xs font-extrabold uppercase text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">Pauta Prioritária 01</span>
-          <h3 class="text-lg font-extrabold text-slate-900 mt-3">Desenvolvimento Econômico & Logística do Petróleo</h3>
-          <p class="text-sm text-slate-600 mt-2 leading-relaxed">Atração de bases de apoio offshore, qualificação técnica da mão de obra local e incentivos para fornecedores de Cabo Frio.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-emerald-100 shadow-sm">
-          <span class="text-xs font-extrabold uppercase text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">Pauta Prioritária 02</span>
-          <h3 class="text-lg font-extrabold text-slate-900 mt-3">Integração Centro x Tamoios & Área Rural</h3>
-          <p class="text-sm text-slate-600 mt-2 leading-relaxed">Saneamento básico universal, recuperação da Lagoa de Araruama e fomento à produção agroecológica de alimentos na zona rural.</p>
-        </div>
+        <!-- Postagem 2 -->
+        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
+          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+            <span>Postagem 02 • Saneamento e Meio Ambiente</span>
+            <span>Comunidade Verde</span>
+          </div>
+          <div class="p-6 sm:p-8 space-y-4">
+            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
+              A Revitalização da Lagoa de Araruama: Condição Vital para o Futuro Turístico e Ecológico
+            </h3>
+            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: Cobrança rigorosa de saneamento básico universalizado em todos os bairros do entorno.</h4>
+            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
+              <p>
+                A Lagoa de Araruama é o maior patrimônio natural e paisagístico da nossa região. No entanto, o lançamento irregular de esgoto e a lentidão nas obras de saneamento comprometem o ecossistema e a economia local.
+              </p>
+              <p>
+                A fiscalização permanente da sociedade civil sobre as concessionárias de água e esgoto é o único caminho para garantir o cumprimento das metas contratuais e proteger nossa lagoa.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex justify-end">
+              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20sobre%20a%20Lagoa%20de%20Araruama:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
+                Debater Postagem no WhatsApp
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Postagem 3 -->
+        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
+          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+            <span>Postagem 03 • Economia & Zona Rural</span>
+            <span>Comunidade Verde</span>
+          </div>
+          <div class="p-6 sm:p-8 space-y-4">
+            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
+              Agricultura Familiar em Cabo Frio: Produzir Alimento o Ano Inteiro com Apoio Técnico
+            </h3>
+            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: O potencial inexplorado da zona rural de Tamoios e Campos Novos para abastecer a rede municipal.</h4>
+            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
+              <p>
+                Enquanto o comércio central depende de gêneros alimentícios trazidos de outros municípios, nossa zona rural possui centenas de pequenos produtores capazes de abastecer escolas, hospitais e feiras locais.
+              </p>
+              <p>
+                Propor linhas de fomento agrícola, assistência técnica continuada e compras públicas garantidas é gerar emprego e renda o ano inteiro.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex justify-end">
+              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20da%20Zona%20Rural:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
+                Debater Postagem no WhatsApp
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Espaço reservado para as Postagens 04 até 10 (Você pode duplicar facilmente os blocos acima para adicionar mais artigos) -->
+
       </div>
     </section>
 
@@ -243,7 +290,7 @@
         </button>
         <button onclick="copyDirectLink('agenda')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 px-3 py-2 rounded-xl border border-amber-200 transition-colors">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto desta página
+          Copiar link direto da Agenda
         </button>
       </div>
 
@@ -256,13 +303,9 @@
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Agenda da Comunidade Verde</h2>
             <p class="text-sm text-slate-600 mt-1">
-              Este calendário sofre <strong>atualizações constantes</strong> conforme novas plenárias, audiências públicas e visitas nos bairros são confirmadas.
+              Calendário oficial de plenárias, reuniões comunitárias e visitas nos bairros de Cabo Frio.
             </p>
           </div>
-          <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20sugerir%20uma%20reuni%C3%A3o%20da%20Comunidade%20Verde%20no%20meu%20bairro:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-4 py-2.5 rounded-full shadow-sm transition-all">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-            Propor Encontro no Meu Bairro
-          </a>
         </div>
 
         <div class="space-y-4">
@@ -299,28 +342,11 @@
               Confirmar Presença
             </a>
           </div>
-
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
-            <div class="flex items-start gap-4">
-              <div class="bg-slate-700 text-white rounded-xl px-3.5 py-2 text-center shrink-0">
-                <span class="block text-xs font-bold uppercase">Sáb</span>
-                <span class="block text-xl font-extrabold leading-none mt-0.5">25</span>
-              </div>
-              <div>
-                <span class="text-xs font-bold text-slate-700 uppercase">Zona Rural • Campos Novos</span>
-                <h3 class="text-base font-extrabold text-slate-900">Roda de Conversa: Agricultura Familiar e Produção Sustentável</h3>
-                <p class="text-sm text-slate-600 mt-0.5">Horário: 10h00 • Associação de Produtores Rurais</p>
-              </div>
-            </div>
-            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20na%20Roda%20de%20Conversa%20da%20Zona%20Rural!" target="_blank" rel="noopener" class="text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
-              Confirmar Presença
-            </a>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL ==================== -->
+    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL (PLANILHA SHEETS) ==================== -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
       <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -329,69 +355,22 @@
         </button>
         <button onclick="copyDirectLink('orcamento')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-2 rounded-xl border border-teal-200 transition-colors">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto desta página
+          Copiar link direto do Orçamento
         </button>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
-        <div class="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Controle Social • Planilha Dinâmica</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Orçamento Municipal & Receitas</h2>
-            <p class="text-sm text-slate-600 mt-1">
-              Discriminação das fontes de receita e aplicação dos recursos. Clique nas células para simular ou adicionar linhas livres com somatório automático.
-            </p>
-          </div>
-          <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20enviar%20uma%20proposta%20ou%20pedido%20de%20fiscaliza%C3%A7%C3%A3o%20sobre%20o%20Or%C3%A7amento%20Municipal:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-4 py-2.5 rounded-full shadow-sm transition-all">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-            Proposta Popular (Orçamento)
-          </a>
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Controle Social • Planilha Oficial</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Orçamento Municipal</h2>
+          <p class="text-sm text-slate-600 mt-1">
+            Discriminação oficial das fontes de receita, royalties e repasses atualizados em tempo real.
+          </p>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-slate-200">
-          <table class="w-full text-left border-collapse text-sm" id="orcamento-table">
-            <thead>
-              <tr class="bg-teal-900 text-white text-xs uppercase tracking-wider">
-                <th class="py-3.5 px-4">Fonte de Receita / Rubrica</th>
-                <th class="py-3.5 px-4">Destino / Área</th>
-                <th class="py-3.5 px-4">Situação / Observação</th>
-                <th class="py-3.5 px-4 text-right">Valor Estimado (R$)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200 bg-white" id="orcamento-body">
-              <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-teal-50 outline-none">Royalties e Participações Especiais</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Infraestrutura / Tamoios & Centro</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Acompanhamento trimestral</td>
-                <td contenteditable="true" oninput="calculateTotal()" class="py-3 px-4 text-right font-mono font-bold text-slate-900 focus:bg-teal-50 outline-none orcamento-val">250000000.00</td>
-              </tr>
-              <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-teal-50 outline-none">FPM / ICMS / Arrecadação Própria</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Saúde, Educação e Custeio</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Execução orçamentária</td>
-                <td contenteditable="true" oninput="calculateTotal()" class="py-3 px-4 text-right font-mono font-bold text-slate-900 focus:bg-teal-50 outline-none orcamento-val">680000000.00</td>
-              </tr>
-              <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-teal-50 outline-none">Convênios Federais e Estaduais</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Saneamento e Mobilidade</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Em captação / fiscalização</td>
-                <td contenteditable="true" oninput="calculateTotal()" class="py-3 px-4 text-right font-mono font-bold text-slate-900 focus:bg-teal-50 outline-none orcamento-val">45000000.00</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr class="bg-teal-50 font-extrabold text-teal-950 border-t-2 border-teal-200">
-                <td colspan="3" class="py-3.5 px-4 text-right uppercase text-xs tracking-wider">Somatório Total Discriminado:</td>
-                <td id="orcamento-total" class="py-3.5 px-4 text-right font-mono text-base text-teal-800">R$ 975.000.000,00</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <button onclick="addOrcamentoRow()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-700 hover:bg-teal-800 text-white px-4 py-2 rounded-xl transition-colors">
-            + Adicionar Nova Linha na Planilha
-          </button>
-          <span class="text-xs text-slate-500">Dica: Clique diretamente sobre qualquer texto ou valor da tabela acima para editar.</span>
+        <!-- Incorporação limpa da Planilha do Google Sheets -->
+        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+          <iframe class="w-full h-[650px] border-none" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pubhtml?widget=true&amp;headers=false" title="Orçamento Municipal Cabo Frio"></iframe>
         </div>
       </div>
     </section>
@@ -405,27 +384,21 @@
         </button>
         <button onclick="copyDirectLink('camara')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 px-3 py-2 rounded-xl border border-sky-200 transition-colors">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto desta página
+          Copiar link direto da Câmara
         </button>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm space-y-6">
-        <div class="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Legislativo & Iniciativa Popular</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Monitoramento da Câmara Municipal</h2>
-            <p class="text-sm text-slate-600 mt-1">
-              Planilha aberta para acompanhar projetos de lei, audiências, votações e propostas de iniciativa popular construídas pela comunidade.
-            </p>
-          </div>
-          <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20enviar%20uma%20ideia%20de%20Projeto%20de%20Lei%20de%20Iniciativa%20Popular%20para%20a%20C%C3%A2mara:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold px-4 py-2.5 rounded-full shadow-sm transition-all">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-            Proposta Popular (Leis)
-          </a>
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Legislativo & Iniciativa Popular</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Monitoramento da Câmara Municipal</h2>
+          <p class="text-sm text-slate-600 mt-1">
+            Acompanhamento de projetos de lei, audiências e propostas de iniciativa popular.
+          </p>
         </div>
 
         <div class="overflow-x-auto rounded-2xl border border-slate-200">
-          <table class="w-full text-left border-collapse text-sm" id="camara-table">
+          <table class="w-full text-left border-collapse text-sm">
             <thead>
               <tr class="bg-sky-900 text-white text-xs uppercase tracking-wider">
                 <th class="py-3.5 px-4">Projeto / Pauta Legislativa</th>
@@ -434,41 +407,28 @@
                 <th class="py-3.5 px-4">Posição Comunidade Verde</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-white" id="camara-body">
+            <tbody class="divide-y divide-slate-200 bg-white">
               <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-sky-50 outline-none">Lei de Transparência dos Royalties por Distrito</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Iniciativa Popular / PV</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Em coleta de assinaturas</td>
-                <td contenteditable="true" class="py-3 px-4 font-bold text-emerald-700 focus:bg-sky-50 outline-none">Prioridade Máxima</td>
+                <td class="py-3 px-4 font-semibold text-slate-800">Lei de Transparência dos Royalties por Distrito</td>
+                <td class="py-3 px-4 text-slate-600">Iniciativa Popular / PV</td>
+                <td class="py-3 px-4 text-slate-600">Em coleta de assinaturas</td>
+                <td class="py-3 px-4 font-bold text-emerald-700">Prioridade Máxima</td>
               </tr>
               <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-sky-50 outline-none">Programa Municipal de Apoio à Cadeia Offshore</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Comissão de Desenvolvimento</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Em tramitação</td>
-                <td contenteditable="true" class="py-3 px-4 font-bold text-emerald-700 focus:bg-sky-50 outline-none">Acompanhando</td>
-              </tr>
-              <tr>
-                <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-sky-50 outline-none">Plano Diretor e Proteção da Lagoa de Araruama</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Audiência Pública</td>
-                <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Em debate</td>
-                <td contenteditable="true" class="py-3 px-4 font-bold text-amber-700 focus:bg-sky-50 outline-none">Em análise técnica</td>
+                <td class="py-3 px-4 font-semibold text-slate-800">Programa Municipal de Apoio à Cadeia Offshore</td>
+                <td class="py-3 px-4 text-slate-600">Comissão de Desenvolvimento</td>
+                <td class="py-3 px-4 text-slate-600">Em tramitação</td>
+                <td class="py-3 px-4 font-bold text-emerald-700">Acompanhando</td>
               </tr>
             </tbody>
           </table>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <button onclick="addCamaraRow()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded-xl transition-colors">
-            + Adicionar Nova Linha na Planilha
-          </button>
-          <span class="text-xs text-slate-500">Total de pautas monitoradas: <strong id="camara-count">3</strong></span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Rodapé (Sem número de WhatsApp) -->
+  <!-- Rodapé limpo -->
   <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div class="flex items-center gap-3">
@@ -493,7 +453,6 @@
   </div>
 
   <script>
-    // ==================== DADOS DA APRESENTAÇÃO INTERATIVA (7 LÂMINAS) ====================
     const slides = [
       {
         tag: "1 • A Força da Comunidade",
@@ -670,50 +629,10 @@
       });
     }
 
-    function calculateTotal() {
-      const cells = document.querySelectorAll('.orcamento-val');
-      let sum = 0;
-      cells.forEach(cell => {
-        const raw = cell.textContent.replace(/[^\d.,-]/g, '').replace(/\./g, '').replace(',', '.');
-        const num = parseFloat(raw);
-        if (!isNaN(num)) sum += num;
-      });
-      document.getElementById('orcamento-total').textContent = sum.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      });
-    }
-
-    function addOrcamentoRow() {
-      const tbody = document.getElementById('orcamento-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-teal-50 outline-none">Nova Receita / Rubrica</td>
-        <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Bairro ou Área</td>
-        <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-teal-50 outline-none">Status</td>
-        <td contenteditable="true" oninput="calculateTotal()" class="py-3 px-4 text-right font-mono font-bold text-slate-900 focus:bg-teal-50 outline-none orcamento-val">0.00</td>
-      `;
-      tbody.appendChild(tr);
-    }
-
-    function addCamaraRow() {
-      const tbody = document.getElementById('camara-body');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td contenteditable="true" class="py-3 px-4 font-semibold text-slate-800 focus:bg-sky-50 outline-none">Novo Projeto / Requerimento</td>
-        <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Autoria</td>
-        <td contenteditable="true" class="py-3 px-4 text-slate-600 focus:bg-sky-50 outline-none">Em tramitação</td>
-        <td contenteditable="true" class="py-3 px-4 font-bold text-emerald-700 focus:bg-sky-50 outline-none">Em acompanhamento</td>
-      `;
-      tbody.appendChild(tr);
-      document.getElementById('camara-count').textContent = tbody.children.length;
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       showSlide(currentSlide);
       startTimer();
       handleHashRoute();
-      calculateTotal();
     });
 
     window.addEventListener('hashchange', () => {
