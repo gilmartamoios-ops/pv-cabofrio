@@ -28,7 +28,6 @@
     .animate-fade-in {
       animation: fadeIn 0.35s ease-out forwards;
     }
-    /* Estilização automática para conteúdos vindos do Blogger */
     .blogger-content img {
       max-width: 100%;
       height: auto;
@@ -199,14 +198,14 @@
             <div>
               <span class="text-[11px] font-bold uppercase tracking-wider text-sky-600">Leis & Fiscalização</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800 transition-colors">Câmara Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, votações e proposições legislativas da comunidade.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, votações nominais e proposições legislativas da comunidade.</p>
             </div>
           </a>
         </div>
       </section>
     </div>
 
-    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (INTEGRADO AO BLOGGER) ==================== -->
+    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOGGER) ==================== -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -236,7 +235,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 2: AGENDA DO MÊS (INTEGRADA AO GOOGLE AGENDA) ==================== -->
+    <!-- ==================== SEÇÃO 2: AGENDA DOS BAIRROS (GOOGLE AGENDA) ==================== -->
     <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -270,7 +269,6 @@
           </a>
         </div>
 
-        <!-- Incorporação Oficial da Google Agenda (Modo Lista de Eventos) -->
         <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white">
           <iframe 
             src="https://calendar.google.com/calendar/embed?mode=AGENDA&height=500&wkst=1&ctz=America%2FSao_Paulo&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&src=b773f89445967f5b72e8aa4c9090ecca528430625d53b4c5da8ae71b8f1517f8%40group.calendar.google.com&color=%230B8043" 
@@ -284,7 +282,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL (PLANILHA SHEETS) ==================== -->
+    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL (SHEETS) ==================== -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -316,7 +314,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
+    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL (VOTAÇÃO NOMINAL AUTOMATIZADA) ==================== -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -328,22 +326,20 @@
             🖨️ Imprimir
           </button>
           <button onclick="shareSection('camara', 'Câmara Municipal - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 px-3 py-2 rounded-xl border border-sky-200 transition-colors">
-            🔗 Compartilhar
+            🔗 Compartilhar Câmara
           </button>
         </div>
       </div>
 
-      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm space-y-6">
-        <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Legislativo & Iniciativa Popular</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Monitoramento da Câmara Municipal</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            Espaço reservado para a planilha oficial de projetos de lei, votações e propostas de iniciativa popular.
-          </p>
-        </div>
+      <div class="bg-sky-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-sky-700 px-3 py-1 rounded-full">Legislativo & Controle Social</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Monitoramento da Câmara Municipal</h2>
+        <p class="text-sm text-sky-100 mt-1">Acompanhe projetos, o tradutor cidadão de pautas e o voto nominal de cada vereador de Cabo Frio.</p>
+      </div>
 
-        <div class="rounded-2xl border-2 border-dashed border-sky-200 bg-sky-50/40 p-10 text-center text-sky-900 text-sm font-medium">
-          Planilha de fiscalização legislativa em fase de integração.
+      <div class="space-y-6" id="camara-posts-container">
+        <div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-500 text-sm font-medium animate-pulse">
+          Carregando dados e votações nominais da Câmara Municipal...
         </div>
       </div>
     </section>
@@ -508,17 +504,13 @@
       }, 100);
     }
 
-    // ==================== INTEGRAÇÃO COM O BLOGGER (COMUNIVERDE) ====================
+    // ==================== INTEGRAÇÃO COM O BLOGGER (FÓRUM) ====================
     function renderBloggerPosts(data) {
       const container = document.getElementById('blogger-posts-container');
       const entries = data.feed.entry || [];
 
       if (entries.length === 0) {
-        container.innerHTML = `
-          <div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-600 text-sm">
-            Nenhuma postagem publicada ainda no blog.
-          </div>
-        `;
+        container.innerHTML = `<div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-600 text-sm">Nenhuma postagem publicada ainda no blog.</div>`;
         return;
       }
 
@@ -537,12 +529,8 @@
               <span>Publicado em ${formattedDate}</span>
             </div>
             <div class="p-6 sm:p-8 space-y-4">
-              <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-                ${title}
-              </h3>
-              <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">
-                ${contentHtml}
-              </div>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${title}</h3>
+              <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">${contentHtml}</div>
               <div class="no-print pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
                 <button onclick="shareSection('${postId}', '${title.replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-full border border-emerald-200 transition-colors">
                   🔗 Compartilhar esta Postagem
@@ -555,14 +543,6 @@
           </article>
         `;
       }).join('');
-
-      const currentHash = window.location.hash.replace('#', '');
-      if (currentHash.startsWith('forum-post-')) {
-        setTimeout(() => {
-          const targetEl = document.getElementById(currentHash);
-          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
-      }
     }
 
     function loadBloggerFeed() {
@@ -571,24 +551,172 @@
       document.body.appendChild(script);
     }
 
+    // ==================== INTEGRAÇÃO COM A CÂMARA MUNICIPAL (CSV DO SHEETS) ====================
+    function parseCSV(text) {
+      let lines = [];
+      let row = [''];
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        let c = text[i], nextC = text[i+1];
+        if (c === '"') {
+          if (inQuotes && nextC === '"') { row[row.length - 1] += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (c === ',' && !inQuotes) {
+          row.push('');
+        } else if ((c === '\r' || c === '\n') && !inQuotes) {
+          if (c === '\r' && nextC === '\n') { i++; }
+          lines.push(row);
+          row = [''];
+        } else {
+          row[row.length - 1] += c;
+        }
+      }
+      if (row.length > 1 || row[0] !== '') lines.push(row);
+      return lines;
+    }
+
+    function loadCamaraData() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXyT9x0iqOGlzBu55oafDO1rYwJng82EPdV3xbnNjiIAW_Iegys1fvr8KFKSPVpwl7uSkIypGChtRP/pub?output=csv';
+      
+      fetch(csvUrl)
+        .then(response => response.text())
+        .then(csvText => {
+          const rows = parseCSV(csvText);
+          const container = document.getElementById('camara-posts-container');
+          
+          if (rows.length < 2) {
+            container.innerHTML = `<div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-600 text-sm">Nenhum projeto cadastrado na planilha da Câmara.</div>`;
+            return;
+          }
+
+          const headers = rows[0]; // [Data, Projeto, Autor, Contexto, Status, Vereador1, Vereador2...]
+          const dataRows = rows.slice(1);
+          const councillors = headers.slice(5); // Nomes dos 17 vereadores a partir da coluna F
+
+          container.innerHTML = dataRows.map((row, index) => {
+            const [date, project, author, context, status] = row;
+            if (!project) return '';
+
+            const voteCounts = { Sim: 0, Não: 0, Abstenção: 0, Ausente: 0 };
+            const votesByCat = { Sim: [], Não: [], Abstenção: [], Ausente: [] };
+
+            councillors.forEach((cName, cIdx) => {
+              const voteVal = (row[5 + cIdx] || '').trim().toLowerCase();
+              if (voteVal.includes('sim')) {
+                voteCounts.Sim++;
+                votesByCat.Sim.push(cName);
+              } else if (voteVal.includes('não') || voteVal.includes('nao')) {
+                voteCounts.Não++;
+                votesByCat.Não.push(cName);
+              } else if (voteVal.includes('abstenção') || voteVal.includes('abstencao')) {
+                voteCounts.Abstenção++;
+                votesByCat.Abstenção.push(cName);
+              } else if (voteVal.includes('ausente')) {
+                voteCounts.Ausente++;
+                votesByCat.Ausente.push(cName);
+              }
+            });
+
+            const cardId = `camara-projeto-${index}`;
+
+            return `
+              <article id="${cardId}" class="bg-white rounded-3xl border border-sky-100 shadow-sm overflow-hidden scroll-mt-24">
+                <div class="bg-sky-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+                  <span>${author || 'Poder Legislativo'}</span>
+                  <span>${date || 'Data não informada'} • Status: ${status || 'Em Tramitação'}</span>
+                </div>
+                <div class="p-6 sm:p-8 space-y-5">
+                  <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${project}</h3>
+                  
+                  <!-- Tradutor Cidadão / Contexto -->
+                  <div class="bg-sky-50/60 border border-sky-100 p-4 sm:p-5 rounded-2xl space-y-2">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-sky-800 bg-sky-200/60 px-2.5 py-0.5 rounded-md">Tradutor Cidadão • O Contexto Real</span>
+                    <p class="text-slate-700 text-sm sm:text-base leading-relaxed">${context || 'Contexto em análise pela equipe da Comunidade Verde.'}</p>
+                  </div>
+
+                  <!-- Placar de Votos -->
+                  <div class="flex flex-wrap items-center gap-2 pt-2">
+                    <span class="bg-emerald-100 text-emerald-900 font-bold text-xs px-3 py-1.5 rounded-xl">🟢 Sim: ${voteCounts.Sim}</span>
+                    <span class="bg-rose-100 text-rose-900 font-bold text-xs px-3 py-1.5 rounded-xl">🔴 Não: ${voteCounts.Não}</span>
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1.5 rounded-xl">🟡 Abstenção: ${voteCounts.Abstenção}</span>
+                    <span class="bg-slate-100 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-xl">⚪ Ausente: ${voteCounts.Ausente}</span>
+                  </div>
+
+                  <!-- Dropdown Nominal -->
+                  <div class="border-t border-slate-100 pt-4">
+                    <details class="group">
+                      <summary class="cursor-pointer text-xs font-bold uppercase tracking-wider text-sky-700 hover:text-sky-900 flex items-center gap-2 select-none">
+                        <span>▼ Ver Votação Nominal Completa (Como cada vereador votou)</span>
+                      </summary>
+                      <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-emerald-50/60 p-3 rounded-xl border border-emerald-100">
+                          <strong class="text-emerald-900 block mb-1">Votaram SIM (${votesByCat.Sim.length}):</strong>
+                          <span class="text-slate-700">${votesByCat.Sim.join(', ') || 'Nenhum'}</span>
+                        </div>
+                        <div class="bg-rose-50/60 p-3 rounded-xl border border-rose-100">
+                          <strong class="text-rose-900 block mb-1">Votaram NÃO (${votesByCat.Não.length}):</strong>
+                          <span class="text-slate-700">${votesByCat.Não.join(', ') || 'Nenhum'}</span>
+                        </div>
+                        <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-100">
+                          <strong class="text-amber-900 block mb-1">Abstenções (${votesByCat.Abstenção.length}):</strong>
+                          <span class="text-slate-700">${votesByCat.Abstenção.join(', ') || 'Nenhuma'}</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                          <strong class="text-slate-800 block mb-1">Ausentes (${votesByCat.Ausente.length}):</strong>
+                          <span class="text-slate-700">${votesByCat.Ausente.join(', ') || 'Nenhum'}</span>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+
+                  <div class="no-print pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                    <button onclick="shareSection('${cardId}', '${project.replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 px-3.5 py-2 rounded-full border border-sky-200 transition-colors">
+                      🔗 Compartilhar este Projeto
+                    </button>
+                    <a href="https://wa.me/5522981255655?text=${encodeURIComponent('Olá! Vi o projeto "' + project + '" no monitoramento da Câmara da Comunidade Verde e quero debater:')}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
+                      Cobrar no WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join('');
+
+          // Trata hash direto caso o usuário abra via link de compartilhamento
+          const currentHash = window.location.hash.replace('#', '');
+          if (currentHash.startsWith('camara-projeto-')) {
+            setTimeout(() => {
+              const targetEl = document.getElementById(currentHash);
+              if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+          }
+        })
+        .catch(err => {
+          console.error("Erro ao carregar CSV da Câmara:", err);
+          document.getElementById('camara-posts-container').innerHTML = `
+            <div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-600 text-sm">
+              Erro ao sincronizar com a planilha da Câmara. Verifique se a publicação como CSV está ativa.
+            </div>
+          `;
+        });
+    }
+
     // ==================== ROTEAMENTO INDEPENDENTE POR HASH ====================
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
-      const target = viewName.startsWith('forum-post-') ? 'forum' : (views.includes(viewName) ? viewName : 'home');
+      const target = viewName.startsWith('forum-post-') ? 'forum' : (viewName.startsWith('camara-projeto-') ? 'camara' : (views.includes(viewName) ? viewName : 'home'));
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         if (el) el.classList.toggle('hidden', v !== target);
       });
 
       if (target === 'home') {
-        if (window.location.hash) {
-          window.location.hash = '';
-        }
+        if (window.location.hash) window.location.hash = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         window.location.hash = `#${viewName}`;
-        if (viewName.startsWith('forum-post-')) {
+        if (viewName.startsWith('forum-post-') || viewName.startsWith('camara-projeto-')) {
           const postEl = document.getElementById(viewName);
           if (postEl) postEl.scrollIntoView({ behavior: 'smooth' });
         } else {
@@ -599,7 +727,7 @@
 
     function handleHashRoute() {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (hash.startsWith('forum-post-')) {
+      if (hash.startsWith('forum-post-') || hash.startsWith('camara-projeto-')) {
         navigateTo(hash);
       } else if (views.includes(hash) && hash !== 'home') {
         views.forEach(v => {
@@ -621,7 +749,7 @@
       if (navigator.share) {
         navigator.share({
           title: title,
-          text: 'Confira esta publicação oficial da Comunidade Verde de Cabo Frio:',
+          text: 'Confira este registro oficial da Comunidade Verde de Cabo Frio:',
           url: fullUrl
         }).catch(() => {});
       } else {
@@ -637,6 +765,7 @@
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
+      loadCamaraData();
       handleHashRoute();
     });
 
