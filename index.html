@@ -28,11 +28,19 @@
     .animate-fade-in {
       animation: fadeIn 0.35s ease-out forwards;
     }
+    @media print {
+      header, footer, .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
 
-  <!-- Cabeçalho / Navbar Corrigida -->
+  <!-- Cabeçalho / Navbar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group">
@@ -68,12 +76,12 @@
     <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
 
-      <!-- Banner Principal (Sem faixa cinza) -->
-      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900">
-        <img src="capa.jpg" alt="Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-center opacity-90" />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65"></div>
+      <!-- Banner Principal (Enquadramento ajustado para não cortar no PC nem no celular) -->
+      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[260px] sm:min-h-[380px] flex items-center">
+        <img src="capa.jpg" alt="Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-90" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-black/45 to-black/70"></div>
 
-        <div class="relative z-10 px-6 py-12 sm:px-12 sm:py-16 text-center max-w-3xl mx-auto">
+        <div class="relative z-10 px-6 py-12 sm:px-12 sm:py-20 text-center max-w-3xl mx-auto">
           <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
             Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
           </h1>
@@ -154,7 +162,7 @@
             <div>
               <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Planilha Oficial</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">Orçamento Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e repasses integrados via Google Sheets para consulta pública.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e repasses integrados em tempo real para consulta pública.</p>
             </div>
           </a>
 
@@ -174,15 +182,20 @@
 
     <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOG COM ATÉ 10 POSTAGENS) ==================== -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
-      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
+      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           Voltar à Página Inicial
         </button>
-        <button onclick="copyDirectLink('forum')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto do Fórum
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">
+            🖨️ Imprimir
+          </button>
+          <button onclick="shareSection('forum', 'Fórum Permanente - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">
+            🔗 Compartilhar
+          </button>
+        </div>
       </div>
 
       <div class="bg-emerald-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
@@ -194,7 +207,7 @@
       <!-- Container das Postagens do Blog (Suporta até 10 artigos independentes) -->
       <div class="space-y-6" id="blog-posts-container">
         
-        <!-- Postagem 1 (Destaque Principal) -->
+        <!-- Postagem 1 -->
         <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
           <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
             <span>Postagem 01 • Pauta Urgente</span>
@@ -214,7 +227,7 @@
                 Enquanto municípios vizinhos estruturam distritos industriais e atraem empresas da cadeia logística offshore, Cabo Frio segue presa a um modelo sazonal dependente do turismo de verão e da especulação imobiliária.
               </p>
             </div>
-            <div class="pt-4 border-t border-slate-100 flex justify-end">
+            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
               <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20comentar%20sobre%20a%20postagem%20do%20Petr%C3%B3leo%20no%20F%C3%B3rum:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
                 Debater Postagem no WhatsApp
               </a>
@@ -241,7 +254,7 @@
                 A fiscalização permanente da sociedade civil sobre as concessionárias de água e esgoto é o único caminho para garantir o cumprimento das metas contratuais e proteger nossa lagoa.
               </p>
             </div>
-            <div class="pt-4 border-t border-slate-100 flex justify-end">
+            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
               <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20sobre%20a%20Lagoa%20de%20Araruama:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
                 Debater Postagem no WhatsApp
               </a>
@@ -268,7 +281,7 @@
                 Propor linhas de fomento agrícola, assistência técnica continuada e compras públicas garantidas é gerar emprego e renda o ano inteiro.
               </p>
             </div>
-            <div class="pt-4 border-t border-slate-100 flex justify-end">
+            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
               <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20da%20Zona%20Rural:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
                 Debater Postagem no WhatsApp
               </a>
@@ -276,22 +289,25 @@
           </div>
         </article>
 
-        <!-- Espaço reservado para as Postagens 04 até 10 (Você pode duplicar facilmente os blocos acima para adicionar mais artigos) -->
-
       </div>
     </section>
 
     <!-- ==================== SEÇÃO 2: AGENDA DO MÊS ==================== -->
     <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
-      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
+      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           Voltar à Página Inicial
         </button>
-        <button onclick="copyDirectLink('agenda')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 px-3 py-2 rounded-xl border border-amber-200 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto da Agenda
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">
+            🖨️ Imprimir
+          </button>
+          <button onclick="shareSection('agenda', 'Agenda nos Bairros - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 px-3 py-2 rounded-xl border border-amber-200 transition-colors">
+            🔗 Compartilhar
+          </button>
+        </div>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-amber-100 shadow-sm space-y-6">
@@ -321,7 +337,7 @@
                 <p class="text-sm text-slate-600 mt-0.5">Horário: 09h30 • Espaço Comunitário de Tamoios</p>
               </div>
             </div>
-            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20na%20Plen%C3%A1ria%20de%20Tamoios!" target="_blank" rel="noopener" class="text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
+            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20na%20Plen%C3%A1ria%20de%20Tamoios!" target="_blank" rel="noopener" class="no-print text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
               Confirmar Presença
             </a>
           </div>
@@ -338,7 +354,7 @@
                 <p class="text-sm text-slate-600 mt-0.5">Horário: 18h30 • Auditório Comunitário</p>
               </div>
             </div>
-            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20no%20F%C3%B3rum%20do%20Centro!" target="_blank" rel="noopener" class="text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
+            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20no%20F%C3%B3rum%20do%20Centro!" target="_blank" rel="noopener" class="no-print text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
               Confirmar Presença
             </a>
           </div>
@@ -348,15 +364,20 @@
 
     <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL (PLANILHA SHEETS) ==================== -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
-      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
+      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           Voltar à Página Inicial
         </button>
-        <button onclick="copyDirectLink('orcamento')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-2 rounded-xl border border-teal-200 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto do Orçamento
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">
+            🖨️ Imprimir
+          </button>
+          <button onclick="shareSection('orcamento', 'Orçamento Municipal - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-2 rounded-xl border border-teal-200 transition-colors">
+            🔗 Compartilhar
+          </button>
+        </div>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
@@ -377,15 +398,20 @@
 
     <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
-      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
+      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           Voltar à Página Inicial
         </button>
-        <button onclick="copyDirectLink('camara')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 px-3 py-2 rounded-xl border border-sky-200 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          Copiar link direto da Câmara
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">
+            🖨️ Imprimir
+          </button>
+          <button onclick="shareSection('camara', 'Câmara Municipal - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 px-3 py-2 rounded-xl border border-sky-200 transition-colors">
+            🔗 Compartilhar
+          </button>
+        </div>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sky-100 shadow-sm space-y-6">
@@ -393,35 +419,13 @@
           <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Legislativo & Iniciativa Popular</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Monitoramento da Câmara Municipal</h2>
           <p class="text-sm text-slate-600 mt-1">
-            Acompanhamento de projetos de lei, audiências e propostas de iniciativa popular.
+            Espaço reservado para a planilha oficial de projetos de lei, votações e propostas de iniciativa popular.
           </p>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-slate-200">
-          <table class="w-full text-left border-collapse text-sm">
-            <thead>
-              <tr class="bg-sky-900 text-white text-xs uppercase tracking-wider">
-                <th class="py-3.5 px-4">Projeto / Pauta Legislativa</th>
-                <th class="py-3.5 px-4">Autoria / Comissão</th>
-                <th class="py-3.5 px-4">Status Atual</th>
-                <th class="py-3.5 px-4">Posição Comunidade Verde</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-200 bg-white">
-              <tr>
-                <td class="py-3 px-4 font-semibold text-slate-800">Lei de Transparência dos Royalties por Distrito</td>
-                <td class="py-3 px-4 text-slate-600">Iniciativa Popular / PV</td>
-                <td class="py-3 px-4 text-slate-600">Em coleta de assinaturas</td>
-                <td class="py-3 px-4 font-bold text-emerald-700">Prioridade Máxima</td>
-              </tr>
-              <tr>
-                <td class="py-3 px-4 font-semibold text-slate-800">Programa Municipal de Apoio à Cadeia Offshore</td>
-                <td class="py-3 px-4 text-slate-600">Comissão de Desenvolvimento</td>
-                <td class="py-3 px-4 text-slate-600">Em tramitação</td>
-                <td class="py-3 px-4 font-bold text-emerald-700">Acompanhando</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Área preparada para receber a próxima planilha do Google Sheets -->
+        <div class="rounded-2xl border-2 border-dashed border-sky-200 bg-sky-50/40 p-10 text-center text-sky-900 text-sm font-medium">
+          Planilha de fiscalização legislativa em fase de integração.
         </div>
       </div>
     </section>
@@ -447,9 +451,9 @@
     </div>
   </footer>
 
-  <!-- Toast de Link Copiado -->
+  <!-- Toast de Notificação -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-emerald-700">
-    Link direto copiado para enviar no WhatsApp!
+    Link copiado para compartilhar!
   </div>
 
   <script>
@@ -619,14 +623,23 @@
       }
     }
 
-    function copyDirectLink(section) {
+    function shareSection(section, title) {
       const baseUrl = window.location.href.split('#')[0];
       const fullUrl = `${baseUrl}#${section}`;
-      navigator.clipboard.writeText(fullUrl).then(() => {
-        const toast = document.getElementById('toast');
-        toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 3000);
-      });
+      
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          text: 'Confira os dados oficiais de auditoria e participação popular em Cabo Frio:',
+          url: fullUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(fullUrl).then(() => {
+          const toast = document.getElementById('toast');
+          toast.classList.remove('hidden');
+          setTimeout(() => toast.classList.add('hidden'), 3000);
+        });
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
