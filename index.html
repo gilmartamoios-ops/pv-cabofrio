@@ -28,6 +28,32 @@
     .animate-fade-in {
       animation: fadeIn 0.35s ease-out forwards;
     }
+    /* Estilização automática para conteúdos vindos do Blogger */
+    .blogger-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      margin: 1rem 0;
+      border: 1px solid #e2e8f0;
+    }
+    .blogger-content iframe,
+    .blogger-content video,
+    .blogger-content .BLOG_video_class {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 320px;
+      border-radius: 1rem;
+      margin: 1rem 0;
+    }
+    .blogger-content p {
+      margin-bottom: 0.85rem;
+      line-height: 1.7;
+    }
+    .blogger-content a {
+      color: #059669;
+      text-decoration: underline;
+      font-weight: 600;
+    }
     @media print {
       header, footer, .no-print {
         display: none !important;
@@ -76,7 +102,7 @@
     <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
 
-      <!-- Banner Principal (Enquadramento ajustado para não cortar no PC nem no celular) -->
+      <!-- Banner Principal -->
       <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[260px] sm:min-h-[380px] flex items-center">
         <img src="capa.jpg" alt="Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-90" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-black/45 to-black/70"></div>
@@ -140,7 +166,7 @@
             <div>
               <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Blog & Artigos</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">Fórum Permanente</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial com até 10 postagens independentes, pautas urgentes, cadeia logística e propostas populares.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial com postagens independentes, vídeos, pautas urgentes e propostas populares.</p>
             </div>
           </a>
 
@@ -180,7 +206,7 @@
       </section>
     </div>
 
-    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOG COM ATÉ 10 POSTAGENS) ==================== -->
+    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (INTEGRADO AO BLOGGER) ==================== -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
       <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
@@ -193,108 +219,27 @@
             🖨️ Imprimir
           </button>
           <button onclick="shareSection('forum', 'Fórum Permanente - Comunidade Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">
-            🔗 Compartilhar
+            🔗 Compartilhar Fórum
           </button>
         </div>
       </div>
 
       <div class="bg-emerald-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
-        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Blog Editorial</span>
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Editorial & Vídeos</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Artigos, Pautas e Debates da Cidade</h2>
-        <p class="text-sm text-emerald-100 mt-1">Espaço editorial independente com análises profundas, denúncias fundamentadas e propostas para Cabo Frio.</p>
+        <p class="text-sm text-emerald-100 mt-1">Publicações oficiais da Comunidade Verde. Compartilhe cada pauta diretamente nas redes sociais.</p>
       </div>
 
-      <!-- Container das Postagens do Blog (Suporta até 10 artigos independentes) -->
-      <div class="space-y-6" id="blog-posts-container">
-        
-        <!-- Postagem 1 -->
-        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
-          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
-            <span>Postagem 01 • Pauta Urgente</span>
-            <span>Atualizado pela Coordenação PV</span>
-          </div>
-          <div class="p-6 sm:p-8 space-y-4">
-            <img src="capa.jpg" alt="Cabo Frio na Rota do Petróleo" class="w-full h-56 sm:h-72 object-cover rounded-2xl border border-slate-100" />
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
-              Cabo Frio na Rota do Petróleo: Por que R$ 1 Bilhão em Royalties não vira Renda e Infraestrutura para o Povo?
-            </h3>
-            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: O abismo econômico entre os distritos e a falta de diversificação produtiva na cidade.</h4>
-            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
-              <p>
-                Nos últimos anos, apenas o distrito de Tamoios gerou cerca de <strong>R$ 1 bilhão em royalties do petróleo</strong>. Segundo o IBGE, Cabo Frio ostenta um PIB per capita superior a <strong>R$ 76 mil/ano</strong>, mas a realidade nos bairros é outra: a renda média do trabalhador cabofriense gira em torno de <strong>R$ 2.600/mês</strong>.
-              </p>
-              <p>
-                Enquanto municípios vizinhos estruturam distritos industriais e atraem empresas da cadeia logística offshore, Cabo Frio segue presa a um modelo sazonal dependente do turismo de verão e da especulação imobiliária.
-              </p>
-            </div>
-            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
-              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20comentar%20sobre%20a%20postagem%20do%20Petr%C3%B3leo%20no%20F%C3%B3rum:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
-                Debater Postagem no WhatsApp
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Postagem 2 -->
-        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
-          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
-            <span>Postagem 02 • Saneamento e Meio Ambiente</span>
-            <span>Comunidade Verde</span>
-          </div>
-          <div class="p-6 sm:p-8 space-y-4">
-            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
-              A Revitalização da Lagoa de Araruama: Condição Vital para o Futuro Turístico e Ecológico
-            </h3>
-            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: Cobrança rigorosa de saneamento básico universalizado em todos os bairros do entorno.</h4>
-            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
-              <p>
-                A Lagoa de Araruama é o maior patrimônio natural e paisagístico da nossa região. No entanto, o lançamento irregular de esgoto e a lentidão nas obras de saneamento comprometem o ecossistema e a economia local.
-              </p>
-              <p>
-                A fiscalização permanente da sociedade civil sobre as concessionárias de água e esgoto é o único caminho para garantir o cumprimento das metas contratuais e proteger nossa lagoa.
-              </p>
-            </div>
-            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
-              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20sobre%20a%20Lagoa%20de%20Araruama:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
-                Debater Postagem no WhatsApp
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Postagem 3 -->
-        <article class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden">
-          <div class="bg-emerald-700 text-white px-6 py-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
-            <span>Postagem 03 • Economia & Zona Rural</span>
-            <span>Comunidade Verde</span>
-          </div>
-          <div class="p-6 sm:p-8 space-y-4">
-            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
-              Agricultura Familiar em Cabo Frio: Produzir Alimento o Ano Inteiro com Apoio Técnico
-            </h3>
-            <h4 class="text-sm font-semibold text-emerald-800">Subtítulo: O potencial inexplorado da zona rural de Tamoios e Campos Novos para abastecer a rede municipal.</h4>
-            <div class="prose max-w-none text-slate-700 space-y-3 text-sm sm:text-base leading-relaxed">
-              <p>
-                Enquanto o comércio central depende de gêneros alimentícios trazidos de outros municípios, nossa zona rural possui centenas de pequenos produtores capazes de abastecer escolas, hospitais e feiras locais.
-              </p>
-              <p>
-                Propor linhas de fomento agrícola, assistência técnica continuada e compras públicas garantidas é gerar emprego e renda o ano inteiro.
-              </p>
-            </div>
-            <div class="no-print pt-4 border-t border-slate-100 flex justify-end">
-              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20contribuir%20com%20o%20debate%20da%20Zona%20Rural:" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
-                Debater Postagem no WhatsApp
-              </a>
-            </div>
-          </div>
-        </article>
-
+      <!-- Container Dinâmico que puxa até 10 postagens do Blogger automaticamente -->
+      <div class="space-y-6" id="blogger-posts-container">
+        <div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-500 text-sm font-medium animate-pulse">
+          Carregando publicações oficiais da Comunidade Verde...
+        </div>
       </div>
     </section>
 
     <!-- ==================== SEÇÃO 2: AGENDA DO MÊS ==================== -->
     <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
-      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -311,60 +256,25 @@
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-amber-100 shadow-sm space-y-6">
-        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
-          <div>
-            <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
-              <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span>
-              Agenda Viva • Em Constante Atualização
-            </span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Agenda da Comunidade Verde</h2>
-            <p class="text-sm text-slate-600 mt-1">
-              Calendário oficial de plenárias, reuniões comunitárias e visitas nos bairros de Cabo Frio.
-            </p>
-          </div>
+        <div class="border-b border-slate-100 pb-5">
+          <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
+            <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span>
+            Agenda Viva • Em Constante Atualização
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Agenda da Comunidade Verde</h2>
+          <p class="text-sm text-slate-600 mt-1">
+            Calendário oficial de plenárias, reuniões comunitárias e visitas nos bairros de Cabo Frio.
+          </p>
         </div>
 
-        <div class="space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70">
-            <div class="flex items-start gap-4">
-              <div class="bg-amber-500 text-white rounded-xl px-3.5 py-2 text-center shrink-0">
-                <span class="block text-xs font-bold uppercase">Sáb</span>
-                <span class="block text-xl font-extrabold leading-none mt-0.5">18</span>
-              </div>
-              <div>
-                <span class="text-xs font-bold text-amber-800 uppercase">Tamoios • Unamar</span>
-                <h3 class="text-base font-extrabold text-slate-900">Plenária Aberta: Royalties, Saúde e Infraestrutura</h3>
-                <p class="text-sm text-slate-600 mt-0.5">Horário: 09h30 • Espaço Comunitário de Tamoios</p>
-              </div>
-            </div>
-            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20na%20Plen%C3%A1ria%20de%20Tamoios!" target="_blank" rel="noopener" class="no-print text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
-              Confirmar Presença
-            </a>
-          </div>
-
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-emerald-50/40 border border-emerald-200/70">
-            <div class="flex items-start gap-4">
-              <div class="bg-emerald-700 text-white rounded-xl px-3.5 py-2 text-center shrink-0">
-                <span class="block text-xs font-bold uppercase">Qua</span>
-                <span class="block text-xl font-extrabold leading-none mt-0.5">22</span>
-              </div>
-              <div>
-                <span class="text-xs font-bold text-emerald-800 uppercase">Centro • São Cristóvão</span>
-                <h3 class="text-base font-extrabold text-slate-900">Fórum de Emprego e Cadeia Logística do Petróleo</h3>
-                <p class="text-sm text-slate-600 mt-0.5">Horário: 18h30 • Auditório Comunitário</p>
-              </div>
-            </div>
-            <a href="https://wa.me/5522981255655?text=Quero%20confirmar%20presen%C3%A7a%20no%20F%C3%B3rum%20do%20Centro!" target="_blank" rel="noopener" class="no-print text-xs font-bold bg-white hover:bg-emerald-600 hover:text-white text-emerald-800 border border-emerald-200 px-4 py-2 rounded-full transition-colors text-center">
-              Confirmar Presença
-            </a>
-          </div>
+        <div class="rounded-2xl border-2 border-dashed border-amber-200 bg-amber-50/40 p-10 text-center text-amber-900 text-sm font-medium">
+          Calendário de atividades em sincronização.
         </div>
       </div>
     </section>
 
     <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL (PLANILHA SHEETS) ==================== -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
-      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -389,7 +299,6 @@
           </p>
         </div>
 
-        <!-- Incorporação limpa da Planilha do Google Sheets -->
         <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
           <iframe class="w-full h-[650px] border-none" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pubhtml?widget=true&amp;headers=false" title="Orçamento Municipal Cabo Frio"></iframe>
         </div>
@@ -398,7 +307,6 @@
 
     <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
-      <!-- Barra de Ações: Voltar, Imprimir e Compartilhar -->
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -423,7 +331,6 @@
           </p>
         </div>
 
-        <!-- Área preparada para receber a próxima planilha do Google Sheets -->
         <div class="rounded-2xl border-2 border-dashed border-sky-200 bg-sky-50/40 p-10 text-center text-sky-900 text-sm font-medium">
           Planilha de fiscalização legislativa em fase de integração.
         </div>
@@ -453,10 +360,11 @@
 
   <!-- Toast de Notificação -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-emerald-700">
-    Link copiado para compartilhar!
+    Link direto copiado! Pronto para colar nas redes sociais.
   </div>
 
   <script>
+    // ==================== STORIES (7 LÂMINAS) ====================
     const slides = [
       {
         tag: "1 • A Força da Comunidade",
@@ -589,10 +497,75 @@
       }, 100);
     }
 
+    // ==================== INTEGRAÇÃO COM O BLOGGER (COMUNIVERDE) ====================
+    function renderBloggerPosts(data) {
+      const container = document.getElementById('blogger-posts-container');
+      const entries = data.feed.entry || [];
+
+      if (entries.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-600 text-sm">
+            Nenhuma postagem publicada ainda no blog.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = entries.map((entry, index) => {
+        const title = entry.title.$t;
+        const contentHtml = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
+        const rawDate = new Date(entry.published.$t);
+        const formattedDate = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+        const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Comunidade Verde';
+        const postId = `forum-post-${index}`;
+
+        return `
+          <article id="${postId}" class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden scroll-mt-24">
+            <div class="bg-emerald-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+              <span>${category}</span>
+              <span>Publicado em ${formattedDate}</span>
+            </div>
+            <div class="p-6 sm:p-8 space-y-4">
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+                ${title}
+              </h3>
+              <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">
+                ${contentHtml}
+              </div>
+              <div class="no-print pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <button onclick="shareSection('${postId}', '${title.replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-full border border-emerald-200 transition-colors">
+                  🔗 Compartilhar esta Postagem
+                </button>
+                <a href="https://wa.me/5522981255655?text=${encodeURIComponent('Olá! Li a postagem "' + title + '" no Fórum da Comunidade Verde e quero debater:')}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition-all">
+                  Debater no WhatsApp
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Se a URL já veio apontando para um artigo específico (#forum-post-X), rola até ele
+      const currentHash = window.location.hash.replace('#', '');
+      if (currentHash.startsWith('forum-post-')) {
+        setTimeout(() => {
+          const targetEl = document.getElementById(currentHash);
+          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+      }
+    }
+
+    function loadBloggerFeed() {
+      const script = document.createElement('script');
+      script.src = 'https://comuniverde.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=10&callback=renderBloggerPosts';
+      document.body.appendChild(script);
+    }
+
+    // ==================== ROTEAMENTO INDEPENDENTE POR HASH ====================
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
-      const target = views.includes(viewName) ? viewName : 'home';
+      const target = viewName.startsWith('forum-post-') ? 'forum' : (views.includes(viewName) ? viewName : 'home');
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         if (el) el.classList.toggle('hidden', v !== target);
@@ -602,15 +575,23 @@
         if (window.location.hash) {
           window.location.hash = '';
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        window.location.hash = `#${target}`;
+        window.location.hash = `#${viewName}`;
+        if (viewName.startsWith('forum-post-')) {
+          const postEl = document.getElementById(viewName);
+          if (postEl) postEl.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function handleHashRoute() {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (views.includes(hash) && hash !== 'home') {
+      if (hash.startsWith('forum-post-')) {
+        navigateTo(hash);
+      } else if (views.includes(hash) && hash !== 'home') {
         views.forEach(v => {
           const el = document.getElementById(`view-${v}`);
           if (el) el.classList.toggle('hidden', v !== hash);
@@ -630,7 +611,7 @@
       if (navigator.share) {
         navigator.share({
           title: title,
-          text: 'Confira os dados oficiais de auditoria e participação popular em Cabo Frio:',
+          text: 'Confira esta publicação oficial da Comunidade Verde de Cabo Frio:',
           url: fullUrl
         }).catch(() => {});
       } else {
@@ -645,6 +626,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       showSlide(currentSlide);
       startTimer();
+      loadBloggerFeed();
       handleHashRoute();
     });
 
