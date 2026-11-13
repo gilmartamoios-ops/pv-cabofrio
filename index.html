@@ -87,13 +87,13 @@
         </div>
       </a>
 
-      <!-- Botão de Acionamento da Pesquisa Global & Glossário -->
+      <!-- Botão de Acionamento da Pesquisa Global -->
       <div class="flex-1 max-w-md">
         <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
           <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-          <span class="truncate">Pesquisar pautas, leis, termos cívicos...</span>
+          <span class="truncate">Pesquisar pautas, leis, orçamento...</span>
           <span class="ml-auto hidden sm:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
         </button>
       </div>
@@ -107,7 +107,7 @@
     </div>
   </header>
 
-  <!-- ==================== JANELA FLUTUANTE DE PESQUISA & GLOSSÁRIO ==================== -->
+  <!-- ==================== JANELA FLUTUANTE DE PESQUISA GLOBAL ==================== -->
   <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
     <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[80vh]">
       <!-- Cabeçalho da Modal -->
@@ -119,7 +119,7 @@
           type="text" 
           id="global-search-input" 
           oninput="runGlobalSearch()" 
-          placeholder="Busque posts, leis, vereadores ou digite um termo político..." 
+          placeholder="Busque posts, leis, orçamento ou qualquer termo na web..." 
           class="w-full bg-transparent text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none font-medium"
           autofocus
         />
@@ -131,7 +131,7 @@
       <!-- Corpo dos Resultados -->
       <div id="global-search-results" class="p-4 sm:p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
         <div class="text-center text-slate-400 text-xs sm:text-sm py-8">
-          Digite qualquer termo ou conceito para pesquisar nos registros da cidade e no Dicionário Cívico.
+          Digite qualquer termo acima para pesquisar nos registros de Cabo Frio ou abrir direto no Google.
         </div>
       </div>
     </div>
@@ -559,60 +559,7 @@
       }, 100);
     }
 
-    // ==================== DICIONÁRIO CÍVICO & PESQUISA GLOBAL ====================
-    const civilGlossary = [
-      {
-        term: "indicação",
-        title: "Indicação Legislativa",
-        desc: "Proposição em que o vereador sugere ao Poder Executivo (Prefeitura) a realização de obras, serviços ou medidas. Não é lei obrigatória, servindo para cobrança e direcionamento de melhorias."
-      },
-      {
-        term: "projeto de lei",
-        title: "Projeto de Lei (PL)",
-        desc: "Proposta formal de nova lei criada por vereadores ou pelo prefeito. Precisa ser debatida, votada e aprovada para começar a valer no município."
-      },
-      {
-        term: "requerimento",
-        title: "Requerimento",
-        desc: "Pedido formal de informações, documentos ou manifestação enviado à Prefeitura ou órgãos públicos para garantir a transparência e fiscalização."
-      },
-      {
-        term: "emenda",
-        title: "Emenda Parlamentar",
-        desc: "Modificação proposta por vereadores a um projeto de lei ou ao orçamento municipal para realocar recursos ou alterar regras."
-      },
-      {
-        term: "royalties",
-        title: "Royalties do Petróleo",
-        desc: "Compensação financeira paga por empresas petroleiras à União, Estados e Municípios produtores (como Cabo Frio e região) pela extração de petróleo e gás natural."
-      },
-      {
-        term: "veto",
-        title: "Veto do Prefeito",
-        desc: "Ato em que o prefeito rejeita total ou parcialmente um projeto de lei aprovado pela Câmara. O veto pode posteriormente ser derrubado pelos vereadores."
-      },
-      {
-        term: "sanção",
-        title: "Sanção",
-        desc: "Ato em que o prefeito aprova e assina um projeto de lei aprovado pela Câmara, transformando-o oficialmente em lei municipal."
-      },
-      {
-        term: "desafetação",
-        title: "Desafetação de Bem Público",
-        desc: "Mudança na categoria de um bem público (como uma praça ou terreno), tirando-o do uso comum do povo para permitir sua venda, troca ou doação pela prefeitura."
-      },
-      {
-        term: "improbidade",
-        title: "Improbidade Administrativa",
-        desc: "Ato ilegal ou contrário aos princípios da administração pública cometido por agentes públicos, resultando em enriquecimento ilícito ou prejuízo ao erário."
-      },
-      {
-        term: "suplência",
-        title: "Suplência",
-        desc: "Condição do candidato que ficou como 'reserva' nas eleições e pode assumir o cargo de vereador temporária ou definitivamente em caso de vacância."
-      }
-    ];
-
+    // ==================== PESQUISA GLOBAL HÍBRIDA (SITE + GOOGLE INDEPENDENTE) ====================
     let cachedCamaraSearchData = [];
     let cachedForumSearchData = [];
 
@@ -631,26 +578,13 @@
       const resultsContainer = document.getElementById('global-search-results');
 
       if (!query) {
-        resultsContainer.innerHTML = `<div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo ou conceito para pesquisar nos registros da cidade e no Dicionário Cívico.</div>`;
+        resultsContainer.innerHTML = `<div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar nos registros da cidade ou na web.</div>`;
         return;
       }
 
       let matches = [];
 
-      // 1. Pesquisa no Dicionário Cívico (Resumo pedagógico imediato)
-      civilGlossary.forEach(item => {
-        if (item.term.includes(query) || item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)) {
-          matches.push({
-            type: '📖 Dicionário Cívico',
-            badgeColor: 'bg-amber-100 text-amber-900',
-            title: item.title,
-            desc: item.desc,
-            isGlossary: true
-          });
-        }
-      });
-
-      // 2. Pesquisa na Câmara Municipal
+      // 1. Pesquisa na Câmara Municipal
       cachedCamaraSearchData.forEach(item => {
         if (item.text.includes(query)) {
           matches.push({
@@ -663,7 +597,7 @@
         }
       });
 
-      // 3. Pesquisa no Fórum
+      // 2. Pesquisa no Fórum
       cachedForumSearchData.forEach(item => {
         if (item.text.includes(query)) {
           matches.push({
@@ -676,7 +610,7 @@
         }
       });
 
-      // 4. Termos fixos de relevância
+      // 3. Atalhos de Orçamento e Agenda
       if ('orçamento'.includes(query) || 'receitas'.includes(query) || 'royalties'.includes(query)) {
         matches.push({
           type: '📊 Orçamento Municipal',
@@ -697,32 +631,36 @@
         });
       }
 
-      if (matches.length === 0) {
-        resultsContainer.innerHTML = `<div class="text-center text-slate-500 text-xs sm:text-sm py-8">Nenhum resultado interno encontrado para "<strong>${query}</strong>".</div>`;
-        return;
+      let htmlOutput = '';
+
+      if (matches.length > 0) {
+        htmlOutput += `<div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 pb-1">Resultados na Comunidade Verde:</div>`;
+        htmlOutput += matches.map(m => `
+          <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
+            </div>
+            <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
+            <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
+          </div>
+        `).join('');
       }
 
-      resultsContainer.innerHTML = matches.map(m => {
-        if (m.isGlossary) {
-          return `
-            <div class="p-4 bg-amber-50/70 rounded-2xl border border-amber-200 space-y-1.5">
-              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
-              <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
-              <p class="text-xs text-slate-700 leading-relaxed">${m.desc}</p>
+      // Atalho permanente e independente para pesquisar no Google (abrindo em aba separada com total autonomia para o cidadão)
+      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      htmlOutput += `
+        <div class="pt-3">
+          <a href="${googleSearchUrl}" target="_blank" rel="noopener" class="flex items-center justify-between p-3.5 bg-emerald-50 hover:bg-emerald-100/80 rounded-2xl border border-emerald-200 transition-colors group">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xs font-extrabold text-emerald-800 bg-emerald-200 px-2.5 py-1 rounded-lg">Google Web</span>
+              <span class="text-xs font-bold text-emerald-950">Pesquisar "${query}" na Internet</span>
             </div>
-          `;
-        } else {
-          return `
-            <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
-              </div>
-              <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
-              <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
-            </div>
-          `;
-        }
-      }).join('');
+            <span class="text-xs text-emerald-700 font-semibold group-hover:underline">Abrir em nova aba ↗</span>
+          </a>
+        </div>
+      `;
+
+      resultsContainer.innerHTML = htmlOutput;
     }
 
     // Atalhos de teclado
