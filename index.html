@@ -559,7 +559,7 @@
       }, 100);
     }
 
-    // ==================== PESQUISA GLOBAL FLUTUANTE ====================
+    // ==================== PESQUISA GLOBAL FLUTUANTE COM ATALHO EXTERNO ====================
     let cachedCamaraSearchData = [];
     let cachedForumSearchData = [];
 
@@ -610,7 +610,7 @@
         }
       });
 
-      // 3. Pesquisa na Agenda e Orçamento (Termos fixos de relevância)
+      // 3. Termos fixos de relevância
       if ('orçamento'.includes(query) || 'receitas'.includes(query) || 'royalties'.includes(query)) {
         matches.push({
           type: 'Orçamento Municipal',
@@ -631,23 +631,39 @@
         });
       }
 
-      if (matches.length === 0) {
-        resultsContainer.innerHTML = `<div class="text-center text-slate-500 text-xs sm:text-sm py-8">Nenhum resultado encontrado para "<strong>${query}</strong>". Tente outras palavras-chave.</div>`;
-        return;
+      // Se não achar nada internamente, oferece o atalho seguro para o cidadão pesquisar no Google (abrindo em nova aba sem sair do site)
+      let htmlOutput = '';
+
+      if (matches.length > 0) {
+        htmlOutput += matches.map(m => `
+          <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
+            </div>
+            <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
+            <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
+          </div>
+        `).join('');
       }
 
-      resultsContainer.innerHTML = matches.map(m => `
-        <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
-          <div class="flex items-center gap-2">
-            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
-          </div>
-          <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
-          <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
+      // Atalho de pesquisa na Web mantendo a aba do site intacta
+      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query + ' significado termo juridico politico')}`;
+      htmlOutput += `
+        <div class="pt-3">
+          <a href="${googleSearchUrl}" target="_blank" rel="noopener" class="flex items-center justify-between p-3 bg-slate-50 hover:bg-emerald-50 rounded-2xl border border-slate-200 hover:border-emerald-200 transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-extrabold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg">Web</span>
+              <span class="text-xs font-bold text-slate-700 group-hover:text-emerald-900">Pesquisar o significado de "${query}" no Google</span>
+            </div>
+            <span class="text-xs text-slate-400 group-hover:text-emerald-600">Abrir em nova aba ↗</span>
+          </a>
         </div>
-      `).join('');
+      `;
+
+      resultsContainer.innerHTML = htmlOutput;
     }
 
-    // Atalho de teclado Ctrl+K ou Cmd+K para abrir a pesquisa
+    // Atalhos de teclado
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -677,7 +693,6 @@
         const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Comunidade Verde';
         const postId = `forum-post-${index}`;
 
-        // Alimenta o cache de busca global
         cachedForumSearchData.push({
           id: postId,
           title: title,
@@ -755,12 +770,10 @@
             return;
           }
 
-          // [0] Data, [1] Ato Legislativo, [2] Projeto, [3] Autor, [4] Contexto, [5] Status, [6+] Vereadores...
           const headers = rows[0];
           const dataRows = rows.slice(1);
           const councillors = headers.slice(6);
 
-          // Contagem blindada contra diferenças de espaços/pontos
           const normalizeStr = (str) => str.toLowerCase().replace(/[^a-z0-9áéíóúãõâêôç]/g, '');
           const productionCounts = {};
           councillors.forEach(cName => { productionCounts[cName] = 0; });
@@ -791,7 +804,6 @@
             </div>
           `).join('');
 
-          // Renderização dos Cartões de Atos Legislativos
           container.innerHTML = dataRows.map((row, index) => {
             const [date, atoLegislativo, project, author, context, status] = row;
             if (!project) return '';
@@ -819,7 +831,6 @@
             const cardId = `camara-projeto-${index}`;
             const searchableContent = `${date} ${atoLegislativo} ${project} ${author} ${context} ${status}`.toLowerCase();
 
-            // Alimenta cache de busca global
             cachedCamaraSearchData.push({
               id: cardId,
               title: `${atoLegislativo} - ${project}`,
