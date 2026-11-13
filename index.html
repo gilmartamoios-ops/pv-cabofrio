@@ -67,8 +67,8 @@
 
   <!-- Cabeçalho / Navbar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-      <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+      <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0">
         <div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center shadow-sm overflow-hidden border-2 border-emerald-600 group-hover:scale-105 transition-transform shrink-0">
           <img src="logo.jpg" alt="Logo Oficial Partido Verde" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="hidden w-full h-full items-center justify-center bg-emerald-700 text-white font-extrabold text-sm tracking-tighter">
@@ -78,7 +78,7 @@
             </svg>
           </div>
         </div>
-        <div>
+        <div class="hidden sm:block">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="font-extrabold text-emerald-950 tracking-tight text-sm sm:text-base leading-none">PARTIDO VERDE</span>
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Cabo Frio</span>
@@ -87,14 +87,55 @@
         </div>
       </a>
 
-      <div class="flex items-center gap-2">
+      <!-- Botão de Acionamento da Pesquisa Global -->
+      <div class="flex-1 max-w-md">
+        <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
+          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <span class="truncate">Pesquisar pautas, leis, orçamento...</span>
+          <span class="ml-auto hidden sm:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
         <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20participar%20da%20Comunidade%20Verde%20de%20Cabo%20Frio." target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-full shadow-sm transition-all">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-          <span>Participar</span>
+          <span class="hidden sm:inline">Participar</span>
         </a>
       </div>
     </div>
   </header>
+
+  <!-- ==================== JANELA FLUTUANTE DE PESQUISA GLOBAL ==================== -->
+  <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[80vh]">
+      <!-- Cabeçalho da Modal -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
+        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input 
+          type="text" 
+          id="global-search-input" 
+          oninput="runGlobalSearch()" 
+          placeholder="Digite o que procura em toda a Comunidade Verde..." 
+          class="w-full bg-transparent text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none font-medium"
+          autofocus
+        />
+        <button onclick="closeGlobalSearch()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl transition-colors">
+          ESC
+        </button>
+      </div>
+
+      <!-- Corpo dos Resultados -->
+      <div id="global-search-results" class="p-4 sm:p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
+        <div class="text-center text-slate-400 text-xs sm:text-sm py-8">
+          Digite qualquer termo acima para pesquisar no Fórum, Orçamento e Câmara Municipal.
+        </div>
+      </div>
+    </div>
+  </div>
 
   <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
@@ -314,7 +355,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL (PRODUÇÃO & VOTAÇÃO NOMINAL) ==================== -->
+    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -518,10 +559,110 @@
       }, 100);
     }
 
+    // ==================== PESQUISA GLOBAL FLUTUANTE ====================
+    let cachedCamaraSearchData = [];
+    let cachedForumSearchData = [];
+
+    function openGlobalSearch() {
+      const modal = document.getElementById('global-search-modal');
+      modal.classList.remove('hidden');
+      document.getElementById('global-search-input').focus();
+    }
+
+    function closeGlobalSearch() {
+      document.getElementById('global-search-modal').classList.add('hidden');
+    }
+
+    function runGlobalSearch() {
+      const query = document.getElementById('global-search-input').value.toLowerCase().trim();
+      const resultsContainer = document.getElementById('global-search-results');
+
+      if (!query) {
+        resultsContainer.innerHTML = `<div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar no Fórum, Orçamento e Câmara Municipal.</div>`;
+        return;
+      }
+
+      let matches = [];
+
+      // 1. Pesquisa na Câmara Municipal
+      cachedCamaraSearchData.forEach(item => {
+        if (item.text.includes(query)) {
+          matches.push({
+            type: 'Câmara Municipal',
+            badgeColor: 'bg-sky-100 text-sky-800',
+            title: item.title,
+            desc: item.desc,
+            action: () => { navigateTo('camara'); setTimeout(() => { const el = document.getElementById(item.id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 200); }
+          });
+        }
+      });
+
+      // 2. Pesquisa no Fórum
+      cachedForumSearchData.forEach(item => {
+        if (item.text.includes(query)) {
+          matches.push({
+            type: 'Fórum Permanente',
+            badgeColor: 'bg-emerald-100 text-emerald-800',
+            title: item.title,
+            desc: item.desc,
+            action: () => { navigateTo(item.id); }
+          });
+        }
+      });
+
+      // 3. Pesquisa na Agenda e Orçamento (Termos fixos de relevância)
+      if ('orçamento'.includes(query) || 'receitas'.includes(query) || 'royalties'.includes(query)) {
+        matches.push({
+          type: 'Orçamento Municipal',
+          badgeColor: 'bg-teal-100 text-teal-800',
+          title: 'Painel Oficial de Orçamento, Receitas e Royalties',
+          desc: 'Discriminação de repasses e receitas atualizadas em tempo real.',
+          action: () => { navigateTo('orcamento'); }
+        });
+      }
+
+      if ('agenda'.includes(query) || 'reunião'.includes(query) || 'bairros'.includes(query) || 'plenária'.includes(query)) {
+        matches.push({
+          type: 'Agenda nos Bairros',
+          badgeColor: 'bg-amber-100 text-amber-900',
+          title: 'Calendário de Plenárias e Encontros nos Bairros',
+          desc: 'Acompanhe as visitas técnicas e reuniões comunitárias em Cabo Frio.',
+          action: () => { navigateTo('agenda'); }
+        });
+      }
+
+      if (matches.length === 0) {
+        resultsContainer.innerHTML = `<div class="text-center text-slate-500 text-xs sm:text-sm py-8">Nenhum resultado encontrado para "<strong>${query}</strong>". Tente outras palavras-chave.</div>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = matches.map(m => `
+        <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
+          </div>
+          <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
+          <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    // Atalho de teclado Ctrl+K ou Cmd+K para abrir a pesquisa
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openGlobalSearch();
+      }
+      if (e.key === 'Escape') {
+        closeGlobalSearch();
+      }
+    });
+
     // ==================== INTEGRAÇÃO COM O BLOGGER (FÓRUM) ====================
     function renderBloggerPosts(data) {
       const container = document.getElementById('blogger-posts-container');
       const entries = data.feed.entry || [];
+      cachedForumSearchData = [];
 
       if (entries.length === 0) {
         container.innerHTML = `<div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-600 text-sm">Nenhuma postagem publicada ainda no blog.</div>`;
@@ -535,6 +676,14 @@
         const formattedDate = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
         const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Comunidade Verde';
         const postId = `forum-post-${index}`;
+
+        // Alimenta o cache de busca global
+        cachedForumSearchData.push({
+          id: postId,
+          title: title,
+          desc: contentHtml.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...',
+          text: `${title} ${contentHtml} ${category}`.toLowerCase()
+        });
 
         return `
           <article id="${postId}" class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden scroll-mt-24">
@@ -598,6 +747,7 @@
           const rows = parseCSV(csvText);
           const container = document.getElementById('camara-posts-container');
           const rankingContainer = document.getElementById('ranking-list');
+          cachedCamaraSearchData = [];
           
           if (rows.length < 2) {
             container.innerHTML = `<div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-600 text-sm">Nenhum projeto cadastrado na planilha da Câmara.</div>`;
@@ -605,27 +755,27 @@
             return;
           }
 
-          // Ordem correta das colunas:
-          // [0] Data, [1] Ato Legislativo (Indicação, PL...), [2] Projeto, [3] Autor, [4] Contexto, [5] Status, [6+] Vereadores...
+          // [0] Data, [1] Ato Legislativo, [2] Projeto, [3] Autor, [4] Contexto, [5] Status, [6+] Vereadores...
           const headers = rows[0];
           const dataRows = rows.slice(1);
-          const councillors = headers.slice(6); // Nomes dos vereadores a partir da coluna G
+          const councillors = headers.slice(6);
 
-          // Contagem de produtividade por vereador (Full Time)
+          // Contagem blindada contra diferenças de espaços/pontos
+          const normalizeStr = (str) => str.toLowerCase().replace(/[^a-z0-9áéíóúãõâêôç]/g, '');
           const productionCounts = {};
           councillors.forEach(cName => { productionCounts[cName] = 0; });
 
           dataRows.forEach(row => {
-            const author = (row[3] || '').trim();
-            // Se o autor corresponder a algum vereador da lista, incrementa a produtividade
+            const authorNorm = normalizeStr(row[3] || '');
+            if (!authorNorm) return;
             councillors.forEach(cName => {
-              if (author.toLowerCase().includes(cName.toLowerCase().split(' - ')[0])) {
+              const firstNamePart = normalizeStr(cName.split('-')[0]);
+              if (firstNamePart && authorNorm.includes(firstNamePart)) {
                 productionCounts[cName]++;
               }
             });
           });
 
-          // Ordena vereadores do mais produtivo para o menos produtivo
           const sortedRanking = councillors.map(cName => ({ name: cName, count: productionCounts[cName] }))
                                            .sort((a, b) => b.count - a.count);
 
@@ -635,11 +785,13 @@
                 <span class="w-6 h-6 rounded-full bg-sky-700 text-white font-extrabold text-xs flex items-center justify-center shrink-0">${idx + 1}º</span>
                 <span class="text-xs font-bold text-slate-800 truncate max-w-[140px] sm:max-w-[180px]">${item.name}</span>
               </div>
-              <span class="bg-sky-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-xl shrink-0">${item.count} proposições</span>
+              <span class="bg-sky-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-xl shrink-0">
+                ${item.count} ${item.count === 1 ? 'proposição' : 'proposições'}
+              </span>
             </div>
           `).join('');
 
-          // Renderização dos Cards de Atos Legislativos
+          // Renderização dos Cartões de Atos Legislativos
           container.innerHTML = dataRows.map((row, index) => {
             const [date, atoLegislativo, project, author, context, status] = row;
             if (!project) return '';
@@ -665,6 +817,15 @@
             });
 
             const cardId = `camara-projeto-${index}`;
+            const searchableContent = `${date} ${atoLegislativo} ${project} ${author} ${context} ${status}`.toLowerCase();
+
+            // Alimenta cache de busca global
+            cachedCamaraSearchData.push({
+              id: cardId,
+              title: `${atoLegislativo} - ${project}`,
+              desc: `Autor: ${author} | Contexto: ${context}`,
+              text: searchableContent
+            });
 
             return `
               <article id="${cardId}" class="bg-white rounded-3xl border border-sky-100 shadow-sm overflow-hidden scroll-mt-24">
