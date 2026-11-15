@@ -126,7 +126,7 @@
     </div>
   </header>
 
-  <!-- ==================== TELA DE ACEITE DO SANTINHO (CADASTRO AUTOMÁTICO) ==================== -->
+  <!-- ==================== TELA DE ACEITE DO SANTINHO (CADASTRO AUTOMÁTICO + BAIRRO 2028) ==================== -->
   <div id="view-aceite-santinho" class="hidden max-w-lg mx-auto px-4 py-12 animate-fade-in">
     <div class="bg-white rounded-3xl shadow-2xl border border-emerald-200 p-8 text-center space-y-6">
       <div class="w-20 h-20 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner text-3xl">🌱</div>
@@ -144,6 +144,69 @@
           <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1">Seu WhatsApp (com DDD)</label>
           <input type="text" id="aceite-zap" placeholder="Ex: 22 99999-9999" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
+        <div>
+          <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1">Seu Bairro / Distrito (Cabo Frio)</label>
+          <select id="aceite-bairro" onchange="verificarOutroBairro()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
+            <option value="">Selecione seu bairro...</option>
+            <optgroup label="1º Distrito (Sede / Centro)">
+              <option value="Centro">Centro</option>
+              <option value="São Cristóvão">São Cristóvão</option>
+              <option value="Jardim Esperança">Jardim Esperança</option>
+              <option value="Braga">Braga</option>
+              <option value="Algodoal">Algodoal</option>
+              <option value="Passagem">Passagem</option>
+              <option value="Vila Nova">Vila Nova</option>
+              <option value="Peró">Peró</option>
+              <option value="Ogiva">Ogiva</option>
+              <option value="Gamboa">Gamboa</option>
+              <option value="Jacaré">Jacaré</option>
+              <option value="Portinho">Portinho</option>
+              <option value="Palmeiras">Palmeiras</option>
+              <option value="Parque Burle">Parque Burle</option>
+              <option value="Guarani">Guarani</option>
+              <option value="Itajuru">Itajuru</option>
+              <option value="Jardim Caiçara">Jardim Caiçara</option>
+              <option value="Jardim Excelsior">Jardim Excelsior</option>
+              <option value="Jardim Flamboyant">Jardim Flamboyant</option>
+              <option value="Jardim Nautillus">Jardim Nautillus</option>
+              <option value="Jardim Olinda">Jardim Olinda</option>
+              <option value="Jardim Peró">Jardim Peró</option>
+              <option value="Manoel Corrêa">Manoel Corrêa</option>
+              <option value="Monte Alegre">Monte Alegre</option>
+              <option value="Boca do Mato">Boca do Mato</option>
+              <option value="Caminho de Búzios">Caminho de Búzios</option>
+              <option value="Tangará">Tangará</option>
+              <option value="Reserva do Peró">Reserva do Peró</option>
+              <option value="Célula Mater">Célula Mater</option>
+              <option value="Vila do Sol">Vila do Sol</option>
+              <option value="Vila do Ar">Vila do Ar</option>
+              <option value="Recanto das Dunas">Recanto das Dunas</option>
+              <option value="Novo Portinho">Novo Portinho</option>
+              <option value="Forte">Forte</option>
+            </optgroup>
+            <optgroup label="2º Distrito (Tamoios)">
+              <option value="Tamoios - Unamar">Tamoios - Unamar</option>
+              <option value="Tamoios - Aquarius">Tamoios - Aquarius</option>
+              <option value="Tamoios - Santo Antônio">Tamoios - Santo Antônio</option>
+              <option value="Tamoios - Samburá">Tamoios - Samburá</option>
+              <option value="Tamoios - Sinagoga">Tamoios - Sinagoga</option>
+              <option value="Tamoios - Florestinha">Tamoios - Florestinha</option>
+              <option value="Tamoios - Maria Joaquina">Tamoios - Maria Joaquina</option>
+              <option value="Tamoios - Centro Hípico">Tamoios - Centro Hípico</option>
+              <option value="Tamoios - Campos Novos">Tamoios - Campos Novos</option>
+              <option value="Tamoios - Botafogo">Tamoios - Botafogo</option>
+              <option value="Tamoios - Angelim">Tamoios - Angelim</option>
+              <option value="Tamoios - Pacheco">Tamoios - Pacheco</option>
+              <option value="Tamoios - Santa Margarida">Tamoios - Santa Margarida</option>
+              <option value="Tamoios - Agrisa">Tamoios - Agrisa</option>
+              <option value="Tamoios - Long Beach">Tamoios - Long Beach</option>
+              <option value="Tamoios - Nova Califórnia">Tamoios - Nova Califórnia</option>
+              <option value="Tamoios - Vista Alegre">Tamoios - Vista Alegre</option>
+            </optgroup>
+            <option value="OUTRO">Outro Bairro / Zona Rural...</option>
+          </select>
+          <input type="text" id="aceite-bairro-outro" placeholder="Digite o nome do seu bairro ou localidade" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+        </div>
         <button onclick="confirmarAceiteSantinho()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-4 rounded-2xl shadow-lg transition-all text-center">
           ✓ Confirmar Aceite e Desbloquear Acesso
         </button>
@@ -151,28 +214,41 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM ==================== -->
+  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM + MAPEAMENTO POR BAIRRO ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
+    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">CRM Político • Gestão da Base</span>
-          <h3 class="text-xl font-extrabold mt-1">Lista de Cadastro Automático (Via Aceite do Santinho)</h3>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">CRM Político 2028 • Inteligência Territorial</span>
+          <h3 class="text-xl font-extrabold mt-1">Mapeamento da Militância por Bairro</h3>
         </div>
         <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
       </div>
-      <div class="p-6 overflow-y-auto space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <span class="text-xs font-bold text-slate-500 uppercase">Membros na Base (<span id="total-membros">0</span>)</span>
-          <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3.5 py-2 rounded-xl transition-colors">
-            📥 Baixar Planilha (CSV)
+      <div class="p-6 overflow-y-auto space-y-5">
+        <!-- Painel de Concentração por Bairro -->
+        <div id="resumo-bairros-container" class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 hidden">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block mb-2">📍 Força Territorial por Bairro (Top Concentração):</span>
+          <div id="badges-bairros" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-xs font-bold text-slate-500 uppercase">Membros Exibidos: <strong class="text-emerald-800" id="total-membros">0</strong></span>
+            <select id="filtro-bairro-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="TODOS">Todos os Bairros</option>
+            </select>
+          </div>
+          <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
+            📥 Baixar Planilha Mapeada (CSV)
           </button>
         </div>
-        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+
+        <div class="border border-slate-200 rounded-2xl overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead>
               <tr class="bg-slate-100 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
                 <th class="p-3">Nome</th>
+                <th class="p-3">Bairro / Território</th>
                 <th class="p-3">WhatsApp</th>
                 <th class="p-3">Status</th>
                 <th class="p-3">Data</th>
@@ -180,7 +256,7 @@
               </tr>
             </thead>
             <tbody id="tabela-membros-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-              <tr><td colspan="5" class="p-6 text-center text-slate-400">Nenhum membro cadastrado via santinho ainda.</td></tr>
+              <tr><td colspan="6" class="p-6 text-center text-slate-400">Nenhum membro cadastrado via santinho ainda.</td></tr>
             </tbody>
           </table>
         </div>
@@ -472,19 +548,35 @@
       }
     }
 
-    // CADASTRO AUTOMÁTICO AO CONFIRMAR O ACEITE DO SANTINHO
+    function verificarOutroBairro() {
+      const select = document.getElementById('aceite-bairro');
+      const inputOutro = document.getElementById('aceite-bairro-outro');
+      if (select.value === 'OUTRO') {
+        inputOutro.classList.remove('hidden');
+        inputOutro.focus();
+      } else {
+        inputOutro.classList.add('hidden');
+      }
+    }
+
+    // CADASTRO AUTOMÁTICO AO CONFIRMAR O ACEITE DO SANTINHO (COM BAIRRO PARA 2028!)
     function confirmarAceiteSantinho() {
       const nome = document.getElementById('aceite-nome').value.trim();
       const zap = document.getElementById('aceite-zap').value.trim();
+      const selectBairro = document.getElementById('aceite-bairro').value;
+      const outroBairro = document.getElementById('aceite-bairro-outro').value.trim();
+      
+      const bairro = selectBairro === 'OUTRO' ? outroBairro : selectBairro;
 
-      if (!nome || !zap) {
-        alert('Por favor, preencha seu nome e WhatsApp.');
+      if (!nome || !zap || !bairro) {
+        alert('Por favor, preencha seu nome, WhatsApp e selecione o seu bairro.');
         return;
       }
 
       const novo = {
         id: Date.now(),
         nome,
+        bairro,
         zap,
         status: 'Membro da Comunidade Verde',
         data: new Date().toLocaleDateString('pt-BR')
@@ -494,7 +586,7 @@
       localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
       localStorage.setItem('comunidade_verde_unlocked', 'true');
 
-      alert('Cadastro realizado com sucesso! Seu acesso aos painéis foi liberado.');
+      alert(`Cadastro realizado com sucesso (${bairro})! Seu acesso aos painéis foi liberado.`);
       window.location.href = window.location.pathname;
     }
 
@@ -527,12 +619,46 @@
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
-    // Janela independente de cadastro / CRM
+    // Janela independente de cadastro / CRM com Inteligência Territorial por Bairro
     function abrirModalCadastro() {
       document.getElementById('modal-cadastro').classList.remove('hidden');
+      atualizarFiltroBairrosCRM();
       renderizarTabelaMembros();
     }
     function fecharModalCadastro() { document.getElementById('modal-cadastro').classList.add('hidden'); }
+
+    function atualizarFiltroBairrosCRM() {
+      const selectFiltro = document.getElementById('filtro-bairro-crm');
+      const resumoContainer = document.getElementById('resumo-bairros-container');
+      const badgesContainer = document.getElementById('badges-bairros');
+      
+      const contagemBairros = {};
+      baseMembros.forEach(m => {
+        const b = m.bairro || 'Não informado';
+        contagemBairros[b] = (contagemBairros[b] || 0) + 1;
+      });
+
+      const bairrosOrdenados = Object.entries(contagemBairros).sort((a, b) => b[1] - a[1]);
+
+      if (bairrosOrdenados.length > 0) {
+        resumoContainer.classList.remove('hidden');
+        badgesContainer.innerHTML = bairrosOrdenados.map(([bairro, qtd]) => `
+          <button onclick="document.getElementById('filtro-bairro-crm').value='${bairro}'; renderizarTabelaMembros();" class="inline-flex items-center gap-1.5 bg-white hover:bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold text-emerald-950 shadow-sm transition-colors">
+            <span>${bairro}</span>
+            <span class="bg-emerald-700 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">${qtd}</span>
+          </button>
+        `).join('');
+      } else {
+        resumoContainer.classList.add('hidden');
+      }
+
+      const valorAtual = selectFiltro.value;
+      selectFiltro.innerHTML = `<option value="TODOS">Todos os Bairros (${baseMembros.length})</option>` + 
+        bairrosOrdenados.map(([bairro, qtd]) => `<option value="${bairro}">${bairro} (${qtd})</option>`).join('');
+      if ([...selectFiltro.options].some(o => o.value === valorAtual)) {
+        selectFiltro.value = valorAtual;
+      }
+    }
 
     function alterarStatusMembro(id) {
       const membro = baseMembros.find(m => m.id === id);
@@ -548,6 +674,7 @@
       if (confirm('Deseja realmente remover este membro da base?')) {
         baseMembros = baseMembros.filter(m => m.id !== id);
         localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
+        atualizarFiltroBairrosCRM();
         renderizarTabelaMembros();
         showToast('🗑️ Membro removido da base.');
       }
@@ -555,20 +682,27 @@
 
     function renderizarTabelaMembros() {
       const tbody = document.getElementById('tabela-membros-body');
-      document.getElementById('total-membros').textContent = baseMembros.length;
+      const filtroBairro = document.getElementById('filtro-bairro-crm').value;
+      
+      const listaFiltrada = filtroBairro === 'TODOS' 
+        ? baseMembros 
+        : baseMembros.filter(m => (m.bairro || 'Não informado') === filtroBairro);
 
-      if (baseMembros.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Nenhum membro cadastrado via santinho ainda.</td></tr>`;
+      document.getElementById('total-membros').textContent = listaFiltrada.length;
+
+      if (listaFiltrada.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Nenhum membro encontrado para este filtro.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = baseMembros.map(m => `
+      tbody.innerHTML = listaFiltrada.map(m => `
         <tr class="hover:bg-slate-50 transition-colors">
           <td class="p-3 font-bold text-slate-900">${m.nome}</td>
+          <td class="p-3"><span class="bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-0.5 rounded-lg font-bold text-[11px]">📍 ${m.bairro || 'Não informado'}</span></td>
           <td class="p-3"><a href="https://wa.me/55${m.zap.replace(/\D/g, '')}" target="_blank" class="text-emerald-700 font-bold">${m.zap} ↗</a></td>
           <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${m.status.includes('Filiado') ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-200'}">${m.status}</span></td>
           <td class="p-3 text-[11px] text-slate-500">${m.data}</td>
-          <td class="p-3 text-center space-x-1.5">
+          <td class="p-3 text-center space-x-1.5 whitespace-nowrap">
             <button onclick="alterarStatusMembro(${m.id})" class="text-[11px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg transition-colors">Alternar Status</button>
             <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2 py-1 rounded-lg transition-colors">Excluir</button>
           </td>
@@ -578,15 +712,15 @@
 
     function exportarCadastroCSV() {
       if (baseMembros.length === 0) { showToast('⚠️ Não há membros para exportar.'); return; }
-      let csv = 'Nome,WhatsApp,Status,Data\n';
-      baseMembros.forEach(m => { csv += `"${m.nome}","${m.zap}","${m.status}","${m.data}"\n`; });
+      let csv = 'Nome,Bairro,WhatsApp,Status,Data\n';
+      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || 'Não informado'}","${m.zap}","${m.status}","${m.data}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'membros_comunidade_verde.csv';
+      a.download = 'mapeamento_militancia_bairros_2028.csv';
       a.click();
-      showToast('📥 Lista exportada com sucesso!');
+      showToast('📥 Planilha mapeada por bairro exportada!');
     }
 
     function copiarSantinhoLiberacao() {
@@ -601,11 +735,11 @@ Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo
 🎥 *Assista ao nosso vídeo de boas-vindas:*
 ${linkVideoConvite}
 
-📝 *Clique no link abaixo para confirmar seus dados e desbloquear seu acesso:*
+📝 *Clique no link abaixo para confirmar seus dados (Nome, WhatsApp e Bairro) e desbloquear seu acesso:*
 ${linkSantinhoAceite}`;
 
       navigator.clipboard.writeText(mensagemSantinho).then(() => {
-        showToast('🔑 Santinho com formulário de aceite copiado para o WhatsApp!');
+        showToast('🔑 Santinho com formulário de aceite e bairro copiado para o WhatsApp!');
       });
     }
 
