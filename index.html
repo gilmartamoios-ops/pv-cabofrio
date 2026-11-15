@@ -99,10 +99,10 @@
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- LINK NO TOPO PARA VOCÊ COPIAR O SANTINHO + VÍDEO DE DESBLOQUEIO (Visível quando desbloqueado) -->
-        <button id="btn-copiar-santinho" onclick="copiarSantinhoLiberacao()" class="hidden inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-extrabold px-3 py-2 rounded-full shadow-sm transition-all" title="Copiar Santinho com Vídeo e Link de Desbloqueio para enviar no WhatsApp">
+        <!-- BOTÃO NO TOPO PARA VOCÊ COPIAR O SANTINHO COM VÍDEO (Visível sempre para o master) -->
+        <button onclick="copiarSantinhoLiberacao()" class="inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-extrabold px-3.5 py-2 rounded-full shadow-sm transition-all" title="Copiar Santinho com Vídeo e Link de Desbloqueio para enviar no WhatsApp">
           <span>🔑</span>
-          <span class="hidden sm:inline">Enviar Convite</span>
+          <span>Copiar Convite / Santinho</span>
         </button>
 
         <!-- Botão Participar (Número do Presidente mantido intacto) -->
@@ -114,7 +114,7 @@
     </div>
   </header>
 
-  <!-- ==================== JANELINHA FLUTUANTE ACOLHEDORA DE DESBLOQUEIO ==================== -->
+  <!-- ==================== JANELINHA FLUTUANTE ACOLHEDORA DE DESBLOQUEIO (Para Orçamento e Câmara) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" aria-label="Fechar">
@@ -130,13 +130,13 @@
           Comunidade Verde • Cabo Frio
         </span>
         <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">
-          Que alegria ter você aqui!
+          Faça parte da Comunidade Verde!
         </h3>
         <p class="text-sm text-slate-600 leading-relaxed">
-          Esta ferramenta faz parte do ambiente de inteligência cívica da <strong>Comunidade Verde</strong>. Queremos construir pontes e transformar Cabo Frio junto com você!
+          Este painel de controle e fiscalização exige integração com o movimento. Queremos construir pontes e transformar Cabo Frio junto com você!
         </p>
         <p class="text-xs text-slate-500 leading-relaxed pt-1">
-          Para liberar seu acesso gratuito e imediato a todos os painéis de fiscalização, toque no botão abaixo para receber sua chave de entrada.
+          Toque no botão abaixo para enviar sua solicitação de acesso diretamente ao gestor.
         </p>
       </div>
 
@@ -147,7 +147,7 @@
           Quero fazer parte e desbloquear
         </a>
         <button onclick="closeUnlockModal()" class="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors">
-          Voltar para a apresentação
+          Continuar navegando
         </button>
       </div>
     </div>
@@ -186,25 +186,29 @@
     <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
 
-      <!-- Banner Principal -->
-      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[260px] sm:min-h-[380px] flex items-center">
-        <img src="capa.jpg" alt="Observatório Verde • Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-90" />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-black/45 to-black/70"></div>
+      <!-- Banner Principal (Com o título do Observatório Verde posicionado no rodapé do banner) -->
+      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] sm:min-h-[400px] flex items-end">
+        <img src="capa.jpg" alt="Observatório Verde • Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"></div>
 
-        <div class="relative z-10 px-6 py-12 sm:px-12 sm:py-20 text-center max-w-3xl mx-auto">
-          <span class="inline-block bg-emerald-600/90 text-white text-xs font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full mb-4 shadow">
-            Observatório Verde • Plataforma de Controle Social
-          </span>
-          <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
-            Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
-          </h1>
-          <p class="mt-4 text-sm sm:text-lg text-white/95 font-medium leading-relaxed drop-shadow">
-            Conheça o movimento <strong class="text-emerald-300 font-extrabold">Comunidade Verde</strong> e a <strong class="text-amber-300 font-extrabold">4ª Escolha</strong> para Cabo Frio: inteligência cívica e participação popular para transformar a cidade.
-          </p>
+        <div class="relative z-10 p-6 sm:p-10 w-full text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div class="max-w-2xl space-y-2">
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
+              Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-white/95 font-medium leading-relaxed drop-shadow">
+              Conheça o movimento <strong class="text-emerald-300 font-extrabold">Comunidade Verde</strong> e a <strong class="text-amber-300 font-extrabold">4ª Escolha</strong> para Cabo Frio: inteligência cívica e participação popular.
+            </p>
+          </div>
+          <div class="shrink-0">
+            <span class="inline-block bg-emerald-600 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-2 rounded-xl shadow-lg border border-emerald-500">
+              Observatório Verde • Plataforma de Controle Social
+            </span>
+          </div>
         </div>
       </section>
 
-      <!-- Apresentação Interativa em 7 Lâminas (Stories - Sempre Aberto para Visitantes) -->
+      <!-- Apresentação Interativa em 7 Lâminas (Stories - Totalmente Livre) -->
       <section class="max-w-xl mx-auto">
         <div class="flex items-center justify-between mb-3 px-1">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
@@ -238,19 +242,16 @@
         </div>
       </section>
 
-      <!-- Os 4 Cartões de Navegação (Com Cadeado para Visitantes até o Desbloqueio) -->
+      <!-- Os 4 Cartões de Navegação (Fórum e Agenda Abertos | Orçamento e Câmara Protegidos) -->
       <section class="pt-4">
         <div class="text-center mb-6">
           <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
-          <p id="status-acesso-texto" class="text-sm text-slate-600 mt-1">
-            Toque em um dos módulos abaixo para solicitar seu acesso à Comunidade Verde
-          </p>
+          <p class="text-sm text-slate-600 mt-1">Acesse os debates livres ou solicite liberação para os painéis de controle</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <!-- Módulo 1: Fórum Permanente -->
-          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
+          <!-- Módulo 1: Fórum Permanente (TOTALMENTE LIVRE) -->
+          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4">
             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
             </div>
@@ -261,9 +262,8 @@
             </div>
           </a>
 
-          <!-- Módulo 2: Agenda nos Bairros -->
-          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
+          <!-- Módulo 2: Agenda nos Bairros (TOTALMENTE LIVRE) -->
+          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4">
             <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
@@ -274,9 +274,9 @@
             </div>
           </a>
 
-          <!-- Módulo 3: Orçamento Municipal -->
+          <!-- Módulo 3: Orçamento Municipal (BLOQUEADO ATÉ DESBLOQUEIO) -->
           <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
@@ -287,9 +287,9 @@
             </div>
           </a>
 
-          <!-- Módulo 4: Câmara Municipal -->
+          <!-- Módulo 4: Câmara Municipal (BLOQUEADO ATÉ DESBLOQUEIO) -->
           <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
@@ -303,7 +303,7 @@
       </section>
     </div>
 
-    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOGGER) ==================== -->
+    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOGGER - LIVRE) ==================== -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -333,7 +333,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 2: AGENDA DOS BAIRROS (GOOGLE AGENDA) ==================== -->
+    <!-- ==================== SEÇÃO 2: AGENDA DOS BAIRROS (GOOGLE AGENDA - LIVRE) ==================== -->
     <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -473,26 +473,17 @@
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('token');
 
-      // Verifica se veio pelo link mágico de desbloqueio ou se já está salvo no navegador
       if (token === UNLOCK_TOKEN || localStorage.getItem('comunidade_verde_unlocked') === 'true') {
         isMemberUnlocked = true;
         localStorage.setItem('comunidade_verde_unlocked', 'true');
 
-        // Limpa o token da barra de endereços para ficar visualmente limpo
         if (token) {
           window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
         }
 
-        // Remove os cadeados visuais dos cartões
+        // Remove os cadeados dos cartões de Orçamento e Câmara
         document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
-        
-        // Atualiza o subtítulo dos cartões
-        const statusTxt = document.getElementById('status-acesso-texto');
-        if (statusTxt) statusTxt.textContent = 'Acesso liberado • Explore todas as ferramentas da Comunidade Verde';
-
-        // Exibe o botão discreto no topo para você copiar e enviar o Santinho + Vídeo de Desbloqueio
-        const btnSantinho = document.getElementById('btn-copiar-santinho');
-        if (btnSantinho) btnSantinho.classList.remove('hidden');
+        showToast('🔓 Acesso completo desbloqueado neste navegador!');
       }
     }
 
@@ -504,10 +495,10 @@
       document.getElementById('unlock-modal').classList.add('hidden');
     }
 
-    // Função acionada pelo link/botão no topo para você copiar o Santinho com Vídeo e Link de Desbloqueio
+    // Botão no topo para copiar o santinho com vídeo e link de liberação
     function copiarSantinhoLiberacao() {
       const linkDesbloqueio = 'https://pvcabofrio.vercel.app/?token=pv-militancia-2026';
-      const linkVideoConvite = 'SEU_LINK_DO_VIDEO_AQUI'; // Substitua pelo link do seu vídeo no YouTube/Drive/Instagram
+      const linkVideoConvite = 'SEU_LINK_DO_VIDEO_AQUI'; // Substitua pelo link real do seu vídeo
       
       const mensagemSantinho = 
 `🌱 *Seja muito bem-vindo(a) à Comunidade Verde!*
@@ -517,13 +508,13 @@ Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo
 🎥 *Assista ao nosso vídeo de boas-vindas:*
 ${linkVideoConvite}
 
-🔓 *Toque no link abaixo para desbloquear seu acesso completo ao Observatório Verde:*
+🔓 *Toque no link abaixo para desbloquear seu acesso aos painéis de controle do Observatório Verde:*
 ${linkDesbloqueio}
 
-_(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
+_(Após abrir o link uma vez, os painéis de Orçamento e Câmara ficarão liberados no seu celular!)_`;
 
       navigator.clipboard.writeText(mensagemSantinho).then(() => {
-        showToast('🔑 Santinho com vídeo e link de desbloqueio copiado! Cole no WhatsApp.');
+        showToast('🔑 Santinho com vídeo e link copiado! Cole no WhatsApp.');
       });
     }
 
@@ -629,9 +620,9 @@ _(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
           </div>
           ${slide.isCTA ? `
             <div class="pt-3 relative z-30">
-              <button onclick="openUnlockModal()" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
-                🌱 Fazer Parte e Liberar Acesso
-              </button>
+              <a href="https://wa.me/5522999231211?text=Olá! Vi a apresentação no Observatório Verde e quero fazer parte da Comunidade Verde!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
+                🌱 Fazer Parte da Comunidade Verde
+              </a>
             </div>
           ` : ''}
         </div>
@@ -671,10 +662,6 @@ _(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
     let cachedForumSearchData = [];
 
     function openGlobalSearch() {
-      if (!isMemberUnlocked) {
-        openUnlockModal();
-        return;
-      }
       const modal = document.getElementById('global-search-modal');
       modal.classList.remove('hidden');
       document.getElementById('global-search-input').focus();
@@ -1009,12 +996,12 @@ _(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
         });
     }
 
-    // ==================== ROTEAMENTO COM PROTEÇÃO DE ACESSO ====================
+    // ==================== ROTEAMENTO COM PROTEÇÃO SELETIVA ====================
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
-      // Se não for a página inicial e o visitante ainda não estiver desbloqueado, exibe a janelinha acolhedora
-      if (viewName !== 'home' && !isMemberUnlocked) {
+      // Se tentar acessar Orçamento ou Câmara sem estar desbloqueado, exibe a janelinha acolhedora
+      if ((viewName === 'orcamento' || viewName === 'camara') && !isMemberUnlocked) {
         openUnlockModal();
         return;
       }
@@ -1067,7 +1054,18 @@ _(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      checkAuthAccess(); // Verifica o token de liberação primeiro
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+
+      if (token === UNLOCK_TOKEN || localStorage.getItem('comunidade_verde_unlocked') === 'true') {
+        isMemberUnlocked = true;
+        localStorage.setItem('comunidade_verde_unlocked', 'true');
+        if (token) {
+          window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+        }
+        document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
+      }
+
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
