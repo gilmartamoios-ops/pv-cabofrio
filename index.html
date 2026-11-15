@@ -100,7 +100,7 @@
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- MENU MESTRE SUSPENSO (Exclusivo para o Master - 2 itens: Santinho e Lista de Cadastro) -->
+        <!-- MENU MESTRE (2 ITENS: SANTINHO E LISTA DE CADASTRO) -->
         <div id="master-menu-container" class="relative hidden">
           <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
             <span>⚙️ Gestão Master</span>
@@ -126,22 +126,15 @@
     </div>
   </header>
 
-  <!-- ==================== TELA DE ACEITE DO SANTINHO (CADASTRO AUTOMÁTICO DO MEMBRO) ==================== -->
+  <!-- ==================== TELA DE ACEITE DO SANTINHO (CADASTRO AUTOMÁTICO) ==================== -->
   <div id="view-aceite-santinho" class="hidden max-w-lg mx-auto px-4 py-12 animate-fade-in">
     <div class="bg-white rounded-3xl shadow-2xl border border-emerald-200 p-8 text-center space-y-6">
-      <div class="w-20 h-20 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner text-3xl">
-        🌱
-      </div>
+      <div class="w-20 h-20 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner text-3xl">🌱</div>
       <div class="space-y-2">
-        <span class="inline-block bg-emerald-50 text-emerald-800 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">
-          Comunidade Verde • Cabo Frio
-        </span>
+        <span class="inline-block bg-emerald-50 text-emerald-800 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
         <h2 class="text-2xl font-extrabold text-slate-900">Confirmação de Acesso</h2>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          Preencha seus dados abaixo para confirmar seu aceite na <strong>Comunidade Verde</strong> e desbloquear imediatamente os painéis de controle e fiscalização.
-        </p>
+        <p class="text-sm text-slate-600 leading-relaxed">Preencha seus dados abaixo para confirmar seu aceite na <strong>Comunidade Verde</strong> e desbloquear imediatamente os painéis.</p>
       </div>
-
       <div class="space-y-4 text-left">
         <div>
           <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1">Seu Nome Completo</label>
@@ -158,7 +151,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM (EXCLUSIVO MESTRE) ==================== -->
+  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
@@ -168,7 +161,6 @@
         </div>
         <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
       </div>
-
       <div class="p-6 overflow-y-auto space-y-6">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <span class="text-xs font-bold text-slate-500 uppercase">Membros na Base (<span id="total-membros">0</span>)</span>
@@ -196,11 +188,10 @@
     </div>
   </div>
 
-  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO (COM ATALHO SECRETO NO X) ==================== -->
-  <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
-      <!-- O botão "X" secreto para liberação master ao segurar Ctrl ou clicar 3 vezes -->
-      <button onclick="handleSecretUnlock(event)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
+  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO (Basta um toque/clique em qualquer lugar da janela para liberar) ==================== -->
+  <div id="unlock-modal" onclick="unlockMasterAccess(event)" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in cursor-pointer">
+    <div onclick="event.stopPropagation()" class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative cursor-default">
+      <button onclick="unlockMasterAccess(event)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Liberar Master">✕</button>
 
       <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner"><span class="text-3xl">🌱</span></div>
       
@@ -208,7 +199,7 @@
         <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
         <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Faça parte da Comunidade Verde!</h3>
         <p class="text-sm text-slate-600 leading-relaxed">Este painel de controle e fiscalização exige integração com o movimento. Queremos construir pontes e transformar Cabo Frio junto com você!</p>
-        <p class="text-xs text-slate-500 leading-relaxed pt-1">Toque no botão abaixo para enviar sua solicitação de acesso diretamente ao gestor.</p>
+        <p class="text-xs text-emerald-700 font-bold pt-1">💡 Dica Master: Toque em qualquer ponto desta janela para liberar o acesso master imediatamente.</p>
       </div>
 
       <div class="pt-2 space-y-2.5">
@@ -507,7 +498,8 @@
       window.location.href = window.location.pathname;
     }
 
-    function unlockMasterAccess() {
+    function unlockMasterAccess(event) {
+      if (event) event.stopPropagation();
       isMemberUnlocked = true;
       localStorage.setItem('comunidade_verde_unlocked', 'true');
       document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
@@ -515,6 +507,7 @@
       const masterMenu = document.getElementById('master-menu-container');
       if (masterMenu) masterMenu.classList.remove('hidden');
 
+      closeUnlockModal();
       showToast('🔑 Acesso Mestre e Gestão Master liberados!');
     }
 
@@ -530,17 +523,6 @@
         dropdown.classList.add('hidden');
       }
     });
-
-    // ATALHO SECRETO NO "X" DA JANELINHA (Ctrl ou 3 cliques)
-    function handleSecretUnlock(event) {
-      if (event.ctrlKey || event.metaKey || ++window.secretClicks >= 3) {
-        unlockMasterAccess();
-        closeUnlockModal();
-        window.secretClicks = 0;
-      } else {
-        closeUnlockModal();
-      }
-    }
 
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
@@ -727,7 +709,6 @@ ${linkSantinhoAceite}`;
         `).join('');
       }
 
-      // Fallback de pesquisa na Web via Google
       const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       htmlOutput += `
         <div class="pt-3">
@@ -776,7 +757,6 @@ ${linkSantinhoAceite}`;
               <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${title}</h3>
               <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">${contentHtml}</div>
               
-              <!-- Botões Individuais de Impressão e Compartilhamento da Postagem -->
               <div class="no-print pt-4 border-t border-slate-100 flex flex-wrap items-center justify-end gap-2">
                 <button onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">
                   🖨️ Imprimir Esta Pauta
@@ -794,7 +774,6 @@ ${linkSantinhoAceite}`;
     function imprimirPostagem(postId) {
       const el = document.getElementById(postId);
       if (!el) return;
-      // Isola temporariamente o artigo para impressão limpa
       document.querySelectorAll('main > *').forEach(child => { if (child !== el) child.style.display = 'none'; });
       window.print();
       document.querySelectorAll('main > *').forEach(child => { child.style.display = ''; });
