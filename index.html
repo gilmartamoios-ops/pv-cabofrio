@@ -67,7 +67,7 @@
 
   <!-- Cabeçalho / Navbar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
       <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0">
         <div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center shadow-sm overflow-hidden border-2 border-emerald-600 group-hover:scale-105 transition-transform shrink-0">
           <img src="logo.jpg" alt="Logo Oficial Partido Verde" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -78,27 +78,34 @@
             </svg>
           </div>
         </div>
-        <div class="hidden sm:block">
+        <div class="hidden md:block">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="font-extrabold text-emerald-950 tracking-tight text-sm sm:text-base leading-none">OBSERVATÓRIO VERDE</span>
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Cabo Frio</span>
           </div>
-          <p class="text-xs text-emerald-700 font-semibold mt-1">Movimento Comunidade Verde • Partido Verde</p>
+          <p class="text-xs text-emerald-700 font-semibold mt-1">Movimento Comunidade Verde</p>
         </div>
       </a>
 
       <!-- Botão de Acionamento da Pesquisa Global -->
-      <div class="flex-1 max-w-md">
+      <div class="flex-1 max-w-sm">
         <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
           <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-          <span class="truncate">Pesquisar pautas, leis, orçamento...</span>
-          <span class="ml-auto hidden sm:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
+          <span class="truncate">Pesquisar pautas, leis...</span>
+          <span class="ml-auto hidden lg:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
         </button>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
+        <!-- LINK NO TOPO PARA VOCÊ COPIAR O SANTINHO + VÍDEO DE DESBLOQUEIO (Visível quando desbloqueado) -->
+        <button id="btn-copiar-santinho" onclick="copiarSantinhoLiberacao()" class="hidden inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-extrabold px-3 py-2 rounded-full shadow-sm transition-all" title="Copiar Santinho com Vídeo e Link de Desbloqueio para enviar no WhatsApp">
+          <span>🔑</span>
+          <span class="hidden sm:inline">Enviar Convite</span>
+        </button>
+
+        <!-- Botão Participar (Número do Presidente mantido intacto) -->
         <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20participar%20do%20movimento%20Comunidade%20Verde%20em%20Cabo%20Frio." target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-full shadow-sm transition-all">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
           <span class="hidden sm:inline">Participar</span>
@@ -106,6 +113,45 @@
       </div>
     </div>
   </header>
+
+  <!-- ==================== JANELINHA FLUTUANTE ACOLHEDORA DE DESBLOQUEIO ==================== -->
+  <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
+      <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" aria-label="Fechar">
+        ✕
+      </button>
+
+      <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner">
+        <span class="text-3xl">🌱</span>
+      </div>
+
+      <div class="space-y-2">
+        <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">
+          Comunidade Verde • Cabo Frio
+        </span>
+        <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">
+          Que alegria ter você aqui!
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Esta ferramenta faz parte do ambiente de inteligência cívica da <strong>Comunidade Verde</strong>. Queremos construir pontes e transformar Cabo Frio junto com você!
+        </p>
+        <p class="text-xs text-slate-500 leading-relaxed pt-1">
+          Para liberar seu acesso gratuito e imediato a todos os painéis de fiscalização, toque no botão abaixo para receber sua chave de entrada.
+        </p>
+      </div>
+
+      <div class="pt-2 space-y-2.5">
+        <!-- SEU NÚMERO EXCLUSIVO PARA PEDIDOS DE DESBLOQUEIO: 22 99923-1211 -->
+        <a href="https://wa.me/5522999231211?text=Ol%C3%A1!%20Entrei%20no%20Observat%C3%B3rio%20Verde%20(pvcabofrio.vercel.app)%20e%20quero%20fazer%20parte%20da%20Comunidade%20Verde%20para%20desbloquear%20meu%20acesso!" target="_blank" rel="noopener" onclick="closeUnlockModal()" class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all">
+          <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+          Quero fazer parte e desbloquear
+        </a>
+        <button onclick="closeUnlockModal()" class="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors">
+          Voltar para a apresentação
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== JANELA FLUTUANTE DE PESQUISA GLOBAL ==================== -->
   <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
@@ -158,7 +204,7 @@
         </div>
       </section>
 
-      <!-- Apresentação Interativa em 7 Lâminas (Stories) -->
+      <!-- Apresentação Interativa em 7 Lâminas (Stories - Sempre Aberto para Visitantes) -->
       <section class="max-w-xl mx-auto">
         <div class="flex items-center justify-between mb-3 px-1">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
@@ -192,16 +238,19 @@
         </div>
       </section>
 
-      <!-- Os 4 Cartões de Navegação Independentes (TOTALMENTE LIVRES NO MASTER) -->
+      <!-- Os 4 Cartões de Navegação (Com Cadeado para Visitantes até o Desbloqueio) -->
       <section class="pt-4">
         <div class="text-center mb-6">
           <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
-          <p class="text-sm text-slate-600 mt-1">Acesse diretamente cada módulo de fiscalização da Comunidade Verde</p>
+          <p id="status-acesso-texto" class="text-sm text-slate-600 mt-1">
+            Toque em um dos módulos abaixo para solicitar seu acesso à Comunidade Verde
+          </p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           <!-- Módulo 1: Fórum Permanente -->
-          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
             </div>
@@ -213,7 +262,8 @@
           </a>
 
           <!-- Módulo 2: Agenda nos Bairros -->
-          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
@@ -225,7 +275,8 @@
           </a>
 
           <!-- Módulo 3: Orçamento Municipal -->
-          <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
@@ -237,7 +288,8 @@
           </a>
 
           <!-- Módulo 4: Câmara Municipal -->
-          <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
@@ -388,39 +440,8 @@
 
   </main>
 
-  <!-- ==================== SANTINHO DIGITAL FLUTUANTE (COM VÍDEO & LIBERAÇÃO) ==================== -->
-  <div id="santinho-flutuante" class="fixed bottom-4 right-4 z-50 max-w-sm bg-white rounded-3xl shadow-2xl border-2 border-emerald-500 p-5 space-y-4 animate-fade-in no-print">
-    <div class="flex items-center justify-between">
-      <span class="bg-emerald-100 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
-        🌱 Convite Especial
-      </span>
-      <button onclick="fecharSantinho()" class="text-slate-400 hover:text-slate-600 font-bold text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-colors">
-        ✕ Fechar
-      </button>
-    </div>
-
-    <!-- Espaço para o Vídeo Convite -->
-    <div class="rounded-2xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center relative shadow-inner">
-      <iframe class="w-full h-full border-none" src="https://www.youtube.com/embed/SEU_VIDEO_ID" title="Convite Comunidade Verde" allowfullscreen></iframe>
-    </div>
-
-    <div class="space-y-1.5 text-left">
-      <h4 class="text-base font-extrabold text-slate-900">Faça parte da Comunidade Verde!</h4>
-      <p class="text-xs text-slate-600 leading-relaxed">
-        Venha construir pontes com a gente em Cabo Frio. Filie-se ao Partido Verde e participe ativamente das decisões da cidade no link: <strong class="text-emerald-700">pvcabofrio.vercel.app</strong>
-      </p>
-    </div>
-
-    <div class="space-y-2 pt-1">
-      <a href="https://wa.me/5522981255655?text=Olá! Vi o convite no Observatório Verde (pvcabofrio.vercel.app) e quero me filiar ao Partido Verde." target="_blank" rel="noopener" class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-3 rounded-xl shadow transition-all">
-        <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-        Quero me Filiar no WhatsApp
-      </a>
-    </div>
-  </div>
-
   <!-- Rodapé limpo -->
-  <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8 mb-24">
+  <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div class="flex items-center gap-3">
         <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center overflow-hidden">
@@ -440,12 +461,77 @@
 
   <!-- Toast de Notificação -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-emerald-700">
-    Link direto copiado! Pronto para colar nas redes sociais.
+    Link copiado! Pronto para colar no WhatsApp.
   </div>
 
   <script>
-    function fecharSantinho() {
-      document.getElementById('santinho-flutuante').style.display = 'none';
+    // ==================== CONTROLE DE ACESSO E LIBERAÇÃO ====================
+    let isMemberUnlocked = false;
+    const UNLOCK_TOKEN = 'pv-militancia-2026';
+
+    function checkAuthAccess() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+
+      // Verifica se veio pelo link mágico de desbloqueio ou se já está salvo no navegador
+      if (token === UNLOCK_TOKEN || localStorage.getItem('comunidade_verde_unlocked') === 'true') {
+        isMemberUnlocked = true;
+        localStorage.setItem('comunidade_verde_unlocked', 'true');
+
+        // Limpa o token da barra de endereços para ficar visualmente limpo
+        if (token) {
+          window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+        }
+
+        // Remove os cadeados visuais dos cartões
+        document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
+        
+        // Atualiza o subtítulo dos cartões
+        const statusTxt = document.getElementById('status-acesso-texto');
+        if (statusTxt) statusTxt.textContent = 'Acesso liberado • Explore todas as ferramentas da Comunidade Verde';
+
+        // Exibe o botão discreto no topo para você copiar e enviar o Santinho + Vídeo de Desbloqueio
+        const btnSantinho = document.getElementById('btn-copiar-santinho');
+        if (btnSantinho) btnSantinho.classList.remove('hidden');
+      }
+    }
+
+    function openUnlockModal() {
+      document.getElementById('unlock-modal').classList.remove('hidden');
+    }
+
+    function closeUnlockModal() {
+      document.getElementById('unlock-modal').classList.add('hidden');
+    }
+
+    // Função acionada pelo link/botão no topo para você copiar o Santinho com Vídeo e Link de Desbloqueio
+    function copiarSantinhoLiberacao() {
+      const linkDesbloqueio = 'https://pvcabofrio.vercel.app/?token=pv-militancia-2026';
+      const linkVideoConvite = 'SEU_LINK_DO_VIDEO_AQUI'; // Substitua pelo link do seu vídeo no YouTube/Drive/Instagram
+      
+      const mensagemSantinho = 
+`🌱 *Seja muito bem-vindo(a) à Comunidade Verde!*
+
+Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo Frio junto com a gente.
+
+🎥 *Assista ao nosso vídeo de boas-vindas:*
+${linkVideoConvite}
+
+🔓 *Toque no link abaixo para desbloquear seu acesso completo ao Observatório Verde:*
+${linkDesbloqueio}
+
+_(Após abrir o link uma vez, seu celular ficará liberado automaticamente!)_`;
+
+      navigator.clipboard.writeText(mensagemSantinho).then(() => {
+        showToast('🔑 Santinho com vídeo e link de desbloqueio copiado! Cole no WhatsApp.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
     }
 
     // ==================== STORIES (7 LÂMINAS) ====================
@@ -543,10 +629,9 @@
           </div>
           ${slide.isCTA ? `
             <div class="pt-3 relative z-30">
-              <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20em%20pvcabofrio.vercel.app%20e%20quero%20fazer%20parte%20da%204%C2%AA%20Escolha%20na%20Comunidade%20Verde!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-                Entrar no Movimento Comunidade Verde
-              </a>
+              <button onclick="openUnlockModal()" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">
+                🌱 Fazer Parte e Liberar Acesso
+              </button>
             </div>
           ` : ''}
         </div>
@@ -586,6 +671,10 @@
     let cachedForumSearchData = [];
 
     function openGlobalSearch() {
+      if (!isMemberUnlocked) {
+        openUnlockModal();
+        return;
+      }
       const modal = document.getElementById('global-search-modal');
       modal.classList.remove('hidden');
       document.getElementById('global-search-input').focus();
@@ -688,6 +777,7 @@
       }
       if (e.key === 'Escape') {
         closeGlobalSearch();
+        closeUnlockModal();
       }
     });
 
@@ -919,10 +1009,16 @@
         });
     }
 
-    // ==================== ROTEAMENTO ====================
+    // ==================== ROTEAMENTO COM PROTEÇÃO DE ACESSO ====================
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
+      // Se não for a página inicial e o visitante ainda não estiver desbloqueado, exibe a janelinha acolhedora
+      if (viewName !== 'home' && !isMemberUnlocked) {
+        openUnlockModal();
+        return;
+      }
+
       const target = viewName.startsWith('forum-post-') ? 'forum' : (viewName.startsWith('camara-projeto-') ? 'camara' : (views.includes(viewName) ? viewName : 'home'));
       
       views.forEach(v => {
@@ -946,9 +1042,7 @@
 
     function handleHashRoute() {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (hash.startsWith('forum-post-') || hash.startsWith('camara-projeto-')) {
-        navigateTo(hash);
-      } else if (views.includes(hash) && hash !== 'home') {
+      if (hash && hash !== 'home') {
         navigateTo(hash);
       } else {
         navigateTo('home');
@@ -967,14 +1061,13 @@
         }).catch(() => {});
       } else {
         navigator.clipboard.writeText(fullUrl).then(() => {
-          const toast = document.getElementById('toast');
-          toast.classList.remove('hidden');
-          setTimeout(() => toast.classList.add('hidden'), 3000);
+          showToast('Link direto copiado! Pronto para colar nas redes sociais.');
         });
       }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      checkAuthAccess(); // Verifica o token de liberação primeiro
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
