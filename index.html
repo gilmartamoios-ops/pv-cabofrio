@@ -10,13 +10,58 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .story-progress-bar { transition: width 0.1s linear; }
-    .card-hover { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .card-hover:hover { transform: translateY(-4px); }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in { animation: fadeIn 0.35s ease-out forwards; }
-    @media print { header, footer, .no-print { display: none !important; } body { background: white !important; } }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .story-progress-bar {
+      transition: width 0.1s linear;
+    }
+    .card-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.35s ease-out forwards;
+    }
+    .blogger-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      margin: 1rem 0;
+      border: 1px solid #e2e8f0;
+    }
+    .blogger-content iframe,
+    .blogger-content video,
+    .blogger-content .BLOG_video_class {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 320px;
+      border-radius: 1rem;
+      margin: 1rem 0;
+    }
+    .blogger-content p {
+      margin-bottom: 0.85rem;
+      line-height: 1.7;
+    }
+    .blogger-content a {
+      color: #059669;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    @media print {
+      header, footer, .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
@@ -27,7 +72,12 @@
       <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0">
         <div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center shadow-sm overflow-hidden border-2 border-emerald-600 group-hover:scale-105 transition-transform shrink-0">
           <img src="logo.jpg" alt="Logo Oficial Partido Verde" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="hidden w-full h-full items-center justify-center bg-emerald-700 text-white font-extrabold text-sm tracking-tighter">PV</div>
+          <div class="hidden w-full h-full items-center justify-center bg-emerald-700 text-white font-extrabold text-sm tracking-tighter">
+            <svg viewBox="0 0 100 100" class="w-8 h-8">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff" stroke-width="10" stroke-dasharray="235 30" transform="rotate(-20 50 50)"/>
+              <path d="M32 34 L50 70 L68 34" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
         </div>
         <div class="hidden md:block">
           <div class="flex items-center gap-2 flex-wrap">
@@ -38,21 +88,25 @@
         </div>
       </a>
 
-      <!-- Pesquisa Global -->
+      <!-- Botão de Acionamento da Pesquisa Global -->
       <div class="flex-1 max-w-sm">
         <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
-          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
           <span class="truncate">Pesquisar pautas, leis...</span>
+          <span class="ml-auto hidden lg:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
         </button>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- MENU MESTRE SUSPENSO (Exclusivo para o Master) -->
+        <!-- MENU MESTRE SUSPENSO (Exclusivo para o Master - aparece apenas quando desbloqueado) -->
         <div id="master-menu-container" class="relative hidden">
           <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
             <span>⚙️ Gestão Master</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </button>
+          
           <div id="master-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-emerald-100 hidden py-2 z-50 animate-fade-in">
             <button onclick="copiarSantinhoLiberacao(); toggleMasterDropdown();" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors">
               <span>🔑</span> Copiar Santinho Digital
@@ -63,14 +117,16 @@
           </div>
         </div>
 
+        <!-- Botão Participar (Número do Presidente mantido intacto) -->
         <a href="https://wa.me/5522981255655?text=Ol%C3%A1!%20Quero%20participar%20do%20movimento%20Comunidade%20Verde%20em%20Cabo%20Frio." target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-full shadow-sm transition-all">
-          Participar
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+          <span class="hidden sm:inline">Participar</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- ==================== TELA DE ACEITE DO SANTINHO (QUANDO O MEMBRO CLICA NO LINK QUE VOCÊ ENVIOU) ==================== -->
+  <!-- ==================== TELA DE ACEITE DO SANTINHO (CADASTRO AUTOMÁTICO DO MEMBRO) ==================== -->
   <div id="view-aceite-santinho" class="hidden max-w-lg mx-auto px-4 py-12 animate-fade-in">
     <div class="bg-white rounded-3xl shadow-2xl border border-emerald-200 p-8 text-center space-y-6">
       <div class="w-20 h-20 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner text-3xl">
@@ -102,7 +158,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL DE CRM / LISTA DE CADASTRO (PARA VOCÊ GERENCIAR) ==================== -->
+  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM (EXCLUSIVO MESTRE) ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
@@ -115,7 +171,7 @@
 
       <div class="p-6 overflow-y-auto space-y-6">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 uppercase">Membros Cadastrados (<span id="total-membros">0</span>)</span>
+          <span class="text-xs font-bold text-slate-500 uppercase">Membros na Base (<span id="total-membros">0</span>)</span>
           <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3.5 py-2 rounded-xl transition-colors">
             📥 Baixar Planilha (CSV)
           </button>
@@ -140,71 +196,275 @@
     </div>
   </div>
 
-  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO ==================== -->
+  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO (COM ATALHO SECRETO NO X) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
+      <!-- O botão "X" secreto para liberação master ao segurar Ctrl ou clicar 3 vezes -->
       <button onclick="handleSecretUnlock(event)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
+
       <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner"><span class="text-3xl">🌱</span></div>
+      
       <div class="space-y-2">
         <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
         <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Faça parte da Comunidade Verde!</h3>
-        <p class="text-sm text-slate-600 leading-relaxed">Este painel de controle e fiscalização exige integração com o movimento. Solicite seu acesso ao gestor.</p>
+        <p class="text-sm text-slate-600 leading-relaxed">Este painel de controle e fiscalização exige integração com o movimento. Queremos construir pontes e transformar Cabo Frio junto com você!</p>
+        <p class="text-xs text-slate-500 leading-relaxed pt-1">Toque no botão abaixo para enviar sua solicitação de acesso diretamente ao gestor.</p>
       </div>
+
       <div class="pt-2 space-y-2.5">
-        <a href="https://wa.me/5522999231211?text=Olá! Entrei no Observatório Verde e quero fazer parte da Comunidade Verde para desbloquear meu acesso!" target="_blank" rel="noopener" onclick="closeUnlockModal()" class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg transition-all">
+        <a href="https://wa.me/5522999231211?text=Olá! Entrei no Observatório Verde e quero fazer parte da Comunidade Verde para desbloquear meu acesso!" target="_blank" rel="noopener" onclick="closeUnlockModal()" class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all">
           Quero fazer parte e desbloquear
         </a>
-        <button onclick="closeUnlockModal()" class="text-xs font-semibold text-slate-400 hover:text-slate-600">Continuar navegando</button>
+        <button onclick="closeUnlockModal()" class="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors">Continuar navegando</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JANELA FLUTUANTE DE PESQUISA GLOBAL ==================== -->
+  <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[80vh]">
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
+        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="global-search-input" oninput="runGlobalSearch()" placeholder="Busque posts, leis, orçamento ou qualquer termo na web..." class="w-full bg-transparent text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none font-medium" autofocus/>
+        <button onclick="closeGlobalSearch()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl transition-colors">ESC</button>
+      </div>
+      <div id="global-search-results" class="p-4 sm:p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
+        <div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar no Observatório Verde ou na web.</div>
       </div>
     </div>
   </div>
 
   <main id="main-content" class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+    <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
-      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] flex items-end">
-        <img src="capa.jpg" alt="Capa" class="absolute inset-0 w-full h-full object-cover opacity-85" />
+
+      <!-- Banner Principal (Com o título do Observatório Verde no rodapé do banner) -->
+      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] sm:min-h-[400px] flex items-end">
+        <img src="capa.jpg" alt="Observatório Verde • Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"></div>
-        <div class="relative z-10 p-6 sm:p-10 w-full flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+
+        <div class="relative z-10 p-6 sm:p-10 w-full text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div class="max-w-2xl space-y-2">
-            <h1 class="text-2xl sm:text-4xl font-extrabold text-white">Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span></h1>
-            <p class="text-xs sm:text-sm text-white/95">Conheça o movimento Comunidade Verde e a 4ª Escolha para Cabo Frio.</p>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
+              Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-white/95 font-medium leading-relaxed drop-shadow">
+              Conheça o movimento <strong class="text-emerald-300 font-extrabold">Comunidade Verde</strong> e a <strong class="text-amber-300 font-extrabold">4ª Escolha</strong> para Cabo Frio: inteligência cívica e participação popular.
+            </p>
           </div>
-          <span class="bg-emerald-600 text-white text-[11px] font-extrabold uppercase px-4 py-2 rounded-xl shadow">Observatório Verde</span>
+          <div class="shrink-0">
+            <span class="inline-block bg-emerald-600 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-2 rounded-xl shadow-lg border border-emerald-500">
+              Observatório Verde • Plataforma de Controle Social
+            </span>
+          </div>
         </div>
       </section>
 
-      <!-- Cartões de Navegação -->
+      <!-- Apresentação Interativa em 7 Lâminas (Stories) -->
+      <section class="max-w-xl mx-auto">
+        <div class="flex items-center justify-between mb-3 px-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Toque nas laterais para avançar ou voltar
+          </span>
+          <button id="btn-pause" onclick="togglePause()" class="text-xs font-semibold text-slate-600 hover:text-emerald-800 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-sm">Pausar</button>
+        </div>
+
+        <div class="relative bg-white rounded-3xl shadow-md border border-emerald-100/80 overflow-hidden min-h-[390px] sm:min-h-[410px] flex flex-col justify-between p-6 sm:p-8 select-none">
+          <div id="progress-container" class="grid grid-cols-7 gap-1.5 mb-6 z-20 relative"></div>
+          <div onclick="prevSlide()" class="absolute inset-y-12 left-0 w-1/3 z-10 cursor-pointer" title="Anterior"></div>
+          <div onclick="nextSlide()" class="absolute inset-y-12 right-0 w-2/3 z-10 cursor-pointer" title="Próximo"></div>
+          <div id="slide-content" class="relative z-0 flex-1 flex flex-col justify-center"></div>
+          <div class="relative z-20 pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+            <span id="slide-counter" class="text-xs font-bold text-slate-400">1 / 7</span>
+            <div class="flex items-center gap-2">
+              <button onclick="prevSlide()" class="p-2 rounded-full bg-slate-100 hover:bg-emerald-100 text-slate-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+              <button onclick="nextSlide()" class="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Os 4 Cartões de Navegação -->
       <section class="pt-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
-            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">📊</div>
+        <div class="text-center mb-6">
+          <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
+          <p class="text-sm text-slate-600 mt-1">Acesse os debates livres ou solicite liberação para os painéis de controle</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+            </div>
             <div>
-              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800">Orçamento Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1">Painel de receitas, royalties e execução orçamentária.</p>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Blog & Artigos</span>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">Fórum Permanente</h3>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial do movimento com postagens independentes, vídeos e propostas populares.</p>
             </div>
           </a>
-          <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
-            <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">🏛️</div>
+
+          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
             <div>
-              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800">Câmara Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1">Acompanhamento de projetos e votações nominais.</p>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Mobilização Local</span>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-amber-800 transition-colors">Agenda nos Bairros</h3>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Calendário vivo das plenárias, reuniões comunitárias e visitas técnicas em Cabo Frio.</p>
+            </div>
+          </a>
+
+          <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Contas Públicas</span>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">Orçamento Municipal</h3>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e acompanhamento detalhado da execução orçamentária.</p>
+            </div>
+          </a>
+
+          <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-sky-600">Leis & Fiscalização</span>
+              <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800 transition-colors">Câmara Municipal</h3>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, produtividade dos vereadores e votações nominais.</p>
             </div>
           </a>
         </div>
       </section>
     </div>
+
+    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOGGER) ==================== -->
+    <section id="view-forum" class="hidden space-y-6 animate-fade-in">
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
+        <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Voltar ao Observatório Verde
+        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">🖨️ Imprimir</button>
+          <button onclick="shareSection('forum', 'Fórum Permanente - Observatório Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">🔗 Compartilhar Fórum</button>
+        </div>
+      </div>
+      <div class="bg-emerald-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Movimento Comunidade Verde</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Artigos, Pautas e Debates da Cidade</h2>
+        <p class="text-sm text-emerald-100 mt-1">Publicações oficiais do movimento. Compartilhe cada pauta diretamente nas redes sociais.</p>
+      </div>
+      <div class="space-y-6" id="blogger-posts-container">
+        <div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-500 text-sm font-medium animate-pulse">Carregando publicações oficiais da Comunidade Verde...</div>
+      </div>
+    </section>
+
+    <!-- ==================== SEÇÃO 2: AGENDA DOS BAIRROS ==================== -->
+    <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
+        <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Voltar ao Observatório Verde
+        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">🖨️ Imprimir</button>
+          <button onclick="shareSection('agenda', 'Agenda nos Bairros - Observatório Verde')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 px-3 py-2 rounded-xl border border-amber-200 transition-colors">🔗 Compartilhar Agenda</button>
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-amber-100 shadow-sm space-y-6">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
+          <div>
+            <span class="inline-flex items-center gap-1.5 bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
+              <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span> Agenda Viva • Sincronizada em Tempo Real
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Agenda nos Bairros</h2>
+            <p class="text-sm text-slate-600 mt-1">Acompanhe as plenárias, reuniões comunitárias e visitas técnicas do movimento em Cabo Frio.</p>
+          </div>
+          <a href="https://wa.me/5522981255655?text=Olá! Quero sugerir uma reunião da Comunidade Verde no meu bairro:" target="_blank" rel="noopener" class="no-print inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-full shadow-sm transition-all">Sugerir Encontro no Meu Bairro</a>
+        </div>
+        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white">
+          <iframe src="https://calendar.google.com/calendar/embed?mode=AGENDA&height=500&wkst=1&ctz=America%2FSao_Paulo&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&src=b773f89445967f5b72e8aa4c9090ecca528430625d53b4c5da8ae71b8f1517f8%40group.calendar.google.com&color=%230B8043" class="w-full h-[500px] border-none" frameborder="0" scrolling="no" title="Agenda Oficial Comunidade Verde Cabo Frio"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL ==================== -->
+    <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
+        <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Voltar ao Observatório Verde
+        </button>
+      </div>
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Controle Social • Planilha Oficial de Receitas</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Orçamento Municipal (Entradas)</h2>
+          <p class="text-sm text-slate-600 mt-1">Discriminação oficial das fontes de receita, royalties e repasses atualizados em tempo real.</p>
+        </div>
+        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+          <iframe class="w-full h-[550px] border-none" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pubhtml?widget=true&amp;headers=false" title="Orçamento Municipal Cabo Frio"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
+    <section id="view-camara" class="hidden space-y-6 animate-fade-in">
+      <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
+        <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Voltar ao Observatório Verde
+        </button>
+      </div>
+      <div class="bg-sky-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-sky-700 px-3 py-1 rounded-full">Legislativo & Controle Social • Observatório Verde</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Monitoramento da Câmara Municipal</h2>
+        <p class="text-sm text-sky-100 mt-1">Acompanhe a produção legislativa, o tradutor cidadão de pautas e o voto nominal de cada vereador de Cabo Frio.</p>
+      </div>
+      <div id="camara-ranking-container" class="bg-white rounded-3xl border border-sky-100 p-6 sm:p-8 shadow-sm">
+        <div class="border-b border-slate-100 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-sky-700 bg-sky-50 px-3 py-1 rounded-full">Ranking Full Time</span>
+            <h3 class="text-xl font-extrabold text-slate-900 mt-2">Produtividade Legislativa do Mês</h3>
+          </div>
+        </div>
+        <div id="ranking-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div class="text-slate-500 text-xs py-4 text-center col-span-full animate-pulse">Calculando produção dos vereadores...</div>
+        </div>
+      </div>
+      <div class="space-y-6" id="camara-posts-container">
+        <div class="bg-white rounded-3xl border border-sky-100 p-10 text-center text-slate-500 text-sm font-medium animate-pulse">Carregando atos legislativos e votações nominais...</div>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8 text-center text-xs text-slate-400">
-    &copy; 2026 Observatório Verde • Todos os direitos reservados.
+  <!-- Rodapé limpo -->
+  <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center overflow-hidden text-white font-bold text-xs">PV</div>
+        <div>
+          <p class="text-sm font-extrabold text-emerald-950">Observatório Verde • Movimento Comunidade Verde (PV Cabo Frio)</p>
+          <p class="text-xs text-slate-500">Enquanto constroem muros, nós escolhemos construir pontes.</p>
+        </div>
+      </div>
+      <p class="text-xs text-slate-400">&copy; 2026 Observatório Verde • Todos os direitos reservados.</p>
+    </div>
   </footer>
 
-  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl"></div>
+  <!-- Toast de Notificação -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-emerald-700"></div>
 
   <script>
     let isMemberUnlocked = false;
+    const UNLOCK_TOKEN = 'pv-militancia-2026';
     let baseMembros = JSON.parse(localStorage.getItem('comunidade_verde_base') || '[]');
 
     function checkAuthAccess() {
@@ -219,11 +479,15 @@
       }
 
       const token = urlParams.get('token');
-      if (token === 'pv-militancia-2026' || localStorage.getItem('comunidade_verde_unlocked') === 'true') {
+      if (token === UNLOCK_TOKEN || localStorage.getItem('comunidade_verde_unlocked') === 'true') {
         unlockMasterAccess();
+        if (token) {
+          window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+        }
       }
     }
 
+    // CADASTRO AUTOMÁTICO SÓ OCORRE QUANDO O MEMBRO CLICA NO ACEITE DO SANTINHO!
     function confirmarAceiteSantinho() {
       const nome = document.getElementById('aceite-nome').value.trim();
       const zap = document.getElementById('aceite-zap').value.trim();
@@ -233,7 +497,6 @@
         return;
       }
 
-      // CADASTRA AUTOMATICAMENTE NA BASE AO CLICAR NO ACEITE DO SANTINHO!
       const novo = {
         id: Date.now(),
         nome,
@@ -254,12 +517,25 @@
       isMemberUnlocked = true;
       localStorage.setItem('comunidade_verde_unlocked', 'true');
       document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
-      document.getElementById('master-menu-container').classList.remove('hidden');
+      
+      const masterMenu = document.getElementById('master-menu-container');
+      if (masterMenu) masterMenu.classList.remove('hidden');
+
+      showToast('🔑 Acesso Mestre e Gestão Master liberados!');
     }
 
     function toggleMasterDropdown() {
-      document.getElementById('master-dropdown').classList.toggle('hidden');
+      const dropdown = document.getElementById('master-dropdown');
+      if (dropdown) dropdown.classList.toggle('hidden');
     }
+
+    window.addEventListener('click', (e) => {
+      const menu = document.getElementById('master-menu-container');
+      const dropdown = document.getElementById('master-dropdown');
+      if (menu && dropdown && !menu.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
 
     function handleSecretUnlock(event) {
       if (event.ctrlKey || event.metaKey || ++window.secretClicks >= 3) {
@@ -274,6 +550,7 @@
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
+    // Janela independente de cadastro
     function abrirModalCadastro() {
       document.getElementById('modal-cadastro').classList.remove('hidden');
       renderizarTabelaMembros();
@@ -286,51 +563,56 @@
         membro.status = membro.status.includes('Filiado') ? 'Membro da Comunidade Verde' : 'Filiado (Osmose/Partido)';
         localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
         renderizarTabelaMembros();
+        showToast(`🔄 Status alterado para: ${membro.status}`);
       }
     }
 
     function excluirMembro(id) {
-      if (confirm('Remover membro?')) {
+      if (confirm('Deseja realmente remover este membro da base?')) {
         baseMembros = baseMembros.filter(m => m.id !== id);
         localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
         renderizarTabelaMembros();
+        showToast('🗑️ Membro removido da base.');
       }
     }
 
     function renderizarTabelaMembros() {
       const tbody = document.getElementById('tabela-membros-body');
       document.getElementById('total-membros').textContent = baseMembros.length;
+
       if (baseMembros.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Nenhum membro cadastrado via santinho ainda.</td></tr>`;
         return;
       }
+
       tbody.innerHTML = baseMembros.map(m => `
-        <tr class="hover:bg-slate-50">
+        <tr class="hover:bg-slate-50 transition-colors">
           <td class="p-3 font-bold text-slate-900">${m.nome}</td>
           <td class="p-3"><a href="https://wa.me/55${m.zap.replace(/\D/g, '')}" target="_blank" class="text-emerald-700 font-bold">${m.zap} ↗</a></td>
-          <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${m.status.includes('Filiado') ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-900'}">${m.status}</span></td>
+          <td class="p-3"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${m.status.includes('Filiado') ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-200'}">${m.status}</span></td>
           <td class="p-3 text-[11px] text-slate-500">${m.data}</td>
-          <td class="p-3 text-center space-x-1">
-            <button onclick="alterarStatusMembro(${m.id})" class="text-[11px] font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded">Alternar Status</button>
-            <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 text-rose-700 px-2 py-1 rounded">Excluir</button>
+          <td class="p-3 text-center space-x-1.5">
+            <button onclick="alterarStatusMembro(${m.id})" class="text-[11px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-lg transition-colors">Alternar Status</button>
+            <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2 py-1 rounded-lg transition-colors">Excluir</button>
           </td>
         </tr>
       `).join('');
     }
 
     function exportarCadastroCSV() {
-      if (baseMembros.length === 0) { alert('Sem membros.'); return; }
+      if (baseMembros.length === 0) { showToast('⚠️ Não há membros para exportar.'); return; }
       let csv = 'Nome,WhatsApp,Status,Data\n';
       baseMembros.forEach(m => { csv += `"${m.nome}","${m.zap}","${m.status}","${m.data}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = 'membros_comunidade_verde.csv';
       a.click();
+      showToast('📥 Lista exportada com sucesso!');
     }
 
     function copiarSantinhoLiberacao() {
-      // O link enviado no santinho agora aponta direto para a tela de aceite e cadastro do novo membro!
       const linkSantinhoAceite = 'https://pvcabofrio.vercel.app/?action=aceite';
       const linkVideoConvite = 'https://www.youtube.com/watch?v=SEU_VIDEO_ID';
       
@@ -346,19 +628,282 @@ ${linkVideoConvite}
 ${linkSantinhoAceite}`;
 
       navigator.clipboard.writeText(mensagemSantinho).then(() => {
-        alert('🔑 Santinho com formulário de aceite copiado para o WhatsApp!');
+        showToast('🔑 Santinho com formulário de aceite copiado para o WhatsApp!');
       });
     }
 
-    function navigateTo(v) {
-      if ((v === 'orcamento' || v === 'camara') && !isMemberUnlocked) {
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+
+    // Stories (7 Lâminas)
+    const slides = [
+      { tag: "1 • A Força da Comunidade", title: "A humanidade não venceu pela força, mas pela união.", text: "Não sobrevivemos por sermos mais rápidos que os predadores, mas porque aprendemos a resolver problemas em comunidade. Quem não se organiza entrega o próprio futuro na mão do governante.", highlight: "Quem não cobra, apenas aceita.", badgeColor: "bg-emerald-100 text-emerald-800" },
+      { tag: "2 • Centro x Tamoios", title: "Uma cidade dividida não avança por inteiro.", text: "Tamoios é a porta de entrada do Norte Fluminense e gerou cerca de R$ 1 bilhão só em royalties nos últimos 4 anos, mas segue sem infraestrutura básica enquanto o abismo entre Centro e distrito só cresce.", highlight: "~R$ 1 Bilhão em royalties gerados", badgeColor: "bg-amber-100 text-amber-900" },
+      { tag: "3 • Economia & Petróleo", title: "Cabo Frio precisa entrar na cadeia logística do petróleo.", text: "Enquanto cidades vizinhas atraem empresas e empregos qualificados do setor offshore, ficamos presos apenas ao turismo sazonal e à especulação imobiliária — ignorando até nossa imensa área rural produtora de alimentos.", highlight: "Emprego o ano inteiro, não só no verão.", badgeColor: "bg-teal-100 text-teal-900" },
+      { tag: "4 • A Contradição do IBGE", title: "Cidade rica de orçamento, mas povo com renda baixa.", text: "Com mais de 230 mil habitantes, Cabo Frio tem PIB per capita de R$ 76.000/ano, mas a renda média do trabalhador é de apenas R$ 2.600/mês. É o retrato de governos que não priorizam o cidadão.", highlight: "PIB R$ 76 mil/ano vs. Renda R$ 2.600/mês", badgeColor: "bg-rose-100 text-rose-900" },
+      { tag: "5 • Controle Social no Celular", title: "O orçamento público fiscalizado na palma da sua mão.", text: "No Observatório Verde, você recebe direto no celular os dados de receitas, convênios e emendas, acompanha onde cada centavo é aplicado e ajuda a construir leis de iniciativa popular.", highlight: "Transparência real em tempo real.", badgeColor: "bg-sky-100 text-sky-900" },
+      { tag: "6 • Os 3 Caminhos do Atraso", title: "Chega de ficar preso entre extremos ou em cima do muro.", text: "De um lado, a bolha da direita; do outro, a bolha da esquerda; e no meio, a postura irresponsável de quem se omite. Nenhum desses três caminhos resolveu os problemas reais de Cabo Frio.", highlight: "Não somos uma 4ª bolha.", badgeColor: "bg-slate-200 text-slate-800" },
+      { tag: "7 • A 4ª Escolha", title: "Enquanto constroem muros, nós escolhemos construir pontes.", text: "A 4ª Escolha é o encontro de quem ama Cabo Frio e quer fiscalizar, propor e transformar a cidade com seriedade e participação popular.", highlight: "Venha construir essa ponte com a gente!", isCTA: true, badgeColor: "bg-emerald-600 text-white" }
+    ];
+
+    let currentSlide = 0;
+    let isPaused = false;
+    let progress = 0;
+    let timerInterval = null;
+
+    function renderProgressBars() {
+      const container = document.getElementById('progress-container');
+      container.innerHTML = slides.map((_, i) => `
+        <div class="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="bar-${i}" class="story-progress-bar h-full bg-emerald-600" style="width: ${i < currentSlide ? '100%' : '0%'}"></div>
+        </div>
+      `).join('');
+    }
+
+    function showSlide(index) {
+      currentSlide = index;
+      progress = 0;
+      renderProgressBars();
+      const slide = slides[currentSlide];
+      const content = document.getElementById('slide-content');
+      document.getElementById('slide-counter').textContent = `${currentSlide + 1} / ${slides.length}`;
+      content.innerHTML = `
+        <div class="space-y-4 animate-fade-in">
+          <span class="inline-block ${slide.badgeColor} text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">${slide.tag}</span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${slide.title}</h3>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">${slide.text}</p>
+          <div class="pt-2"><span class="inline-block bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl">${slide.highlight}</span></div>
+          ${slide.isCTA ? `<div class="pt-3 relative z-30"><button onclick="openUnlockModal()" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">🌱 Fazer Parte e Liberar Acesso</button></div>` : ''}
+        </div>
+      `;
+    }
+
+    function nextSlide() { showSlide((currentSlide + 1) % slides.length); }
+    function prevSlide() { showSlide((currentSlide - 1 + slides.length) % slides.length); }
+    function togglePause() { isPaused = !isPaused; document.getElementById('btn-pause').textContent = isPaused ? 'Continuar' : 'Pausar'; }
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (isPaused) return;
+        progress += 1.5;
+        const bar = document.getElementById(`bar-${currentSlide}`);
+        if (bar) bar.style.width = `${Math.min(progress, 100)}%`;
+        if (progress >= 100) nextSlide();
+      }, 100);
+    }
+
+    // Pesquisa Global
+    let cachedCamaraSearchData = [];
+    let cachedForumSearchData = [];
+
+    function openGlobalSearch() {
+      const modal = document.getElementById('global-search-modal');
+      modal.classList.remove('hidden');
+      document.getElementById('global-search-input').focus();
+    }
+    function closeGlobalSearch() { document.getElementById('global-search-modal').classList.add('hidden'); }
+
+    function runGlobalSearch() {
+      const query = document.getElementById('global-search-input').value.toLowerCase().trim();
+      const resultsContainer = document.getElementById('global-search-results');
+      if (!query) { resultsContainer.innerHTML = `<div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar.</div>`; return; }
+
+      let matches = [];
+      cachedCamaraSearchData.forEach(item => {
+        if (item.text.includes(query)) matches.push({ type: '🏛️ Câmara Municipal', badgeColor: 'bg-sky-100 text-sky-800', title: item.title, desc: item.desc, action: () => { navigateTo('camara'); setTimeout(() => { const el = document.getElementById(item.id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 200); } });
+      });
+      cachedForumSearchData.forEach(item => {
+        if (item.text.includes(query)) matches.push({ type: '💬 Fórum Permanente', badgeColor: 'bg-emerald-100 text-emerald-800', title: item.title, desc: item.desc, action: () => { navigateTo(item.id); } });
+      });
+
+      let htmlOutput = '';
+      if (matches.length > 0) {
+        htmlOutput += matches.map(m => `
+          <div onclick="closeGlobalSearch(); (${m.action.toString()})();" class="p-3 hover:bg-slate-50 rounded-2xl cursor-pointer transition-colors space-y-1">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${m.badgeColor}">${m.type}</span>
+            <h4 class="text-sm font-extrabold text-slate-900">${m.title}</h4>
+            <p class="text-xs text-slate-600 line-clamp-1">${m.desc}</p>
+          </div>
+        `).join('');
+      } else {
+        htmlOutput = `<div class="text-center text-slate-400 text-xs py-4">Nenhum resultado interno encontrado.</div>`;
+      }
+      resultsContainer.innerHTML = htmlOutput;
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openGlobalSearch(); }
+      if (e.key === 'Escape') { closeGlobalSearch(); closeUnlockModal(); }
+    });
+
+    // Blogger Feed
+    function renderBloggerPosts(data) {
+      const container = document.getElementById('blogger-posts-container');
+      const entries = data.feed.entry || [];
+      cachedForumSearchData = [];
+      if (entries.length === 0) { container.innerHTML = `<div class="bg-white rounded-3xl border border-emerald-100 p-10 text-center text-slate-600 text-sm">Nenhuma postagem publicada ainda no blog.</div>`; return; }
+
+      container.innerHTML = entries.map((entry, index) => {
+        const title = entry.title.$t;
+        const contentHtml = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
+        const rawDate = new Date(entry.published.$t);
+        const formattedDate = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+        const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Comunidade Verde';
+        const postId = `forum-post-${index}`;
+
+        cachedForumSearchData.push({ id: postId, title: title, desc: contentHtml.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...', text: `${title} ${contentHtml} ${category}`.toLowerCase() });
+
+        return `
+          <article id="${postId}" class="bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden scroll-mt-24">
+            <div class="bg-emerald-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+              <span>${category}</span><span>Publicado em ${formattedDate}</span>
+            </div>
+            <div class="p-6 sm:p-8 space-y-4">
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${title}</h3>
+              <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">${contentHtml}</div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function loadBloggerFeed() {
+      const script = document.createElement('script');
+      script.src = 'https://comuniverde.blogspot.com/feeds/posts/default?alt=json-in-script&max-results=10&callback=renderBloggerPosts';
+      document.body.appendChild(script);
+    }
+
+    // Câmara CSV Parser & Ranking
+    function parseCSV(text) {
+      let lines = []; let row = ['']; let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        let c = text[i], nextC = text[i+1];
+        if (c === '"') {
+          if (inQuotes && nextC === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; }
+        } else if (c === ',' && !inQuotes) { row.push(''); }
+        else if ((c === '\r' || c === '\n') && !inQuotes) {
+          if (c === '\r' && nextC === '\n') { i++; } lines.push(row); row = [''];
+        } else { row[row.length - 1] += c; }
+      }
+      if (row.length > 1 || row[0] !== '') lines.push(row);
+      return lines;
+    }
+
+    function loadCamaraData() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXyT9x0iqOGlzBu55oafDO1rYwJng82EPdV3xbnNjiIAW_Iegys1fvr8KFKSPVpwl7uSkIypGChtRP/pub?output=csv';
+      fetch(csvUrl)
+        .then(response => response.text())
+        .then(csvText => {
+          const rows = parseCSV(csvText);
+          const container = document.getElementById('camara-posts-container');
+          const rankingContainer = document.getElementById('ranking-list');
+          cachedCamaraSearchData = [];
+          if (rows.length < 2) return;
+
+          const headers = rows[0]; const dataRows = rows.slice(1); const councillors = headers.slice(6);
+          const normalizeStr = (str) => str.toLowerCase().replace(/[^a-z0-9áéíóúãõâêôç]/g, '');
+          const productionCounts = {}; councillors.forEach(cName => { productionCounts[cName] = 0; });
+
+          dataRows.forEach(row => {
+            const authorNorm = normalizeStr(row[3] || '');
+            if (!authorNorm) return;
+            councillors.forEach(cName => {
+              const firstNamePart = normalizeStr(cName.split('-')[0]);
+              if (firstNamePart && authorNorm.includes(firstNamePart)) productionCounts[cName]++;
+            });
+          });
+
+          const sortedRanking = councillors.map(cName => ({ name: cName, count: productionCounts[cName] })).sort((a, b) => b.count - a.count);
+          rankingContainer.innerHTML = sortedRanking.map((item, idx) => `
+            <div class="bg-sky-50/70 border border-sky-100 rounded-2xl p-3 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-sky-700 text-white font-extrabold text-xs flex items-center justify-center shrink-0">${idx + 1}º</span>
+                <span class="text-xs font-bold text-slate-800 truncate max-w-[140px] sm:max-w-[180px]">${item.name}</span>
+              </div>
+              <span class="bg-sky-600 text-white text-xs font-extrabold px-2.5 py-1 rounded-xl shrink-0">${item.count} proposições</span>
+            </div>
+          `).join('');
+
+          container.innerHTML = dataRows.map((row, index) => {
+            const [date, atoLegislativo, project, author, context, status] = row;
+            if (!project) return '';
+            const voteCounts = { Sim: 0, Não: 0, Abstenção: 0, Ausente: 0 };
+            const votesByCat = { Sim: [], Não: [], Abstenção: [], Ausente: [] };
+
+            councillors.forEach((cName, cIdx) => {
+              const voteVal = (row[6 + cIdx] || '').trim().toLowerCase();
+              if (voteVal.includes('sim')) { voteCounts.Sim++; votesByCat.Sim.push(cName); }
+              else if (voteVal.includes('não') || voteVal.includes('nao')) { voteCounts.Não++; votesByCat.Não.push(cName); }
+              else if (voteVal.includes('abstenção') || voteVal.includes('abstencao')) { voteCounts.Abstenção++; votesByCat.Abstenção.push(cName); }
+              else if (voteVal.includes('ausente')) { voteCounts.Ausente++; votesByCat.Ausente.push(cName); }
+            });
+
+            const cardId = `camara-projeto-${index}`;
+            cachedCamaraSearchData.push({ id: cardId, title: `${atoLegislativo} - ${project}`, desc: `Autor: ${author} | Contexto: ${context}`, text: `${date} ${atoLegislativo} ${project} ${author} ${context} ${status}`.toLowerCase() });
+
+            return `
+              <article id="${cardId}" class="bg-white rounded-3xl border border-sky-100 shadow-sm overflow-hidden scroll-mt-24">
+                <div class="bg-sky-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+                  <span>${atoLegislativo || 'Ato'} • Autor: ${author || 'Não informado'}</span>
+                  <span>${date || ''} • Status: ${status || 'Em Tramitação'}</span>
+                </div>
+                <div class="p-6 sm:p-8 space-y-5">
+                  <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${project}</h3>
+                  <div class="bg-sky-50/60 border border-sky-100 p-4 sm:p-5 rounded-2xl space-y-2">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-sky-800 bg-sky-200/60 px-2.5 py-0.5 rounded-md">Tradutor Cidadão • O Contexto Real</span>
+                    <p class="text-slate-700 text-sm sm:text-base leading-relaxed">${context || 'Contexto em análise.'}</p>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2 pt-2">
+                    <span class="bg-emerald-100 text-emerald-900 font-bold text-xs px-3 py-1.5 rounded-xl">🟢 Sim: ${voteCounts.Sim}</span>
+                    <span class="bg-rose-100 text-rose-900 font-bold text-xs px-3 py-1.5 rounded-xl">🔴 Não: ${voteCounts.Não}</span>
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1.5 rounded-xl">🟡 Abstenção: ${voteCounts.Abstenção}</span>
+                    <span class="bg-slate-100 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-xl">⚪ Ausente: ${voteCounts.Ausente}</span>
+                  </div>
+                  <div class="border-t border-slate-100 pt-4">
+                    <details class="group">
+                      <summary class="cursor-pointer text-xs font-bold uppercase tracking-wider text-sky-700 hover:text-sky-900 flex items-center gap-2 select-none">▼ Ver Votação Nominal Completa</summary>
+                      <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-emerald-50/60 p-3 rounded-xl border border-emerald-100"><strong class="text-emerald-900 block mb-1">SIM (${votesByCat.Sim.length}):</strong><span>${votesByCat.Sim.join(', ') || 'Nenhum'}</span></div>
+                        <div class="bg-rose-50/60 p-3 rounded-xl border border-rose-100"><strong class="text-rose-900 block mb-1">NÃO (${votesByCat.Não.length}):</strong><span>${votesByCat.Não.join(', ') || 'Nenhum'}</span></div>
+                        <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-100"><strong class="text-amber-900 block mb-1">ABSTENÇÕES (${votesByCat.Abstenção.length}):</strong><span>${votesByCat.Abstenção.join(', ') || 'Nenhuma'}</span></div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200"><strong class="text-slate-800 block mb-1">AUSENTES (${votesByCat.Ausente.length}):</strong><span>${votesByCat.Ausente.join(', ') || 'Nenhum'}</span></div>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join('');
+        }).catch(err => console.error(err));
+    }
+
+    // Roteamento
+    const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
+
+    function navigateTo(viewName) {
+      if ((viewName === 'orcamento' || viewName === 'camara') && !isMemberUnlocked) {
         openUnlockModal();
         return;
       }
+      const target = viewName.startsWith('forum-post-') ? 'forum' : (viewName.startsWith('camara-projeto-') ? 'camara' : (views.includes(viewName) ? viewName : 'home'));
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.toggle('hidden', v !== target);
+      });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.addEventListener('DOMContentLoaded', checkAuthAccess);
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAuthAccess();
+      showSlide(currentSlide);
+      startTimer();
+      loadBloggerFeed();
+      loadCamaraData();
+    });
   </script>
 </body>
 </html>
