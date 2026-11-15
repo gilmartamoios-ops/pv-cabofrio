@@ -264,7 +264,7 @@
     </div>
   </div>
 
-  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO (Basta um toque/clique em qualquer lugar da janela para liberar) ==================== -->
+  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO (Toque em qualquer lugar para liberar) ==================== -->
   <div id="unlock-modal" onclick="unlockMasterAccess(event)" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in cursor-pointer">
     <div onclick="event.stopPropagation()" class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative cursor-default">
       <button onclick="unlockMasterAccess(event)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Liberar Master">✕</button>
@@ -559,7 +559,7 @@
       }
     }
 
-    // CADASTRO AUTOMÁTICO AO CONFIRMAR O ACEITE DO SANTINHO (COM BAIRRO PARA 2028!)
+    // CADASTRO AUTOMÁTICO AO CONFIRMAR O ACEITE DO SANTINHO (COM BAIRRO)
     function confirmarAceiteSantinho() {
       const nome = document.getElementById('aceite-nome').value.trim();
       const zap = document.getElementById('aceite-zap').value.trim();
@@ -725,21 +725,18 @@
 
     function copiarSantinhoLiberacao() {
       const linkSantinhoAceite = 'https://pvcabofrio.vercel.app/?action=aceite';
-      const linkVideoConvite = 'https://www.youtube.com/watch?v=SEU_VIDEO_ID';
       
+      // MENSAGEM LIMPA DO SANTINHO (SEM VÍDEO)
       const mensagemSantinho = 
 `🌱 *Seja muito bem-vindo(a) à Comunidade Verde!*
 
 Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo Frio junto com a gente.
 
-🎥 *Assista ao nosso vídeo de boas-vindas:*
-${linkVideoConvite}
-
 📝 *Clique no link abaixo para confirmar seus dados (Nome, WhatsApp e Bairro) e desbloquear seu acesso:*
 ${linkSantinhoAceite}`;
 
       navigator.clipboard.writeText(mensagemSantinho).then(() => {
-        showToast('🔑 Santinho com formulário de aceite e bairro copiado para o WhatsApp!');
+        showToast('🔑 Santinho limpo copiado para o WhatsApp!');
       });
     }
 
