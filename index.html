@@ -201,15 +201,36 @@
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
 
-      <div class="text-center space-y-1.5">
+      <!-- PASSO 0: TELA DE CONVITE ACOLHEDOR -->
+      <div id="bloco-0" class="space-y-4 text-center pt-2">
+        <div class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">
+          Comunidade Verde • Cabo Frio
+        </div>
+        <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Que bom ter você com a gente! 🌱</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed px-2">
+          Para acessar os painéis completos de controle social e fiscalização em Cabo Frio, convidamos você a preencher sua ficha de adesão ao nosso movimento cívico. 
+        </p>
+        <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-2xl text-left space-y-2 text-xs text-slate-700">
+          <p class="font-bold text-emerald-900">✨ O que você ganha ao preencher:</p>
+          <ul class="space-y-1 pl-1">
+            <li>• Acesso integral imediato ao Orçamento Municipal (Receitas e Royalties).</li>
+            <li>• Monitoramento e votações nominais da Câmara de Vereadores.</li>
+            <li>• Canal direto de atendimento privado com a coordenação.</li>
+          </ul>
+        </div>
+        <button onclick="avancarBloco(1)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all">
+          Preencher Ficha Agora ➔
+        </button>
+      </div>
+
+      <div id="cabecalho-etapas" class="hidden text-center space-y-1">
         <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
-        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">Que bom ter você com a gente! 🌱</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">Para acessar os painéis completos de controle social, preencha sua ficha rápida em 3 passos simples. O desbloqueio é imediato!</p>
-        <p id="bloco-titulo" class="text-xs text-emerald-700 font-extrabold pt-1">Passo 1 de 3: Identificação Básica</p>
+        <h3 class="text-xl font-extrabold text-slate-900">Ficha de Filiação & Controle Social</h3>
+        <p id="bloco-titulo" class="text-xs text-slate-500 font-semibold">Passo 1 de 3: Identificação Básica</p>
       </div>
 
       <!-- BLOCO 1: Identificação Básica -->
-      <div id="bloco-1" class="space-y-3.5 text-left pt-1">
+      <div id="bloco-1" class="space-y-3.5 text-left pt-1 hidden">
         <div>
           <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Nome Completo</label>
           <input type="text" id="auto-nome" placeholder="Digite seu nome completo" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
@@ -601,7 +622,7 @@
     // CONFIGURAÇÃO DO SUPABASE
     // =========================================================================
     const SUPABASE_URL = 'https://naoxprfnhidlwgoueydi.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_TUIxvFWJyPUTk_YlaCtz0g_ToUs4qHj';
+    const SUPABASE_ANON_KEY = 'SUA_PUBLISHABLE_KEY_AQUI';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -669,6 +690,11 @@
 
     // CONTROLE DOS BLOCOS DA FICHA DE FILIAÇÃO (AVANÇAR / VOLTAR)
     function avancarBloco(numero) {
+      if (numero === 1) {
+        document.getElementById('bloco-0').classList.add('hidden');
+        document.getElementById('cabecalho-etapas').classList.remove('hidden');
+      }
+
       if (numero === 2) {
         const nome = document.getElementById('auto-nome').value.trim();
         const zap = document.getElementById('auto-zap').value.trim();
@@ -768,9 +794,14 @@
     });
 
     function openUnlockModal() { 
-      avancarBloco(1);
+      document.getElementById('bloco-0').classList.remove('hidden');
+      document.getElementById('cabecalho-etapas').classList.add('hidden');
+      document.getElementById('bloco-1').classList.add('hidden');
+      document.getElementById('bloco-2').classList.add('hidden');
+      document.getElementById('bloco-3').classList.add('hidden');
       document.getElementById('unlock-modal').classList.remove('hidden'); 
     }
+    
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
     function toggleChatWindow() {
