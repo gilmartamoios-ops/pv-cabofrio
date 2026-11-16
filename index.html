@@ -270,16 +270,16 @@
     </div>
   </div>
 
-  <!-- ==================== WIDGET DE CHAT EXCLUSIVO DO OBSERVATÓRIO (COM BOTÃO PARA WHATSAPP PESSOAL) ==================== -->
+  <!-- ==================== WIDGET DE CHAT EXCLUSIVO DO OBSERVATÓRIO (COM IDENTIFICAÇÃO E FILTRO RÍGIDO) ==================== -->
   <div class="fixed bottom-5 left-5 z-40">
     <!-- Botão Flutuante do Chat -->
     <button onclick="toggleChatWindow()" id="chat-toggle-btn" class="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-3 rounded-full shadow-xl transition-all border border-emerald-600 group">
       <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-      <span>💬 Assistente Virtual • Observatório</span>
+      <span>💬 Guardião Verde • Triagem</span>
     </button>
 
     <!-- Janela do Chat -->
-    <div id="chat-window" class="hidden absolute bottom-14 left-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[460px] animate-fade-in z-50">
+    <div id="chat-window" class="hidden absolute bottom-14 left-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[480px] animate-fade-in z-50">
       <!-- Cabeçalho do Chat -->
       <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
@@ -295,21 +295,22 @@
       <!-- Corpo de Mensagens -->
       <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
-          <p class="font-bold text-emerald-900">Olá! Sou o assistente virtual do Observatório Verde.</p>
-          <p>Posso tirar dúvidas sobre a nossa plataforma, a agenda nos bairros, o orçamento de Cabo Frio ou leis municipais.</p>
-          <p class="text-[10px] text-slate-400 pt-1">Caso precise de um atendimento pessoal direto com a coordenação, posso te encaminhar para o WhatsApp!</p>
+          <p class="font-bold text-emerald-900">Olá! Sou o Guardião Verde, assistente virtual do Observatório.</p>
+          <p>Antes de começarmos, por favor, me informe seu <strong>Nome e Bairro</strong> para registrar seu atendimento:</p>
         </div>
       </div>
 
-      <!-- Rodapé de Entrada -->
+      <!-- Rodapé de Identificação e Entrada -->
       <div class="p-3 bg-white border-t border-slate-100 space-y-2">
+        <div id="chat-user-form" class="space-y-1.5">
+          <input type="text" id="chat-visitante-nome" placeholder="Seu Nome" class="w-full bg-slate-100 border border-slate-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+          <input type="text" id="chat-visitante-bairro" placeholder="Seu Bairro em Cabo Frio" class="w-full bg-slate-100 border border-slate-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+        </div>
         <div class="flex items-center gap-2">
-          <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') enviarMensagemChat()" placeholder="Digite sua dúvida..." class="flex-1 bg-slate-100 border border-slate-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+          <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') enviarMensagemChat()" placeholder="Digite sua dúvida sobre a cidade..." class="flex-1 bg-slate-100 border border-slate-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
           <button onclick="enviarMensagemChat()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-colors">Enviar</button>
         </div>
-        <a href="https://wa.me/5522981255655?text=Olá! Estava navegando no Observatório Verde e preciso falar diretamente com a coordenação:" target="_blank" rel="noopener" class="flex items-center justify-center gap-1.5 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-[11px] font-bold py-2 rounded-xl border border-emerald-200 transition-colors">
-          <span>📱 Falar direto com a Coordenação (WhatsApp)</span>
-        </a>
+        <div id="chat-whatsapp-container" class="hidden pt-1"></div>
       </div>
     </div>
   </div>
@@ -323,7 +324,7 @@
         <button onclick="closeGlobalSearch()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl transition-colors">ESC</button>
       </div>
       <div id="global-search-results" class="p-4 sm:p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
-        <div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar no Observatório Verde ou na web.</div>
+        <div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar.</div>
       </div>
     </div>
   </div>
@@ -628,40 +629,69 @@
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
-    // Chat Inteligente Exclusivo do Observatório
+    // Chat Inteligente com Filtro Contextual e Identificação Obrigatória
     function toggleChatWindow() {
       const win = document.getElementById('chat-window');
       win.classList.toggle('hidden');
     }
 
     function enviarMensagemChat() {
+      const nomeInput = document.getElementById('chat-visitante-nome');
+      const bairroInput = document.getElementById('chat-visitante-bairro');
       const input = document.getElementById('chat-input');
+      const whatsappContainer = document.getElementById('chat-whatsapp-container');
+      
+      const nome = nomeInput.value.trim();
+      const bairro = bairroInput.value.trim();
       const txt = input.value.trim();
+
+      if (!nome || !bairro) {
+        alert('Por favor, informe seu Nome e Bairro antes de enviar a mensagem.');
+        nomeInput.focus();
+        return;
+      }
+
       if (!txt) return;
 
       const chatMsgs = document.getElementById('chat-messages');
-      chatMsgs.innerHTML += `<div class="bg-emerald-100 text-emerald-950 p-2.5 rounded-2xl ml-6 font-medium">${txt}</div>`;
+      chatMsgs.innerHTML += `<div class="bg-emerald-100 text-emerald-950 p-2.5 rounded-2xl ml-6 font-medium"><strong>${nome} (${bairro}):</strong> ${txt}</div>`;
       input.value = '';
       chatMsgs.scrollTop = chatMsgs.scrollHeight;
 
       setTimeout(() => {
-        let resposta = "Entendido! O Observatório Verde trabalha com transparência total de contas públicas, fiscalização da Câmara e mapeamento territorial para 2028 em Cabo Frio.";
+        let resposta = "";
         const txtLower = txt.toLowerCase();
 
-        if (txtLower.includes('orçamento') || txtLower.includes('royalties') || txtLower.includes('dinheiro')) {
-          resposta = "As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'. Tamoios gerou cerca de R$ 1 bilhão em royalties nos últimos anos!";
+        // FILTRO RÍGIDO DE CONTEXTO (CABO FRIO, ORÇAMENTO, CÂMARA, BAIRROS)
+        const isContextValid = txtLower.includes('cabo') || txtLower.includes('tamoios') || txtLower.includes('orçamento') || 
+                               txtLower.includes('bairro') || txtLower.includes('vereador') || txtLower.includes('câmara') || 
+                               txtLower.includes('eleiço') || txtLower.includes('royalties') || txtLower.includes('pauta') || 
+                               txtLower.includes('partido') || txtLower.includes('verde') || txtLower.includes('observatório') ||
+                               txtLower.includes('projeto') || txtLower.includes('lei') || txtLower.includes('prefeito') ||
+                               txtLower.includes('centro') || txtLower.includes('unamar') || txtLower.includes('militância');
+
+        if (!isContextValid) {
+          resposta = `Olá ${nome}! O Guardião Verde responde exclusivamente sobre assuntos relacionados ao **Observatório Verde**, **Câmara Municipal**, **Orçamento** e **demandas de Cabo Frio (Centro e Tamoios)**. Para este assunto fora do nosso escopo, o ideal é você falar diretamente com a nossa coordenação política!`;
+        } else if (txtLower.includes('orçamento') || txtLower.includes('royalties') || txtLower.includes('dinheiro')) {
+          resposta = `Perfeito, ${nome}! As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'. Tamoios gerou cerca de R$ 1 bilhão em royalties nos últimos anos!`;
         } else if (txtLower.includes('bairro') || txtLower.includes('tamoios') || txtLower.includes('centro') || txtLower.includes('reunião')) {
-          resposta = "Nós organizamos plenárias descentralizadas pela 'Agenda nos Bairros' tanto no 1º Distrito quanto em Tamoios. Quer sugerir um encontro no seu bairro?";
+          resposta = `${nome}, nós organizamos plenárias descentralizadas pela 'Agenda nos Bairros' tanto no 1º Distrito quanto em Tamoios. Quer sugerir um encontro no bairro ${bairro}?`;
         } else if (txtLower.includes('filiar') || txtLower.includes('participar') || txtLower.includes('membro')) {
-          resposta = "Para participar, basta preencher o formulário de aceite do santinho digital e você ganha acesso completo aos painéis de controle!";
+          resposta = `Excelente iniciativa em ${bairro}, ${nome}! Para participar, basta preencher o formulário de aceite do santinho digital e você ganha acesso completo aos painéis de controle.`;
         } else {
-          resposta = "Essa é uma questão específica ou pessoal que merece atenção direta da nossa coordenação. Clique no botão abaixo para falar diretamente com a gente no WhatsApp!";
+          resposta = `Entendido, ${nome} (${bairro}). Como essa é uma questão específica ou estratégica, é necessária uma avaliação pessoal da coordenação (apenas você e o presidente autorizados a responder). Clique no botão abaixo para enviar sua mensagem direto para o nosso WhatsApp!`;
         }
+
+        // Monta o link do WhatsApp formatado com o nome, bairro e a dúvida
+        const textoZap = `Olá! Sou ${nome}, morador(a) do bairro ${bairro} em Cabo Frio. Minha dúvida/demanda no Observatório Verde é: "${txt}"`;
+        const linkZap = `https://wa.me/5522981255655?text=${encodeURIComponent(textoZap)}`;
 
         chatMsgs.innerHTML += `
           <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm mr-6 space-y-2 text-slate-700">
             <p>${resposta}</p>
-            <a href="https://wa.me/5522981255655?text=Olá! Perguntei no chat do Observatório sobre: '${encodeURIComponent(txt)}' e gostaria de conversar pessoalmente:" target="_blank" rel="noopener" class="inline-block bg-emerald-600 text-white font-bold text-[10px] px-3 py-1.5 rounded-xl">Falar com a Coordenação no WhatsApp ↗</a>
+            <a href="${linkZap}" target="_blank" rel="noopener" class="flex items-center justify-center gap-1.5 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] py-2 rounded-xl transition-colors shadow-sm">
+              <span>📱 Falar com a Coordenação no WhatsApp ↗</span>
+            </a>
           </div>
         `;
         chatMsgs.scrollTop = chatMsgs.scrollHeight;
