@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Observatório Verde • Comunidade Verde Cabo Frio</title>
-  <meta property="description" content="Movimento Comunidade Verde - Plataforma de Inteligência Cívica e Controle Social em Cabo Frio." />
+  <title>Observatório Verde • Partido Verde Cabo Frio</title>
+  <meta property="description" content="Observatório Verde - Partido Verde (PV) Cabo Frio. Inteligência Cívica e Controle Social." />
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS Client UMD -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -48,9 +48,9 @@
         <div class="hidden md:block">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="font-extrabold text-emerald-950 tracking-tight text-sm sm:text-base leading-none">OBSERVATÓRIO VERDE</span>
-            <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Cabo Frio</span>
+            <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">PV Cabo Frio</span>
           </div>
-          <p class="text-xs text-emerald-700 font-semibold mt-1">Movimento Comunidade Verde</p>
+          <p class="text-xs text-emerald-700 font-semibold mt-1">Partido Verde • Movimento Comunidade Verde</p>
         </div>
       </a>
 
@@ -87,146 +87,138 @@
     </div>
   </header>
 
-  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM ==================== -->
-  <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
+  <!-- ==================== MODAL 1: FICHA SIMPLES (LIBERA FÓRUM, AGENDA E CHAT) ==================== -->
+  <div id="modal-membro-simples" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative">
+      <button onclick="fecharModalMembroSimples()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
+
+      <div class="text-center space-y-1.5">
+        <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Partido Verde • Cabo Frio</span>
+        <h3 class="text-xl font-extrabold text-slate-900">Cadastro de Membro</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Preencha seus dados básicos para liberar na hora o <strong>Fórum Permanente</strong>, a <strong>Agenda nos Bairros</strong> e o <strong>Atendimento Privado</strong>.
+        </p>
+      </div>
+
+      <div class="space-y-3.5 text-left pt-1">
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Repositório Oficial • Sincronizado Supabase</span>
-          <h3 class="text-xl font-extrabold mt-1">Fichas de Filiação e Mapeamento Territorial</h3>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Nome Completo</label>
+          <input type="text" id="simples-nome" placeholder="Digite seu nome completo" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
-        <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-5">
-        <div id="resumo-bairros-container" class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 hidden">
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block mb-2">📍 Força Territorial por Bairro:</span>
-          <div id="badges-bairros" class="flex flex-wrap gap-2"></div>
-        </div>
-
-        <div class="flex items-center justify-between flex-wrap gap-3">
-          <div class="flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-bold text-slate-500 uppercase">Total Exibido: <strong class="text-emerald-800" id="total-membros">0</strong></span>
-            <select id="filtro-bairro-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
-              <option value="TODOS">Todos os Bairros</option>
-            </select>
-            <select id="filtro-partido-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
-              <option value="TODOS">Todas as Situações Partidárias</option>
-              <option value="PV">⭐ Filiados ao PV</option>
-              <option value="SEM_FILIACAO">🌱 Sem Filiação</option>
-              <option value="OUTRO_PARTIDO">🔄 Filiados a Outro Partido</option>
-            </select>
-          </div>
-          <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
-            📥 Baixar Planilha Mapeada (CSV)
-          </button>
-        </div>
-
-        <div class="border border-slate-200 rounded-2xl overflow-x-auto">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr class="bg-slate-100 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
-                <th class="p-3">Nome / Filiado</th>
-                <th class="p-3">Bairro</th>
-                <th class="p-3">WhatsApp</th>
-                <th class="p-3">Situação Partidária</th>
-                <th class="p-3">Status</th>
-                <th class="p-3 text-center">Ações da Coordenação</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-membros-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-              <tr><td colspan="6" class="p-6 text-center text-slate-400">Carregando fichas do banco de dados...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL DE VISUALIZAÇÃO / PDF / IMPRESSÃO DE FICHA INDIVIDUAL -->
-  <div id="modal-ficha-individual" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
-      <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="no-print absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
-      
-      <!-- Área imprimível e exportável para PDF -->
-      <div id="area-impressao-ficha" class="space-y-5 bg-white p-2">
-        <div class="text-center border-b-2 border-emerald-700 pb-4">
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Partido Verde • Diretório Cabo Frio</span>
-          <h3 class="text-xl font-extrabold text-slate-900 mt-2">Ficha Individual de Cadastramento e Militância</h3>
-          <p class="text-[11px] text-slate-500">Observatório Verde • Movimento Comunidade Verde</p>
-        </div>
-        <div id="conteudo-ficha-detalhe" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
-        <div class="pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
-          <span>Documento gerado pelo Sistema Observatório Verde</span>
-          <span>Cabo Frio - RJ</span>
-        </div>
-      </div>
-
-      <div class="no-print flex flex-wrap justify-end gap-2.5 pt-4 border-t border-slate-100">
-        <button onclick="baixarFichaPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm">
-          📥 Baixar PDF Compartilhável
-        </button>
-        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
-          🖨️ Imprimir Ficha
-        </button>
-        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
-          Fechar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== PAINEL DE ATENDIMENTO DA COORDENAÇÃO (MASTER) ==================== -->
-  <div id="modal-coord-chats" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[85vh]">
-      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Painel Exclusivo • Coordenação & Presidente</span>
-          <h3 class="text-xl font-extrabold mt-1">Central de Atendimento Privado aos Membros</h3>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu WhatsApp (com DDD)</label>
+          <input type="text" id="simples-zap" placeholder="Ex: 22 99999-9999" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
-        <button onclick="fecharModalPainelCoord()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 flex-1 overflow-hidden">
-        <div class="border-r border-slate-200 overflow-y-auto p-4 bg-slate-50 space-y-2" id="lista-conversas-coord">
-          <p class="text-xs text-slate-400 text-center py-6">Carregando conversas...</p>
+        <div>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Bairro / Distrito (Cabo Frio)</label>
+          <select id="simples-bairro" onchange="verificarOutroBairroSimples()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
+            <option value="">Selecione seu bairro...</option>
+            <optgroup label="1º Distrito (Sede / Centro)">
+              <option value="Centro">Centro</option>
+              <option value="São Cristóvão">São Cristóvão</option>
+              <option value="Jardim Esperança">Jardim Esperança</option>
+              <option value="Braga">Braga</option>
+              <option value="Algodoal">Algodoal</option>
+              <option value="Passagem">Passagem</option>
+              <option value="Vila Nova">Vila Nova</option>
+              <option value="Peró">Peró</option>
+              <option value="Ogiva">Ogiva</option>
+              <option value="Gamboa">Gamboa</option>
+              <option value="Jacaré">Jacaré</option>
+              <option value="Portinho">Portinho</option>
+              <option value="Palmeiras">Palmeiras</option>
+              <option value="Parque Burle">Parque Burle</option>
+              <option value="Guarani">Guarani</option>
+              <option value="Itajuru">Itajuru</option>
+              <option value="Jardim Caiçara">Jardim Caiçara</option>
+              <option value="Jardim Excelsior">Jardim Excelsior</option>
+              <option value="Jardim Flamboyant">Jardim Flamboyant</option>
+              <option value="Jardim Nautillus">Jardim Nautillus</option>
+              <option value="Jardim Olinda">Jardim Olinda</option>
+              <option value="Jardim Peró">Jardim Peró</option>
+              <option value="Manoel Corrêa">Manoel Corrêa</option>
+              <option value="Monte Alegre">Monte Alegre</option>
+              <option value="Boca do Mato">Boca do Mato</option>
+              <option value="Caminho de Búzios">Caminho de Búzios</option>
+              <option value="Tangará">Tangará</option>
+              <option value="Reserva do Peró">Reserva do Peró</option>
+              <option value="Célula Mater">Célula Mater</option>
+              <option value="Vila do Sol">Vila do Sol</option>
+              <option value="Vila do Ar">Vila do Ar</option>
+              <option value="Recanto das Dunas">Recanto das Dunas</option>
+              <option value="Novo Portinho">Novo Portinho</option>
+              <option value="Forte">Forte</option>
+            </optgroup>
+            <optgroup label="2º Distrito (Tamoios)">
+              <option value="Tamoios - Unamar">Tamoios - Unamar</option>
+              <option value="Tamoios - Aquarius">Tamoios - Aquarius</option>
+              <option value="Tamoios - Santo Antônio">Tamoios - Santo Antônio</option>
+              <option value="Tamoios - Samburá">Tamoios - Samburá</option>
+              <option value="Tamoios - Sinagoga">Tamoios - Sinagoga</option>
+              <option value="Tamoios - Florestinha">Tamoios - Florestinha</option>
+              <option value="Tamoios - Maria Joaquina">Tamoios - Maria Joaquina</option>
+              <option value="Tamoios - Centro Hípico">Tamoios - Centro Hípico</option>
+              <option value="Tamoios - Campos Novos">Tamoios - Campos Novos</option>
+              <option value="Tamoios - Botafogo">Tamoios - Botafogo</option>
+              <option value="Tamoios - Angelim">Tamoios - Angelim</option>
+              <option value="Tamoios - Pacheco">Tamoios - Pacheco</option>
+              <option value="Tamoios - Santa Margarida">Tamoios - Santa Margarida</option>
+              <option value="Tamoios - Agrisa">Tamoios - Agrisa</option>
+              <option value="Tamoios - Long Beach">Tamoios - Long Beach</option>
+              <option value="Tamoios - Nova Califórnia">Tamoios - Nova Califórnia</option>
+              <option value="Tamoios - Vista Alegre">Tamoios - Vista Alegre</option>
+            </optgroup>
+            <option value="OUTRO">Outro Bairro / Zona Rural...</option>
+          </select>
+          <input type="text" id="simples-bairro-outro" placeholder="Digite o nome do seu bairro" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
-        <div class="md:col-span-2 flex flex-col justify-between bg-white p-4" id="painel-conversa-ativa">
-          <div class="text-center text-slate-400 text-sm my-auto">Selecione um membro à esquerda para visualizar e responder ao chat privado.</div>
+        <div>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Situação Partidária</label>
+          <select id="simples-filiado" onchange="verificarPartidoSimples()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
+            <option value="Sem filiação">Sem filiação partidária</option>
+            <option value="Sim (Outro Partido)">Filiado(a) a outro partido</option>
+            <option value="Partido Verde (PV)">Já sou filiado(a) ao Partido Verde (PV)</option>
+          </select>
+          <input type="text" id="simples-qual-partido" placeholder="Qual partido?" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
+        <button onclick="salvarMembroSimples()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg transition-all">
+          ✓ Liberar Acesso de Membro
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== FICHA DE FILIAÇÃO EM BLOCOS (CONVITE ACOLHEDOR) ==================== -->
+  <!-- ==================== MODAL 2: CONVITE DE FILIAÇÃO AO PARTIDO VERDE (LIBERA CÂMARA E ORÇAMENTO) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
 
-      <!-- PASSO 0: TELA DE CONVITE ACOLHEDOR -->
+      <!-- PASSO 0: CONVITE ACOLHEDOR E TRANSPARENTE PARA FILIAÇÃO AO PV -->
       <div id="bloco-0" class="space-y-4 text-center pt-2">
-        <div class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">
-          Comunidade Verde • Cabo Frio
+        <div class="inline-flex items-center gap-1.5 bg-emerald-700 text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full shadow-sm">
+          <span>🌿</span> Partido Verde (PV) • Cabo Frio
         </div>
-        <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Que bom ter você com a gente! 🌱</h3>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed px-2">
-          Para acessar os painéis completos de controle social e fiscalização em Cabo Frio, convidamos você a preencher sua ficha de adesão ao nosso movimento cívico. 
+        <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Seja muito bem-vindo(a) ao Partido Verde!</h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed px-1">
+          Agradecemos o seu interesse em fiscalizar nossa cidade! Os painéis avançados de <strong class="text-emerald-900">Orçamento Municipal</strong> e <strong class="text-emerald-900">Monitoramento da Câmara</strong> são ferramentas exclusivas para quem caminha conosco como <strong class="text-emerald-800">Filiado(a) ao Partido Verde (PV)</strong>.
         </p>
-        <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-2xl text-left space-y-2 text-xs text-slate-700">
-          <p class="font-bold text-emerald-900">✨ O que você ganha ao preencher:</p>
-          <ul class="space-y-1 pl-1">
-            <li>• Acesso integral imediato ao Orçamento Municipal (Receitas e Royalties).</li>
-            <li>• Monitoramento e votações nominais da Câmara de Vereadores.</li>
-            <li>• Canal direto de atendimento privado com a coordenação.</li>
+        <div class="bg-emerald-50/80 border border-emerald-200 p-4 rounded-2xl text-left space-y-2 text-xs text-slate-700">
+          <p class="font-extrabold text-emerald-950">💚 Por que se filiar ao PV em Cabo Frio?</p>
+          <ul class="space-y-1.5 pl-1">
+            <li>• <strong>Acesso Integral Imediato:</strong> Libera na hora os painéis do Orçamento e da Câmara.</li>
+            <li>• <strong>Voz e Voto na Legenda:</strong> Participe ativamente das decisões e rumos do partido na cidade.</li>
+            <li>• <strong>Construção Coletiva:</strong> Ajude a fortalecer a 4ª Escolha com seriedade e compromisso socioambiental.</li>
           </ul>
         </div>
         <button onclick="avancarBloco(1)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all">
-          Preencher Ficha Agora ➔
+          🌿 Preencher Ficha de Filiação ao PV ➔
         </button>
       </div>
 
       <div id="cabecalho-etapas" class="hidden text-center space-y-1">
-        <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
-        <h3 class="text-xl font-extrabold text-slate-900">Ficha de Filiação & Controle Social</h3>
-        <p id="bloco-titulo" class="text-xs text-slate-500 font-semibold">Passo 1 de 3: Identificação Básica</p>
+        <span class="inline-block bg-emerald-700 text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">Ficha Oficial de Filiação • Partido Verde (PV)</span>
+        <h3 class="text-xl font-extrabold text-slate-900">Filiação ao PV Cabo Frio</h3>
+        <p id="bloco-titulo" class="text-xs text-emerald-700 font-bold">Passo 1 de 3: Identificação Básica</p>
       </div>
 
       <!-- BLOCO 1: Identificação Básica -->
@@ -305,16 +297,16 @@
         <button onclick="avancarBloco(2)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3 px-5 rounded-2xl shadow transition-all">Avançar ➔</button>
       </div>
 
-      <!-- BLOCO 2: Situação Partidária -->
+      <!-- BLOCO 2: Situação Partidária Anterior & Profissão -->
       <div id="bloco-2" class="space-y-3.5 text-left pt-1 hidden">
         <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Você já é filiado(a) a algum partido político?</label>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Você possui filiação partidária anterior?</label>
           <select id="auto-filiado" onchange="verificarPartidoAuto()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
-            <option value="Sem filiação">Sem filiação partidária</option>
-            <option value="Sim (Outro Partido)">Sim, sou filiado(a) a outro partido</option>
-            <option value="Partido Verde (PV)">Sim, já sou filiado(a) ao Partido Verde (PV)</option>
+            <option value="Partido Verde (PV) - Nova Filiação">Não, esta será minha primeira filiação (PV)</option>
+            <option value="Sim (Outro Partido)">Sim, sou filiado(a) a outro partido e desejo migrar</option>
+            <option value="Partido Verde (PV)">Já sou filiado(a) ao Partido Verde (PV)</option>
           </select>
-          <input type="text" id="auto-qual-partido" placeholder="Qual partido você é filiado(a)?" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+          <input type="text" id="auto-qual-partido" placeholder="Qual partido você é filiado(a) atualmente?" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
         <div>
           <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Profissão / Ocupação</label>
@@ -329,8 +321,8 @@
       <!-- BLOCO 3: Dados Eleitorais e Redes Sociais -->
       <div id="bloco-3" class="space-y-3.5 text-left pt-1 hidden">
         <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Título de Eleitor (Opcional)</label>
-          <input type="text" id="auto-titulo" placeholder="Número do Título" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Título de Eleitor</label>
+          <input type="text" id="auto-titulo" placeholder="Número do Título de Eleitor" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
         </div>
         <div>
           <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Redes Sociais (@ Instagram / Facebook)</label>
@@ -338,7 +330,115 @@
         </div>
         <div class="flex gap-2 pt-2">
           <button onclick="avancarBloco(2)" class="w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold text-sm py-3 rounded-2xl transition-all">← Voltar</button>
-          <button onclick="finalizarCadastroFicha()" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3 rounded-2xl shadow transition-all">✓ Concluir e Desbloquear</button>
+          <button onclick="finalizarCadastroFicha()" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3 rounded-2xl shadow transition-all">✓ Concluir Filiação e Desbloquear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM ==================== -->
+  <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Repositório Oficial • Sincronizado Supabase</span>
+          <h3 class="text-xl font-extrabold mt-1">Fichas de Filiação e Membros</h3>
+        </div>
+        <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-5">
+        <div id="resumo-bairros-container" class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 hidden">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block mb-2">📍 Força Territorial por Bairro:</span>
+          <div id="badges-bairros" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-xs font-bold text-slate-500 uppercase">Total Exibido: <strong class="text-emerald-800" id="total-membros">0</strong></span>
+            <select id="filtro-bairro-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="TODOS">Todos os Bairros</option>
+            </select>
+            <select id="filtro-partido-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="TODOS">Todos (Filiados + Membros)</option>
+              <option value="PV">🌿 Filiados ao PV</option>
+              <option value="MEMBROS">👥 Membros Simples</option>
+              <option value="OUTRO_PARTIDO">🔄 Filiados a Outro Partido</option>
+            </select>
+          </div>
+          <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
+            📥 Baixar Planilha Mapeada (CSV)
+          </button>
+        </div>
+
+        <div class="border border-slate-200 rounded-2xl overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
+                <th class="p-3">Nome / Filiado</th>
+                <th class="p-3">Bairro</th>
+                <th class="p-3">WhatsApp</th>
+                <th class="p-3">Situação Partidária</th>
+                <th class="p-3">Nível de Acesso</th>
+                <th class="p-3 text-center">Ações da Coordenação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-membros-body" class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tr><td colspan="6" class="p-6 text-center text-slate-400">Carregando fichas do banco de dados...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE VISUALIZAÇÃO / PDF / IMPRESSÃO DE FICHA INDIVIDUAL -->
+  <div id="modal-ficha-individual" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
+      <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="no-print absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
+      
+      <div id="area-impressao-ficha" class="space-y-5 bg-white p-2">
+        <div class="text-center border-b-2 border-emerald-700 pb-4">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Partido Verde • Diretório Cabo Frio</span>
+          <h3 class="text-xl font-extrabold text-slate-900 mt-2">Ficha Individual de Cadastramento</h3>
+          <p class="text-[11px] text-slate-500">Observatório Verde • Partido Verde (PV) Cabo Frio</p>
+        </div>
+        <div id="conteudo-ficha-detalhe" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
+        <div class="pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
+          <span>Documento gerado pelo Sistema Observatório Verde</span>
+          <span>Cabo Frio - RJ</span>
+        </div>
+      </div>
+
+      <div class="no-print flex flex-wrap justify-end gap-2.5 pt-4 border-t border-slate-100">
+        <button onclick="baixarFichaPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm">
+          📥 Baixar PDF Compartilhável
+        </button>
+        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
+          🖨️ Imprimir Ficha
+        </button>
+        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAINEL DE ATENDIMENTO DA COORDENAÇÃO (MASTER) ==================== -->
+  <div id="modal-coord-chats" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[85vh]">
+      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Painel Exclusivo • Coordenação & Presidente</span>
+          <h3 class="text-xl font-extrabold mt-1">Central de Atendimento Privado aos Membros</h3>
+        </div>
+        <button onclick="fecharModalPainelCoord()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 flex-1 overflow-hidden">
+        <div class="border-r border-slate-200 overflow-y-auto p-4 bg-slate-50 space-y-2" id="lista-conversas-coord">
+          <p class="text-xs text-slate-400 text-center py-6">Carregando conversas...</p>
+        </div>
+        <div class="md:col-span-2 flex flex-col justify-between bg-white p-4" id="painel-conversa-ativa">
+          <div class="text-center text-slate-400 text-sm my-auto">Selecione um membro à esquerda para visualizar e responder ao chat privado.</div>
         </div>
       </div>
     </div>
@@ -377,7 +477,7 @@
       <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
           <p class="font-bold text-emerald-900">Olá! Este é o seu canal seguro e privado.</p>
-          <p>Envie sua dúvida ou sugestão diretamente para a coordenação do Observatório Verde:</p>
+          <p>Envie sua dúvida ou sugestão diretamente para a coordenação do Partido Verde:</p>
         </div>
       </div>
 
@@ -406,7 +506,7 @@
 
     <div id="view-home" class="space-y-8 animate-fade-in">
       <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] sm:min-h-[400px] flex items-end">
-        <img src="capa.jpg" alt="Observatório Verde • Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
+        <img src="capa.jpg" alt="Observatório Verde • Partido Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"></div>
 
         <div class="relative z-10 p-6 sm:p-10 w-full text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -415,12 +515,12 @@
               Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
             </h1>
             <p class="text-xs sm:text-sm text-white/95 font-medium leading-relaxed drop-shadow">
-              Conheça o movimento <strong class="text-emerald-300 font-extrabold">Comunidade Verde</strong> e a <strong class="text-amber-300 font-extrabold">4ª Escolha</strong> para Cabo Frio: inteligência cívica e participação popular.
+              Uma iniciativa do <strong class="text-emerald-300 font-extrabold">Partido Verde (PV)</strong> e do movimento <strong class="text-amber-300 font-extrabold">Comunidade Verde</strong> para Cabo Frio.
             </p>
           </div>
           <div class="shrink-0">
             <span class="inline-block bg-emerald-600 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-2 rounded-xl shadow-lg border border-emerald-500">
-              Observatório Verde • Plataforma de Controle Social
+              Partido Verde • Plataforma de Controle Social
             </span>
           </div>
         </div>
@@ -455,11 +555,13 @@
       <section class="pt-4">
         <div class="text-center mb-6">
           <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
-          <p class="text-sm text-slate-600 mt-1">Acesse os debates livres ou preencha sua ficha para liberar os painéis de controle</p>
+          <p class="text-sm text-slate-600 mt-1">Cadastre-se como membro para os debates e agenda, ou filie-se ao PV para acesso integral</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <!-- CARTÃO 1: FÓRUM (EXIGE MEMBRO SIMPLES) -->
+          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="member-lock-badge absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
             </div>
@@ -470,7 +572,9 @@
             </div>
           </a>
 
-          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4">
+          <!-- CARTÃO 2: AGENDA (EXIGE MEMBRO SIMPLES) -->
+          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
+            <span class="member-lock-badge absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
             <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
@@ -481,8 +585,9 @@
             </div>
           </a>
 
+          <!-- CARTÃO 3: ORÇAMENTO (EXIGE FILIAÇÃO AO PV) -->
           <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <span class="filiado-lock-badge absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
             <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
@@ -493,8 +598,9 @@
             </div>
           </a>
 
+          <!-- CARTÃO 4: CÂMARA (EXIGE FILIAÇÃO AO PV) -->
           <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="lock-badge absolute top-4 right-4 text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+            <span class="filiado-lock-badge absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
             <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
@@ -517,7 +623,7 @@
         </button>
       </div>
       <div class="bg-emerald-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
-        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Movimento Comunidade Verde</span>
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-emerald-700 px-3 py-1 rounded-full">Fórum Permanente • Partido Verde Cabo Frio</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Artigos, Pautas e Debates da Cidade</h2>
         <p class="text-sm text-emerald-100 mt-1">Publicações oficiais do movimento. Participe e deixe sua contribuição no "Queremos te Ouvir".</p>
       </div>
@@ -542,11 +648,11 @@
               <span class="w-2 h-2 rounded-full bg-amber-600 animate-ping"></span> Agenda Viva • Sincronizada em Tempo Real
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Agenda nos Bairros</h2>
-            <p class="text-sm text-slate-600 mt-1">Acompanhe as plenárias, reuniões comunitárias e visitas técnicas do movimento em Cabo Frio.</p>
+            <p class="text-sm text-slate-600 mt-1">Acompanhe as plenárias, reuniões comunitárias e visitas técnicas do Partido Verde em Cabo Frio.</p>
           </div>
         </div>
         <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white">
-          <iframe src="https://calendar.google.com/calendar/embed?mode=AGENDA&height=500&wkst=1&ctz=America%2FSao_Paulo&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&src=b773f89445967f5b72e8aa4c9090ecca528430625d53b4c5da8ae71b8f1517f8%40group.calendar.google.com&color=%230B8043" class="w-full h-[500px] border-none" frameborder="0" scrolling="no" title="Agenda Oficial Comunidade Verde Cabo Frio"></iframe>
+          <iframe src="https://calendar.google.com/calendar/embed?mode=AGENDA&height=500&wkst=1&ctz=America%2FSao_Paulo&bgcolor=%23ffffff&showTitle=0&showPrint=0&showCalendars=0&showTz=0&showTabs=0&src=b773f89445967f5b72e8aa4c9090ecca528430625d53b4c5da8ae71b8f1517f8%40group.calendar.google.com&color=%230B8043" class="w-full h-[500px] border-none" frameborder="0" scrolling="no" title="Agenda Oficial Partido Verde Cabo Frio"></iframe>
         </div>
       </div>
     </section>
@@ -561,7 +667,7 @@
       </div>
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
         <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Controle Social • Planilha Oficial de Receitas</span>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Exclusivo Filiados PV • Planilha Oficial de Receitas</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Orçamento Municipal (Entradas)</h2>
           <p class="text-sm text-slate-600 mt-1">Discriminação oficial das fontes de receita, royalties e repasses atualizados em tempo real.</p>
         </div>
@@ -580,7 +686,7 @@
         </button>
       </div>
       <div class="bg-sky-800 text-white p-6 sm:p-8 rounded-3xl shadow-sm">
-        <span class="text-xs font-extrabold uppercase tracking-wider bg-sky-700 px-3 py-1 rounded-full">Legislativo & Controle Social • Observatório Verde</span>
+        <span class="text-xs font-extrabold uppercase tracking-wider bg-sky-700 px-3 py-1 rounded-full">Exclusivo Filiados PV • Legislativo & Controle Social</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Monitoramento da Câmara Municipal</h2>
         <p class="text-sm text-sky-100 mt-1">Acompanhe a produção legislativa, o tradutor cidadão de pautas e o voto nominal de cada vereador de Cabo Frio.</p>
       </div>
@@ -607,11 +713,11 @@
       <div class="flex items-center gap-3">
         <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center overflow-hidden text-white font-bold text-xs">PV</div>
         <div>
-          <p class="text-sm font-extrabold text-emerald-950">Observatório Verde • Movimento Comunidade Verde (PV Cabo Frio)</p>
+          <p class="text-sm font-extrabold text-emerald-950">Observatório Verde • Partido Verde (PV) Cabo Frio</p>
           <p class="text-xs text-slate-500">Enquanto constroem muros, nós escolhemos construir pontes.</p>
         </div>
       </div>
-      <p class="text-xs text-slate-400">&copy; 2026 Observatório Verde • Todos os direitos reservados.</p>
+      <p class="text-xs text-slate-400">&copy; 2026 Partido Verde Cabo Frio • Todos os direitos reservados.</p>
     </div>
   </footer>
 
@@ -622,11 +728,14 @@
     // CONFIGURAÇÃO DO SUPABASE
     // =========================================================================
     const SUPABASE_URL = 'https://naoxprfnhidlwgoueydi.supabase.co';
-    const SUPABASE_ANON_KEY = 'SUA_PUBLISHABLE_KEY_AQUI';
+    const SUPABASE_ANON_KEY = 'sb_publishable_TUIxvFWJyPUTk_YlaCtz0g_ToUs4qHj';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let isMemberUnlocked = false;
+    // Níveis de Acesso: 'none' | 'membro' | 'filiado'
+    let accessLevel = localStorage.getItem('pv_access_level') || 'none';
+    if (localStorage.getItem('comunidade_verde_unlocked') === 'true') accessLevel = 'filiado';
+
     let baseMembros = [];
     let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
@@ -642,9 +751,18 @@
 
     let modalCadastroAberto = false;
 
-    function checkAuthAccess() {
-      if (localStorage.getItem('comunidade_verde_unlocked') === 'true') {
-        unlockMasterAccess();
+    function aplicarPermissoesVisuais() {
+      if (accessLevel === 'membro' || accessLevel === 'filiado') {
+        document.querySelectorAll('.member-lock-badge').forEach(el => el.style.display = 'none');
+        const chatBadge = document.getElementById('chat-lock-badge');
+        if (chatBadge) chatBadge.style.display = 'none';
+      }
+      if (accessLevel === 'filiado') {
+        document.querySelectorAll('.filiado-lock-badge').forEach(el => el.style.display = 'none');
+        const masterMenu = document.getElementById('master-menu-container');
+        if (masterMenu && localStorage.getItem('pv_is_master') === 'true') {
+          masterMenu.classList.remove('hidden');
+        }
       }
     }
 
@@ -657,42 +775,110 @@
           cliquesLogo++;
           if (cliquesLogo >= 3) {
             e.preventDefault();
-            unlockMasterAccess();
-            showToast('👑 Acesso Master ativado com sucesso neste dispositivo!');
+            accessLevel = 'filiado';
+            localStorage.setItem('pv_access_level', 'filiado');
+            localStorage.setItem('pv_is_master', 'true');
+            aplicarPermissoesVisuais();
+            showToast('👑 Acesso Master da Coordenação ativado!');
             cliquesLogo = 0;
           }
         });
       }
+      aplicarPermissoesVisuais();
       carregarMensagensChatInterno();
     });
 
+    // ==================== FLUXO 1: FICHA SIMPLES (MEMBRO) ====================
+    function abrirModalMembroSimples() {
+      document.getElementById('modal-membro-simples').classList.remove('hidden');
+    }
+    function fecharModalMembroSimples() {
+      document.getElementById('modal-membro-simples').classList.add('hidden');
+    }
+    function verificarOutroBairroSimples() {
+      const sel = document.getElementById('simples-bairro');
+      const inp = document.getElementById('simples-bairro-outro');
+      sel.value === 'OUTRO' ? (inp.classList.remove('hidden'), inp.focus()) : inp.classList.add('hidden');
+    }
+    function verificarPartidoSimples() {
+      const sel = document.getElementById('simples-filiado');
+      const inp = document.getElementById('simples-qual-partido');
+      sel.value === 'Sim (Outro Partido)' ? (inp.classList.remove('hidden'), inp.focus()) : inp.classList.add('hidden');
+    }
+
+    async function salvarMembroSimples() {
+      const nome = document.getElementById('simples-nome').value.trim();
+      const zap = document.getElementById('simples-zap').value.trim();
+      const selBairro = document.getElementById('simples-bairro').value;
+      const bairro = selBairro === 'OUTRO' ? document.getElementById('simples-bairro-outro').value.trim() : selBairro;
+      const filiado = document.getElementById('simples-filiado').value;
+      const qualPartido = document.getElementById('simples-qual-partido').value.trim();
+
+      if (!nome || !zap || !bairro) {
+        alert('Por favor, preencha seu Nome, WhatsApp e Bairro.');
+        return;
+      }
+
+      const situacaoPartidaria = filiado === 'Sim (Outro Partido)'
+        ? (qualPartido ? `Filiado a: ${qualPartido}` : 'Filiado (Outro Partido)')
+        : filiado;
+
+      const isJaFiliadoPV = filiado === 'Partido Verde (PV)';
+
+      const novo = {
+        id: Date.now(),
+        nome,
+        bairro,
+        zap,
+        status: isJaFiliadoPV ? 'Filiado' : 'Membro Simples',
+        filiacao: situacaoPartidaria,
+        profissao: 'Não informada',
+        titulo: 'Não informado',
+        redes: 'Não informadas',
+        data: new Date().toLocaleDateString('pt-BR')
+      };
+
+      const { error } = await supabaseClient.from('membros').insert([novo]);
+      if (error) {
+        alert('Erro ao salvar no Supabase. Verifique a chave API.');
+        console.error(error);
+        return;
+      }
+
+      usuarioAtual = novo;
+      localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
+
+      accessLevel = isJaFiliadoPV ? 'filiado' : 'membro';
+      localStorage.setItem('pv_access_level', accessLevel);
+      aplicarPermissoesVisuais();
+      fecharModalMembroSimples();
+      await carregarMembrosDoSupabase();
+
+      showToast(isJaFiliadoPV ? '🌿 Bem-vindo(a) Filiado(a) PV! Acesso integral liberado.' : '🌱 Cadastro de Membro concluído! Fórum, Agenda e Chat liberados.');
+    }
+
+    // ==================== FLUXO 2: FICHA DE FILIAÇÃO AO PV (BLOCOS) ====================
     function verificarOutroBairroAuto() {
       const select = document.getElementById('auto-bairro');
       const inputOutro = document.getElementById('auto-bairro-outro');
-      if (select.value === 'OUTRO') {
-        inputOutro.classList.remove('hidden');
-        inputOutro.focus();
-      } else {
-        inputOutro.classList.add('hidden');
-      }
+      select.value === 'OUTRO' ? (inputOutro.classList.remove('hidden'), inputOutro.focus()) : inputOutro.classList.add('hidden');
     }
 
     function verificarPartidoAuto() {
       const select = document.getElementById('auto-filiado');
       const inputPartido = document.getElementById('auto-qual-partido');
-      if (select.value === 'Sim (Outro Partido)') {
-        inputPartido.classList.remove('hidden');
-        inputPartido.focus();
-      } else {
-        inputPartido.classList.add('hidden');
-      }
+      select.value === 'Sim (Outro Partido)' ? (inputPartido.classList.remove('hidden'), inputPartido.focus()) : inputPartido.classList.add('hidden');
     }
 
-    // CONTROLE DOS BLOCOS DA FICHA DE FILIAÇÃO (AVANÇAR / VOLTAR)
     function avancarBloco(numero) {
       if (numero === 1) {
         document.getElementById('bloco-0').classList.add('hidden');
         document.getElementById('cabecalho-etapas').classList.remove('hidden');
+        // Pré-preenche se a pessoa já fez o cadastro de membro simples
+        if (usuarioAtual) {
+          if (usuarioAtual.nome) document.getElementById('auto-nome').value = usuarioAtual.nome;
+          if (usuarioAtual.zap) document.getElementById('auto-zap').value = usuarioAtual.zap;
+        }
       }
 
       if (numero === 2) {
@@ -712,10 +898,9 @@
       document.getElementById('bloco-3').classList.add('hidden');
 
       document.getElementById(`bloco-${numero}`).classList.remove('hidden');
-      document.getElementById('bloco-titulo').textContent = `Passo ${numero} de 3: ` + (numero === 1 ? 'Identificação Básica' : numero === 2 ? 'Situação Partidária & Profissão' : 'Título Eleitoral & Redes Sociais');
+      document.getElementById('bloco-titulo').textContent = `Passo ${numero} de 3: ` + (numero === 1 ? 'Identificação Básica' : numero === 2 ? 'Histórico Partidário & Profissão' : 'Título Eleitoral & Redes Sociais');
     }
 
-    // FINALIZAR CADASTRO (AUTO-DESBLOQUEIO INTEGRAL)
     async function finalizarCadastroFicha() {
       const nome = document.getElementById('auto-nome').value.trim();
       const zap = document.getElementById('auto-zap').value.trim();
@@ -728,15 +913,15 @@
       const redes = document.getElementById('auto-redes').value.trim();
 
       const situacaoPartidaria = filiado === 'Sim (Outro Partido)' 
-        ? (qualPartido ? `Filiado a: ${qualPartido}` : 'Filiado (Outro Partido)') 
-        : filiado;
+        ? (qualPartido ? `Migração de: ${qualPartido} -> PV` : 'Migração para PV') 
+        : 'Partido Verde (PV)';
 
       const novo = {
         id: Date.now(),
         nome,
         bairro,
         zap,
-        status: filiado === 'Partido Verde (PV)' ? 'Filiado' : 'Membro Efetivado',
+        status: 'Filiado',
         filiacao: situacaoPartidaria,
         profissao: profissao || 'Não informada',
         titulo: titulo || 'Não informado',
@@ -746,7 +931,7 @@
 
       const { error } = await supabaseClient.from('membros').insert([novo]);
       if (error) {
-        alert('Erro ao salvar no Supabase. Verifique se as colunas e a chave API estão configuradas.');
+        alert('Erro ao salvar no Supabase. Verifique a chave API.');
         console.error(error);
         return;
       }
@@ -754,27 +939,17 @@
       usuarioAtual = novo;
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
 
+      accessLevel = 'filiado';
+      localStorage.setItem('pv_access_level', 'filiado');
+      aplicarPermissoesVisuais();
       await carregarMembrosDoSupabase();
-      unlockMasterAccess();
       closeUnlockModal();
-      showToast(`🌱 Ficha concluída! Acesso integral liberado.`);
-    }
-
-    function unlockMasterAccess() {
-      isMemberUnlocked = true;
-      localStorage.setItem('comunidade_verde_unlocked', 'true');
-      document.querySelectorAll('.lock-badge').forEach(el => el.style.display = 'none');
-      
-      const masterMenu = document.getElementById('master-menu-container');
-      if (masterMenu) masterMenu.classList.remove('hidden');
-
-      const lockBadge = document.getElementById('chat-lock-badge');
-      if (lockBadge) lockBadge.style.display = 'none';
+      showToast(`🌿 Filiação ao Partido Verde concluída! Acesso integral liberado.`);
     }
 
     function tentarAbrirChat() {
-      if (!isMemberUnlocked) {
-        openUnlockModal();
+      if (accessLevel === 'none') {
+        abrirModalMembroSimples();
         return;
       }
       toggleChatWindow();
@@ -819,12 +994,14 @@
         usuarioAtual = { id: 'master_' + Date.now(), nome: 'Coordenação Master', bairro: 'Cabo Frio' };
       }
 
+      const isMaster = localStorage.getItem('pv_is_master') === 'true';
+
       const novaMsg = {
         membro_id: String(usuarioAtual.id),
         nome_membro: usuarioAtual.nome,
         bairro: usuarioAtual.bairro || 'Geral',
         mensagem: txt,
-        remetente: isMemberUnlocked ? 'coordenacao' : 'membro'
+        remetente: isMaster ? 'coordenacao' : 'membro'
       };
 
       const { error } = await supabaseClient.from('mensagens_chat').insert([novaMsg]);
@@ -838,16 +1015,17 @@
       const chatMsgs = document.getElementById('chat-messages');
       if (!chatMsgs) return;
 
+      const isMaster = localStorage.getItem('pv_is_master') === 'true';
       const membroIdFiltro = usuarioAtual ? String(usuarioAtual.id) : '0';
       const { data, error } = await supabaseClient.from('mensagens_chat').select('*').order('created_at', { ascending: true });
       
       if (!error && data) {
-        const msgsDoUsuario = isMemberUnlocked ? data : data.filter(m => m.membro_id === membroIdFiltro);
+        const msgsDoUsuario = isMaster ? data : data.filter(m => m.membro_id === membroIdFiltro);
         
         chatMsgs.innerHTML = `
           <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
             <p class="font-bold text-emerald-900">Olá! Este é o seu canal seguro e privado.</p>
-            <p>Envie sua mensagem para a coordenação:</p>
+            <p>Envie sua mensagem para a coordenação do Partido Verde:</p>
           </div>
         ` + msgsDoUsuario.map(m => {
           const isCoord = m.remetente === 'coordenacao';
@@ -924,7 +1102,7 @@
 
       const novaMsg = {
         membro_id: membroId,
-        nome_membro: 'Coordenação Master',
+        nome_membro: 'Coordenação PV',
         bairro: 'Geral',
         mensagem: txt,
         remetente: 'coordenacao'
@@ -984,14 +1162,6 @@
       }
     }
 
-    async function atualizarStatusMembro(id, novoStatus) {
-      const { error } = await supabaseClient.from('membros').update({ status: novoStatus }).eq('id', id);
-      if (!error) {
-        await carregarMembrosDoSupabase();
-        showToast(`🔄 Status atualizado para: ${novoStatus}`);
-      }
-    }
-
     async function excluirMembro(id) {
       if (confirm('Deseja realmente remover esta ficha da base?')) {
         const { error } = await supabaseClient.from('membros').delete().eq('id', id);
@@ -1037,7 +1207,7 @@
             <p class="font-semibold text-slate-800">${m.redes || 'Não informadas'}</p>
           </div>
           <div class="sm:col-span-2 pt-2 border-t border-slate-200 flex justify-between">
-            <span><strong>Status no Sistema:</strong> ${m.status}</span>
+            <span><strong>Nível de Acesso:</strong> ${m.status}</span>
             <span><strong>Data:</strong> ${m.data || 'Recente'}</span>
           </div>
         </div>
@@ -1045,12 +1215,11 @@
       document.getElementById('modal-ficha-individual').classList.remove('hidden');
     }
 
-    // GERADOR DIRETO DE PDF COMPARTILHÁVEL
     function baixarFichaPDF() {
       const elemento = document.getElementById('area-impressao-ficha');
       const nomeArquivo = fichaAtualSelecionada 
         ? `Ficha_PV_${fichaAtualSelecionada.nome.replace(/\s+/g, '_')}.pdf` 
-        : 'Ficha_Comunidade_Verde.pdf';
+        : 'Ficha_Partido_Verde.pdf';
 
       const opcoes = {
         margin: 12,
@@ -1076,11 +1245,11 @@
       }
 
       if (filtroPartido === 'PV') {
-        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || '').includes('Partido Verde'));
-      } else if (filtroPartido === 'SEM_FILIACAO') {
-        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || 'Sem filiação') === 'Sem filiação');
+        listaFiltrada = listaFiltrada.filter(m => m.status === 'Filiado');
+      } else if (filtroPartido === 'MEMBROS') {
+        listaFiltrada = listaFiltrada.filter(m => m.status !== 'Filiado');
       } else if (filtroPartido === 'OUTRO_PARTIDO') {
-        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || '').startsWith('Filiado'));
+        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || '').includes('Filiado a:'));
       }
 
       document.getElementById('total-membros').textContent = listaFiltrada.length;
@@ -1091,7 +1260,8 @@
       }
 
       tbody.innerHTML = listaFiltrada.map(m => {
-        const badgeClass = m.status === 'Filiado' ? 'bg-purple-100 text-purple-900 border border-purple-200' : 'bg-emerald-100 text-emerald-900 border border-emerald-200';
+        const isFiliado = m.status === 'Filiado';
+        const badgeClass = isFiliado ? 'bg-emerald-700 text-white' : 'bg-amber-100 text-amber-900 border border-amber-200';
         const filiacaoTexto = m.filiacao || 'Sem filiação';
         const filiacaoColor = filiacaoTexto.startsWith('Filiado a:') ? 'text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md' : 'text-slate-600';
 
@@ -1101,7 +1271,7 @@
             <td class="p-3"><span class="bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-0.5 rounded-lg font-bold text-[11px]">📍 ${m.bairro || 'Não informado'}</span></td>
             <td class="p-3"><a href="https://wa.me/55${m.zap.replace(/\D/g, '')}" target="_blank" class="text-emerald-700 font-bold">${m.zap} ↗</a></td>
             <td class="p-3 text-xs font-bold"><span class="${filiacaoColor}">${filiacaoTexto}</span></td>
-            <td class="p-3"><span class="text-xs font-bold px-2.5 py-1 rounded-xl ${badgeClass}">${m.status}</span></td>
+            <td class="p-3"><span class="text-xs font-bold px-2.5 py-1 rounded-xl ${badgeClass}">${isFiliado ? '🌿 Filiado PV' : '👤 Membro'}</span></td>
             <td class="p-3 text-center whitespace-nowrap space-x-1">
               <button onclick="visualizarFicha(${m.id})" class="text-[11px] font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-lg transition-colors">📄 Ficha / PDF</button>
               <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2.5 py-1.5 rounded-lg transition-colors">Deletar</button>
@@ -1113,13 +1283,13 @@
 
     function exportarCadastroCSV() {
       if (baseMembros.length === 0) { showToast('⚠️ Não há fichas para exportar.'); return; }
-      let csv = 'Nome,Bairro,WhatsApp,Situacao_Partidaria,Profissao,Titulo,Redes,Status,Data\n';
+      let csv = 'Nome,Bairro,WhatsApp,Situacao_Partidaria,Profissao,Titulo,Redes,Nivel,Data\n';
       baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || ''}","${m.zap}","${m.filiacao || 'Sem filiação'}","${m.profissao || ''}","${m.titulo || ''}","${m.redes || ''}","${m.status}","${m.data || ''}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'fichas_comunidade_verde_crm.csv';
+      a.download = 'fichas_partido_verde_cabo_frio.csv';
       a.click();
       showToast('📥 Planilha de fichas exportada com sucesso!');
     }
@@ -1127,13 +1297,13 @@
     function copiarSantinhoLiberacao() {
       const linkPlataforma = window.location.origin + window.location.pathname;
       const mensagemSantinho = 
-`🌱 *Seja muito bem-vindo(a) à Comunidade Verde!*
-Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo Frio junto com a gente.
-📝 *Preencha sua ficha digital no link abaixo para desbloquear o controle social na hora:*
+`🌿 *Seja muito bem-vindo(a) ao Observatório Verde do Partido Verde (PV) Cabo Frio!*
+Participe dos debates sobre a nossa cidade, acompanhe o orçamento público e fiscalize a Câmara Municipal.
+🔗 *Acesse a plataforma pelo link abaixo:*
 ${linkPlataforma}`;
 
       navigator.clipboard.writeText(mensagemSantinho).then(() => {
-        showToast('🔑 Link do santinho autônomo copiado para o WhatsApp!');
+        showToast('🔑 Link do santinho copiado para o WhatsApp!');
       });
     }
 
@@ -1150,9 +1320,9 @@ ${linkPlataforma}`;
       { tag: "2 • Centro x Tamoios", title: "Uma cidade dividida não avança por inteiro.", text: "Tamoios é a porta de entrada do Norte Fluminense e gerou cerca de R$ 1 bilhão só em royalties nos últimos 4 anos, mas segue sem infraestrutura básica enquanto o abismo entre Centro e distrito só cresce.", highlight: "~R$ 1 Bilhão em royalties gerados", badgeColor: "bg-amber-100 text-amber-900" },
       { tag: "3 • Economia & Petróleo", title: "Cabo Frio precisa entrar na cadeia logística do petróleo.", text: "Enquanto cidades vizinhas atraem empresas e empregos qualificados do setor offshore, ficamos presos apenas ao turismo sazonal e à especulação imobiliária — ignorando até nossa imensa área rural produtora de alimentos.", highlight: "Emprego o ano inteiro, não só no verão.", badgeColor: "bg-teal-100 text-teal-900" },
       { tag: "4 • A Contradição do IBGE", title: "Cidade rica de orçamento, mas povo com renda baixa.", text: "Com mais de 230 mil habitantes, Cabo Frio tem PIB per capita de R$ 76.000/ano, mas a renda média do trabalhador é de apenas R$ 2.600/mês. É o retrato de governos que não priorizam o cidadão.", highlight: "PIB R$ 76 mil/ano vs. Renda R$ 2.600/mês", badgeColor: "bg-rose-100 text-rose-900" },
-      { tag: "5 • Controle Social no Celular", title: "O orçamento público fiscalizado na palma da sua mão.", text: "No Observatório Verde, você recebe direto no celular os dados de receitas, convênios e emendas, acompanha onde cada centavo é aplicado e ajuda a construir leis de iniciativa popular.", highlight: "Transparência real em tempo real.", badgeColor: "bg-sky-100 text-sky-900" },
+      { tag: "5 • Controle Social no Celular", title: "O orçamento público fiscalizado na palma da sua mão.", text: "No Observatório Verde do PV, você recebe direto no celular os dados de receitas, convênios e emendas, acompanha onde cada centavo é aplicado e ajuda a construir leis de iniciativa popular.", highlight: "Transparência real em tempo real.", badgeColor: "bg-sky-100 text-sky-900" },
       { tag: "6 • Os 3 Caminhos do Atraso", title: "Chega de ficar preso entre extremos ou em cima do muro.", text: "De um lado, a bolha da direita; do outro, a bolha da esquerda; e no meio, a postura irresponsável de quem se omite. Nenhum desses três caminhos resolveu os problemas reais de Cabo Frio.", highlight: "Não somos uma 4ª bolha.", badgeColor: "bg-slate-200 text-slate-800" },
-      { tag: "7 • A 4ª Escolha", title: "Enquanto constroem muros, nós escolhemos construir pontes.", text: "A 4ª Escolha é o encontro de quem ama Cabo Frio e quer fiscalizar, propor e transformar a cidade com seriedade e participação popular.", highlight: "Venha construir essa ponte com a gente!", isCTA: true, badgeColor: "bg-emerald-600 text-white" }
+      { tag: "7 • A 4ª Escolha • Partido Verde", title: "Enquanto constroem muros, nós escolhemos construir pontes.", text: "A 4ª Escolha é o encontro de quem ama Cabo Frio e quer fiscalizar, propor e transformar a cidade com seriedade junto ao Partido Verde (PV).", highlight: "Filie-se ao PV e tenha acesso integral!", isCTA: true, badgeColor: "bg-emerald-600 text-white" }
     ];
 
     let currentSlide = 0;
@@ -1182,7 +1352,7 @@ ${linkPlataforma}`;
           <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${slide.title}</h3>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">${slide.text}</p>
           <div class="pt-2"><span class="inline-block bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl">${slide.highlight}</span></div>
-          ${slide.isCTA ? `<div class="pt-3 relative z-30"><button onclick="openUnlockModal()" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">🌱 Preencher Ficha e Liberar Acesso</button></div>` : ''}
+          ${slide.isCTA ? `<div class="pt-3 relative z-30"><button onclick="openUnlockModal()" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3.5 rounded-full shadow-lg transition-all">🌿 Preencher Ficha de Filiação ao PV</button></div>` : ''}
         </div>
       `;
     }
@@ -1252,7 +1422,7 @@ ${linkPlataforma}`;
 
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openGlobalSearch(); }
-      if (e.key === 'Escape') { closeGlobalSearch(); closeUnlockModal(); }
+      if (e.key === 'Escape') { closeGlobalSearch(); closeUnlockModal(); fecharModalMembroSimples(); }
     });
 
     function renderBloggerPosts(data) {
@@ -1266,7 +1436,7 @@ ${linkPlataforma}`;
         const contentHtml = entry.content ? entry.content.$t : (entry.summary ? entry.summary.$t : '');
         const rawDate = new Date(entry.published.$t);
         const formattedDate = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-        const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Comunidade Verde';
+        const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Partido Verde';
         const postId = `forum-post-${index}`;
         const postUrl = entry.link && entry.link.length > 0 ? entry.link.find(l => l.rel === 'alternate').href : '#';
 
@@ -1340,7 +1510,7 @@ ${linkPlataforma}`;
 
     function compartilharPostagem(title, url) {
       if (navigator.share) {
-        navigator.share({ title: title, text: `Confira esta pauta da Comunidade Verde: ${title}`, url: url !== '#' ? url : window.location.href }).catch(() => {});
+        navigator.share({ title: title, text: `Confira esta pauta do Partido Verde: ${title}`, url: url !== '#' ? url : window.location.href }).catch(() => {});
       } else {
         navigator.clipboard.writeText(`${title} - ${url !== '#' ? url : window.location.href}`).then(() => {
           showToast('🔗 Link da pauta copiado para a área de transferência!');
@@ -1460,10 +1630,18 @@ ${linkPlataforma}`;
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
-      if ((viewName === 'orcamento' || viewName === 'camara') && !isMemberUnlocked) {
+      // Nível 1: Fórum e Agenda exigem cadastro de Membro Simples
+      if ((viewName === 'forum' || viewName === 'agenda') && accessLevel === 'none') {
+        abrirModalMembroSimples();
+        return;
+      }
+
+      // Nível 2: Orçamento e Câmara exigem Filiação ao Partido Verde (PV)
+      if ((viewName === 'orcamento' || viewName === 'camara') && accessLevel !== 'filiado') {
         openUnlockModal();
         return;
       }
+
       const target = viewName.startsWith('forum-post-') ? 'forum' : (viewName.startsWith('camara-projeto-') ? 'camara' : (views.includes(viewName) ? viewName : 'home'));
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
@@ -1492,7 +1670,7 @@ ${linkPlataforma}`;
     });
 
     window.addEventListener('DOMContentLoaded', () => {
-      checkAuthAccess();
+      aplicarPermissoesVisuais();
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
