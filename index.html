@@ -270,12 +270,14 @@
     </div>
   </div>
 
-  <!-- ==================== WIDGET DE CHAT EXCLUSIVO DO OBSERVATÓRIO (COM IDENTIFICAÇÃO E FILTRO RÍGIDO) ==================== -->
-  <div class="fixed bottom-5 left-5 z-40">
-    <!-- Botão Flutuante do Chat -->
-    <button onclick="toggleChatWindow()" id="chat-toggle-btn" class="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-3 rounded-full shadow-xl transition-all border border-emerald-600 group">
-      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-      <span>💬 Guardião Verde • Triagem</span>
+  <!-- ==================== WIDGET DE CHAT: ASSISTENTE IA VERDE (BLOQUEADO PARA NÃO MEMBROS) ==================== -->
+  <div id="assistente-chat-container" class="fixed bottom-5 left-5 z-40 hidden">
+    <!-- Botão Flutuante do Chat com Foto da Atendente -->
+    <button onclick="toggleChatWindow()" class="flex items-center gap-2.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-full shadow-xl transition-all border border-emerald-600 group">
+      <div class="w-7 h-7 rounded-full overflow-hidden border border-emerald-400 shrink-0">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Assistente IA Verde" class="w-full h-full object-cover">
+      </div>
+      <span>💬 Assistente IA Verde</span>
     </button>
 
     <!-- Janela do Chat -->
@@ -283,20 +285,22 @@
       <!-- Cabeçalho do Chat -->
       <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center font-bold text-xs">🌱</div>
+          <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-emerald-600 shadow shrink-0">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Assistente IA Verde" class="w-full h-full object-cover">
+          </div>
           <div>
-            <h4 class="text-xs font-extrabold uppercase tracking-wider">Guardião Verde</h4>
-            <p class="text-[10px] text-emerald-200">Inteligência Cívica & Triagem</p>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider">Assistente IA Verde</h4>
+            <p class="text-[10px] text-emerald-200">Atendimento Oficial & Triagem</p>
           </div>
         </div>
         <button onclick="toggleChatWindow()" class="text-emerald-200 hover:text-white font-bold text-xs px-2 py-1">✕</button>
       </div>
 
-      <!-- Corpo de Mensagens -->
+      <!-- Corpo de Mensagens (Privado por Sessão) -->
       <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
-          <p class="font-bold text-emerald-900">Olá! Sou o Guardião Verde, assistente virtual do Observatório.</p>
-          <p>Antes de começarmos, por favor, me informe seu <strong>Nome e Bairro</strong> para registrar seu atendimento:</p>
+          <p class="font-bold text-emerald-900">Olá! Sou a Assistente IA Verde.</p>
+          <p>Para começarmos, informe seu <strong>Nome e Bairro</strong>:</p>
         </div>
       </div>
 
@@ -310,7 +314,6 @@
           <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') enviarMensagemChat()" placeholder="Digite sua dúvida sobre a cidade..." class="flex-1 bg-slate-100 border border-slate-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
           <button onclick="enviarMensagemChat()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-colors">Enviar</button>
         </div>
-        <div id="chat-whatsapp-container" class="hidden pt-1"></div>
       </div>
     </div>
   </div>
@@ -611,6 +614,10 @@
       
       const masterMenu = document.getElementById('master-menu-container');
       if (masterMenu) masterMenu.classList.remove('hidden');
+
+      // Exibe o chat apenas se o membro estiver desbloqueado
+      const assistenteChat = document.getElementById('assistente-chat-container');
+      if (assistenteChat) assistenteChat.classList.remove('hidden');
     }
 
     function toggleMasterDropdown() {
@@ -629,7 +636,7 @@
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
-    // Chat Inteligente com Filtro Contextual e Identificação Obrigatória
+    // Chat Privado da Assistente IA Verde
     function toggleChatWindow() {
       const win = document.getElementById('chat-window');
       win.classList.toggle('hidden');
@@ -639,7 +646,6 @@
       const nomeInput = document.getElementById('chat-visitante-nome');
       const bairroInput = document.getElementById('chat-visitante-bairro');
       const input = document.getElementById('chat-input');
-      const whatsappContainer = document.getElementById('chat-whatsapp-container');
       
       const nome = nomeInput.value.trim();
       const bairro = bairroInput.value.trim();
@@ -662,7 +668,6 @@
         let resposta = "";
         const txtLower = txt.toLowerCase();
 
-        // FILTRO RÍGIDO DE CONTEXTO (CABO FRIO, ORÇAMENTO, CÂMARA, BAIRROS)
         const isContextValid = txtLower.includes('cabo') || txtLower.includes('tamoios') || txtLower.includes('orçamento') || 
                                txtLower.includes('bairro') || txtLower.includes('vereador') || txtLower.includes('câmara') || 
                                txtLower.includes('eleiço') || txtLower.includes('royalties') || txtLower.includes('pauta') || 
@@ -671,19 +676,16 @@
                                txtLower.includes('centro') || txtLower.includes('unamar') || txtLower.includes('militância');
 
         if (!isContextValid) {
-          resposta = `Olá ${nome}! O Guardião Verde responde exclusivamente sobre assuntos relacionados ao **Observatório Verde**, **Câmara Municipal**, **Orçamento** e **demandas de Cabo Frio (Centro e Tamoios)**. Para este assunto fora do nosso escopo, o ideal é você falar diretamente com a nossa coordenação política!`;
+          resposta = `Olá ${nome}! A Assistente IA Verde responde exclusivamente sobre assuntos relacionados ao **Observatório Verde**, **Câmara Municipal**, **Orçamento** e **demandas de Cabo Frio**. Para este assunto fora do escopo, você pode falar diretamente com a nossa coordenação!`;
         } else if (txtLower.includes('orçamento') || txtLower.includes('royalties') || txtLower.includes('dinheiro')) {
           resposta = `Perfeito, ${nome}! As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'. Tamoios gerou cerca de R$ 1 bilhão em royalties nos últimos anos!`;
         } else if (txtLower.includes('bairro') || txtLower.includes('tamoios') || txtLower.includes('centro') || txtLower.includes('reunião')) {
           resposta = `${nome}, nós organizamos plenárias descentralizadas pela 'Agenda nos Bairros' tanto no 1º Distrito quanto em Tamoios. Quer sugerir um encontro no bairro ${bairro}?`;
-        } else if (txtLower.includes('filiar') || txtLower.includes('participar') || txtLower.includes('membro')) {
-          resposta = `Excelente iniciativa em ${bairro}, ${nome}! Para participar, basta preencher o formulário de aceite do santinho digital e você ganha acesso completo aos painéis de controle.`;
         } else {
-          resposta = `Entendido, ${nome} (${bairro}). Como essa é uma questão específica ou estratégica, é necessária uma avaliação pessoal da coordenação (apenas você e o presidente autorizados a responder). Clique no botão abaixo para enviar sua mensagem direto para o nosso WhatsApp!`;
+          resposta = `Entendido, ${nome} (${bairro}). Como essa é uma questão específica ou estratégica, é necessária uma avaliação pessoal da coordenação. Clique no botão abaixo para enviar sua mensagem direto para o WhatsApp oficial!`;
         }
 
-        // Monta o link do WhatsApp formatado com o nome, bairro e a dúvida
-        const textoZap = `Olá! Sou ${nome}, morador(a) do bairro ${bairro} em Cabo Frio. Minha dúvida/demanda no Observatório Verde é: "${txt}"`;
+        const textoZap = `Olá! Sou ${nome}, morador(a) do bairro ${bairro} em Cabo Frio. Minha dúvida na Assistente IA Verde é: "${txt}"`;
         const linkZap = `https://wa.me/5522981255655?text=${encodeURIComponent(textoZap)}`;
 
         chatMsgs.innerHTML += `
