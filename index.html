@@ -176,7 +176,7 @@
     </div>
   </div>
 
-  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO 100% AUTOMÁTICO (SEM IR PRO WHATSAPP) ==================== -->
+  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO 100% AUTOMÁTICO ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
@@ -266,6 +266,50 @@
         <button onclick="cadastrarAutomaticoDesbloquear()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all text-center">
           ✓ Cadastrar e Desbloquear Acesso Imediato
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== WIDGET DE CHAT EXCLUSIVO DO OBSERVATÓRIO (COM BOTÃO PARA WHATSAPP PESSOAL) ==================== -->
+  <div class="fixed bottom-5 left-5 z-40">
+    <!-- Botão Flutuante do Chat -->
+    <button onclick="toggleChatWindow()" id="chat-toggle-btn" class="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-3 rounded-full shadow-xl transition-all border border-emerald-600 group">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+      <span>💬 Assistente Virtual • Observatório</span>
+    </button>
+
+    <!-- Janela do Chat -->
+    <div id="chat-window" class="hidden absolute bottom-14 left-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[460px] animate-fade-in z-50">
+      <!-- Cabeçalho do Chat -->
+      <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-emerald-700 flex items-center justify-center font-bold text-xs">🌱</div>
+          <div>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider">Guardião Verde</h4>
+            <p class="text-[10px] text-emerald-200">Inteligência Cívica & Triagem</p>
+          </div>
+        </div>
+        <button onclick="toggleChatWindow()" class="text-emerald-200 hover:text-white font-bold text-xs px-2 py-1">✕</button>
+      </div>
+
+      <!-- Corpo de Mensagens -->
+      <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
+          <p class="font-bold text-emerald-900">Olá! Sou o assistente virtual do Observatório Verde.</p>
+          <p>Posso tirar dúvidas sobre a nossa plataforma, a agenda nos bairros, o orçamento de Cabo Frio ou leis municipais.</p>
+          <p class="text-[10px] text-slate-400 pt-1">Caso precise de um atendimento pessoal direto com a coordenação, posso te encaminhar para o WhatsApp!</p>
+        </div>
+      </div>
+
+      <!-- Rodapé de Entrada -->
+      <div class="p-3 bg-white border-t border-slate-100 space-y-2">
+        <div class="flex items-center gap-2">
+          <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') enviarMensagemChat()" placeholder="Digite sua dúvida..." class="flex-1 bg-slate-100 border border-slate-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
+          <button onclick="enviarMensagemChat()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-colors">Enviar</button>
+        </div>
+        <a href="https://wa.me/5522981255655?text=Olá! Estava navegando no Observatório Verde e preciso falar diretamente com a coordenação:" target="_blank" rel="noopener" class="flex items-center justify-center gap-1.5 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-[11px] font-bold py-2 rounded-xl border border-emerald-200 transition-colors">
+          <span>📱 Falar direto com a Coordenação (WhatsApp)</span>
+        </a>
       </div>
     </div>
   </div>
@@ -528,7 +572,7 @@
       }
     }
 
-    // CADASTRO AUTOMÁTICO 100% AUTÔNOMO (SALVA NO CRM E DESBLOQUEIA NA HORA)
+    // CADASTRO AUTOMÁTICO 100% AUTÔNOMO
     function cadastrarAutomaticoDesbloquear() {
       const nome = document.getElementById('auto-nome').value.trim();
       const zap = document.getElementById('auto-zap').value.trim();
@@ -583,6 +627,46 @@
 
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
+
+    // Chat Inteligente Exclusivo do Observatório
+    function toggleChatWindow() {
+      const win = document.getElementById('chat-window');
+      win.classList.toggle('hidden');
+    }
+
+    function enviarMensagemChat() {
+      const input = document.getElementById('chat-input');
+      const txt = input.value.trim();
+      if (!txt) return;
+
+      const chatMsgs = document.getElementById('chat-messages');
+      chatMsgs.innerHTML += `<div class="bg-emerald-100 text-emerald-950 p-2.5 rounded-2xl ml-6 font-medium">${txt}</div>`;
+      input.value = '';
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+      setTimeout(() => {
+        let resposta = "Entendido! O Observatório Verde trabalha com transparência total de contas públicas, fiscalização da Câmara e mapeamento territorial para 2028 em Cabo Frio.";
+        const txtLower = txt.toLowerCase();
+
+        if (txtLower.includes('orçamento') || txtLower.includes('royalties') || txtLower.includes('dinheiro')) {
+          resposta = "As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'. Tamoios gerou cerca de R$ 1 bilhão em royalties nos últimos anos!";
+        } else if (txtLower.includes('bairro') || txtLower.includes('tamoios') || txtLower.includes('centro') || txtLower.includes('reunião')) {
+          resposta = "Nós organizamos plenárias descentralizadas pela 'Agenda nos Bairros' tanto no 1º Distrito quanto em Tamoios. Quer sugerir um encontro no seu bairro?";
+        } else if (txtLower.includes('filiar') || txtLower.includes('participar') || txtLower.includes('membro')) {
+          resposta = "Para participar, basta preencher o formulário de aceite do santinho digital e você ganha acesso completo aos painéis de controle!";
+        } else {
+          resposta = "Essa é uma questão específica ou pessoal que merece atenção direta da nossa coordenação. Clique no botão abaixo para falar diretamente com a gente no WhatsApp!";
+        }
+
+        chatMsgs.innerHTML += `
+          <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm mr-6 space-y-2 text-slate-700">
+            <p>${resposta}</p>
+            <a href="https://wa.me/5522981255655?text=Olá! Perguntei no chat do Observatório sobre: '${encodeURIComponent(txt)}' e gostaria de conversar pessoalmente:" target="_blank" rel="noopener" class="inline-block bg-emerald-600 text-white font-bold text-[10px] px-3 py-1.5 rounded-xl">Falar com a Coordenação no WhatsApp ↗</a>
+          </div>
+        `;
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      }, 600);
+    }
 
     // Janela independente de cadastro / CRM com Inteligência Territorial por Bairro e Gestão de Status
     function abrirModalCadastro() {
