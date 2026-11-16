@@ -6,62 +6,23 @@
   <title>Observatório Verde • Comunidade Verde Cabo Frio</title>
   <meta property="description" content="Movimento Comunidade Verde - Plataforma de Inteligência Cívica e Controle Social em Cabo Frio." />
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .story-progress-bar {
-      transition: width 0.1s linear;
-    }
-    .card-hover {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-4px);
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.35s ease-out forwards;
-    }
-    .blogger-content img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 1rem;
-      margin: 1rem 0;
-      border: 1px solid #e2e8f0;
-    }
-    .blogger-content iframe,
-    .blogger-content video,
-    .blogger-content .BLOG_video_class {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-height: 320px;
-      border-radius: 1rem;
-      margin: 1rem 0;
-    }
-    .blogger-content p {
-      margin-bottom: 0.85rem;
-      line-height: 1.7;
-    }
-    .blogger-content a {
-      color: #059669;
-      text-decoration: underline;
-      font-weight: 600;
-    }
-    @media print {
-      header, footer, .no-print, article:not(.print-target) {
-        display: none !important;
-      }
-      body {
-        background: white !important;
-      }
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .story-progress-bar { transition: width 0.1s linear; }
+    .card-hover { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .card-hover:hover { transform: translateY(-4px); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.35s ease-out forwards; }
+    .blogger-content img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; border: 1px solid #e2e8f0; }
+    .blogger-content iframe, .blogger-content video, .blogger-content .BLOG_video_class { width: 100% !important; max-width: 100% !important; min-height: 320px; border-radius: 1rem; margin: 1rem 0; }
+    .blogger-content p { margin-bottom: 0.85rem; line-height: 1.7; }
+    .blogger-content a { color: #059669; text-decoration: underline; font-weight: 600; }
+    @media print { header, footer, .no-print, article:not(.print-target) { display: none !important; } body { background: white !important; } }
   </style>
 </head>
 <body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
@@ -88,19 +49,17 @@
         </div>
       </a>
 
-      <!-- Botão de Acionamento da Pesquisa Global -->
+      <!-- Botão de Pesquisa Global -->
       <div class="flex-1 max-w-sm">
         <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
-          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
+          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <span class="truncate">Pesquisar pautas, leis...</span>
           <span class="ml-auto hidden lg:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
         </button>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- MENU MESTRE (2 ITENS: SANTINHO E LISTA DE CADASTRO) -->
+        <!-- MENU MESTRE -->
         <div id="master-menu-container" class="relative hidden">
           <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
             <span>⚙️ Gestão Master</span>
@@ -126,20 +85,19 @@
     </div>
   </header>
 
-  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM + GESTÃO DE STATUS ==================== -->
+  <!-- ==================== MODAL DA LISTA DE CADASTRO / CRM ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">CRM Político 2028 • Autonomia Total</span>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">CRM Político 2028 • Sincronizado Supabase</span>
           <h3 class="text-xl font-extrabold mt-1">Lista de Cadastro e Gestão de Status da Militância</h3>
         </div>
         <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
       </div>
       <div class="p-6 overflow-y-auto space-y-5">
-        <!-- Painel de Concentração por Bairro -->
         <div id="resumo-bairros-container" class="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 hidden">
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block mb-2">📍 Força Territorial por Bairro (Top Concentração):</span>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block mb-2">📍 Força Territorial por Bairro:</span>
           <div id="badges-bairros" class="flex flex-wrap gap-2"></div>
         </div>
 
@@ -168,7 +126,7 @@
               </tr>
             </thead>
             <tbody id="tabela-membros-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-              <tr><td colspan="6" class="p-6 text-center text-slate-400">Nenhum membro cadastrado ainda.</td></tr>
+              <tr><td colspan="6" class="p-6 text-center text-slate-400">Carregando membros do banco de dados...</td></tr>
             </tbody>
           </table>
         </div>
@@ -176,7 +134,7 @@
     </div>
   </div>
 
-  <!-- ==================== JANELINHA FLUTUANTE DE DESBLOQUEIO 100% AUTOMÁTICO ==================== -->
+  <!-- ==================== JANELA DE DESBLOQUEIO / CADASTRO ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 text-center space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
@@ -189,7 +147,6 @@
         <p class="text-sm text-slate-600 leading-relaxed">Preencha seus dados abaixo para liberar imediatamente o acesso aos painéis e salvar seu cadastro na nossa base territorial.</p>
       </div>
 
-      <!-- FORMULÁRIO DE CADASTRO AUTOMÁTICO INTEGRADO -->
       <div class="space-y-3.5 text-left pt-1">
         <div>
           <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Nome Completo</label>
@@ -270,10 +227,10 @@
     </div>
   </div>
 
-  <!-- ==================== WIDGET DE CHAT: ASSISTENTE IA VERDE (BLOQUEADO PARA NÃO MEMBROS COM ÍCONE VETORIAL MASCULINO) ==================== -->
-  <div id="assistente-chat-container" class="fixed bottom-5 left-5 z-40 hidden">
-    <!-- Botão Flutuante do Chat com Ícone Vetorial Masculino de Telemarketing -->
-    <button onclick="toggleChatWindow()" class="flex items-center gap-2.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-full shadow-xl transition-all border border-emerald-600 group">
+  <!-- ==================== WIDGET DE CHAT (BLOQUEADO COM CADEADO PARA NÃO MEMBROS) ==================== -->
+  <div id="assistente-chat-container" class="fixed bottom-5 left-5 z-40">
+    <button id="chat-trigger-btn" onclick="tentarAbrirChat()" class="flex items-center gap-2.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-full shadow-xl transition-all border border-emerald-600 group relative">
+      <span id="chat-lock-badge" class="absolute -top-2 -right-1 text-[10px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full font-extrabold shadow">🔒 Membros</span>
       <div class="w-7 h-7 rounded-full bg-emerald-700 flex items-center justify-center border border-emerald-400 shrink-0 text-white">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -283,9 +240,7 @@
       <span>💬 Assistente IA Verde</span>
     </button>
 
-    <!-- Janela do Chat -->
     <div id="chat-window" class="hidden absolute bottom-14 left-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[480px] animate-fade-in z-50">
-      <!-- Cabeçalho do Chat -->
       <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-full bg-emerald-700 flex items-center justify-center border-2 border-emerald-600 shadow shrink-0 text-white">
@@ -302,7 +257,6 @@
         <button onclick="toggleChatWindow()" class="text-emerald-200 hover:text-white font-bold text-xs px-2 py-1">✕</button>
       </div>
 
-      <!-- Corpo de Mensagens (Privado por Sessão) -->
       <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
           <p class="font-bold text-emerald-900">Olá! Sou o Assistente IA Verde.</p>
@@ -310,7 +264,6 @@
         </div>
       </div>
 
-      <!-- Rodapé de Identificação e Entrada -->
       <div class="p-3 bg-white border-t border-slate-100 space-y-2">
         <div id="chat-user-form" class="space-y-1.5">
           <input type="text" id="chat-visitante-nome" placeholder="Seu Nome" class="w-full bg-slate-100 border border-slate-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
@@ -324,7 +277,7 @@
     </div>
   </div>
 
-  <!-- ==================== JANELA FLUTUANTE DE PESQUISA GLOBAL ==================== -->
+  <!-- MODAL DE PESQUISA GLOBAL -->
   <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
     <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[80vh]">
       <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
@@ -340,10 +293,7 @@
 
   <main id="main-content" class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
-    <!-- ==================== PÁGINA INICIAL ==================== -->
     <div id="view-home" class="space-y-8 animate-fade-in">
-
-      <!-- Banner Principal -->
       <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] sm:min-h-[400px] flex items-end">
         <img src="capa.jpg" alt="Observatório Verde • Comunidade Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"></div>
@@ -365,7 +315,7 @@
         </div>
       </section>
 
-      <!-- Apresentação Interativa em 7 Lâminas (Stories) -->
+      <!-- Stories -->
       <section class="max-w-xl mx-auto">
         <div class="flex items-center justify-between mb-3 px-1">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
@@ -390,7 +340,7 @@
         </div>
       </section>
 
-      <!-- Os 4 Cartões de Navegação -->
+      <!-- Cartões de Navegação -->
       <section class="pt-4">
         <div class="text-center mb-6">
           <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
@@ -447,7 +397,7 @@
       </section>
     </div>
 
-    <!-- ==================== SEÇÃO 1: FÓRUM DE DEBATE (BLOGGER) ==================== -->
+    <!-- FÓRUM -->
     <section id="view-forum" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -465,16 +415,14 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 2: AGENDA DOS BAIRROS ==================== -->
+    <!-- AGENDA -->
     <section id="view-agenda" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-amber-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           Voltar ao Observatório Verde
         </button>
-        <div class="flex flex-wrap items-center gap-2">
-          <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">🖨️ Imprimir</button>
-        </div>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-xl border border-slate-200 transition-colors">🖨️ Imprimir</button>
       </div>
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-amber-100 shadow-sm space-y-6">
         <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
@@ -493,7 +441,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 3: ORÇAMENTO MUNICIPAL ==================== -->
+    <!-- ORÇAMENTO -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -513,7 +461,7 @@
       </div>
     </section>
 
-    <!-- ==================== SEÇÃO 4: CÂMARA MUNICIPAL ==================== -->
+    <!-- CÂMARA -->
     <section id="view-camara" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sky-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950">
@@ -544,7 +492,6 @@
 
   </main>
 
-  <!-- Rodapé -->
   <footer class="mt-12 border-t border-emerald-100 bg-white/80 py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div class="flex items-center gap-3">
@@ -558,12 +505,30 @@
     </div>
   </footer>
 
-  <!-- Toast de Notificação -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl border border-emerald-700"></div>
 
   <script>
+    // =========================================================================
+    // CONFIGURAÇÃO DO SUPABASE (Substitua abaixo com sua URL e sua Anon Key do projeto observatorio-verde)
+    // =========================================================================
+    const SUPABASE_URL = 'https://naoxprfnhidlwgoueydi.supabase';
+    const SUPABASE_ANON_KEY = 'sb_publishable_TUIxvFWJyPUTk_YlaCtz0g_ToUs4qHj';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     let isMemberUnlocked = false;
-    let baseMembros = JSON.parse(localStorage.getItem('comunidade_verde_base') || '[]');
+    let baseMembros = [];
+
+    async function carregarMembrosDoSupabase() {
+      const { data, error } = await supabaseClient.from('membros').select('*').order('id', { ascending: false });
+      if (!error && data) {
+        baseMembros = data;
+        atualizarFiltroBairrosCRM();
+        if (!modalCadastroAberto) renderizarTabelaMembros();
+      }
+    }
+
+    let modalCadastroAberto = false;
 
     function checkAuthAccess() {
       if (localStorage.getItem('comunidade_verde_unlocked') === 'true') {
@@ -582,8 +547,8 @@
       }
     }
 
-    // CADASTRO AUTOMÁTICO 100% AUTÔNOMO
-    function cadastrarAutomaticoDesbloquear() {
+    // CADASTRO AUTOMÁTICO SALVANDO DIRETO NO SUPABASE
+    async function cadastrarAutomaticoDesbloquear() {
       const nome = document.getElementById('auto-nome').value.trim();
       const zap = document.getElementById('auto-zap').value.trim();
       const selectBairro = document.getElementById('auto-bairro').value;
@@ -605,9 +570,14 @@
         data: new Date().toLocaleDateString('pt-BR')
       };
 
-      baseMembros.unshift(novo);
-      localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
-      
+      const { error } = await supabaseClient.from('membros').insert([novo]);
+      if (error) {
+        alert('Erro ao salvar no Supabase. Verifique suas credenciais.');
+        console.error(error);
+        return;
+      }
+
+      await carregarMembrosDoSupabase();
       unlockMasterAccess();
       closeUnlockModal();
       showToast(`🌱 Cadastro realizado com sucesso! Bem-vindo à Comunidade Verde.`);
@@ -621,9 +591,16 @@
       const masterMenu = document.getElementById('master-menu-container');
       if (masterMenu) masterMenu.classList.remove('hidden');
 
-      // Exibe o chat APENAS para membros desbloqueados
-      const assistenteChat = document.getElementById('assistente-chat-container');
-      if (assistenteChat) assistenteChat.classList.remove('hidden');
+      const lockBadge = document.getElementById('chat-lock-badge');
+      if (lockBadge) lockBadge.style.display = 'none';
+    }
+
+    function tentarAbrirChat() {
+      if (!isMemberUnlocked) {
+        openUnlockModal();
+        return;
+      }
+      toggleChatWindow();
     }
 
     function toggleMasterDropdown() {
@@ -642,7 +619,6 @@
     function openUnlockModal() { document.getElementById('unlock-modal').classList.remove('hidden'); }
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
-    // Chat Privado da Assistente IA Verde
     function toggleChatWindow() {
       const win = document.getElementById('chat-window');
       win.classList.toggle('hidden');
@@ -662,7 +638,6 @@
         nomeInput.focus();
         return;
       }
-
       if (!txt) return;
 
       const chatMsgs = document.getElementById('chat-messages');
@@ -673,7 +648,6 @@
       setTimeout(() => {
         let resposta = "";
         const txtLower = txt.toLowerCase();
-
         const isContextValid = txtLower.includes('cabo') || txtLower.includes('tamoios') || txtLower.includes('orçamento') || 
                                txtLower.includes('bairro') || txtLower.includes('vereador') || txtLower.includes('câmara') || 
                                txtLower.includes('eleiço') || txtLower.includes('royalties') || txtLower.includes('pauta') || 
@@ -682,13 +656,11 @@
                                txtLower.includes('centro') || txtLower.includes('unamar') || txtLower.includes('militância');
 
         if (!isContextValid) {
-          resposta = `Olá ${nome}! O Assistente IA Verde responde exclusivamente sobre assuntos relacionados ao **Observatório Verde**, **Câmara Municipal**, **Orçamento** e **demandas de Cabo Frio**. Para este assunto fora do escopo, você pode falar diretamente com a nossa coordenação!`;
-        } else if (txtLower.includes('orçamento') || txtLower.includes('royalties') || txtLower.includes('dinheiro')) {
-          resposta = `Perfeito, ${nome}! As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'. Tamoios gerou cerca de R$ 1 bilhão em royalties nos últimos anos!`;
-        } else if (txtLower.includes('bairro') || txtLower.includes('tamoios') || txtLower.includes('centro') || txtLower.includes('reunião')) {
-          resposta = `${nome}, nós organizamos plenárias descentralizadas pela 'Agenda nos Bairros' tanto no 1º Distrito quanto em Tamoios. Quer sugerir um encontro no bairro ${bairro}?`;
+          resposta = `Olá ${nome}! O Assistente IA Verde responde exclusivamente sobre assuntos relacionados ao **Observatório Verde**, **Câmara Municipal**, **Orçamento** e **demandas de Cabo Frio**.`;
+        } else if (txtLower.includes('orçamento') || txtLower.includes('royalties')) {
+          resposta = `Perfeito, ${nome}! As receitas e royalties de Cabo Frio estão disponíveis na aba 'Orçamento Municipal'.`;
         } else {
-          resposta = `Entendido, ${nome} (${bairro}). Como essa é uma questão específica ou estratégica, é necessária uma avaliação pessoal da coordenação. Clique no botão abaixo para enviar sua mensagem direto para o WhatsApp oficial!`;
+          resposta = `Entendido, ${nome} (${bairro}). Clique no botão abaixo para enviar sua mensagem direto para o WhatsApp oficial!`;
         }
 
         const textoZap = `Olá! Sou ${nome}, morador(a) do bairro ${bairro} em Cabo Frio. Minha dúvida no Assistente IA Verde é: "${txt}"`;
@@ -706,13 +678,17 @@
       }, 600);
     }
 
-    // Janela independente de cadastro / CRM com Inteligência Territorial por Bairro e Gestão de Status
-    function abrirModalCadastro() {
+    async function abrirModalCadastro() {
+      modalCadastroAberto = true;
       document.getElementById('modal-cadastro').classList.remove('hidden');
+      await carregarMembrosDoSupabase();
       atualizarFiltroBairrosCRM();
       renderizarTabelaMembros();
     }
-    function fecharModalCadastro() { document.getElementById('modal-cadastro').classList.add('hidden'); }
+    function fecharModalCadastro() { 
+      modalCadastroAberto = false;
+      document.getElementById('modal-cadastro').classList.add('hidden'); 
+    }
 
     function atualizarFiltroBairrosCRM() {
       const selectFiltro = document.getElementById('filtro-bairro-crm');
@@ -747,23 +723,25 @@
       }
     }
 
-    function atualizarStatusMembro(id, novoStatus) {
-      const membro = baseMembros.find(m => m.id === id);
-      if (membro) {
-        membro.status = novoStatus;
-        localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
-        atualizarFiltroBairrosCRM();
+    async function atualizarStatusMembro(id, novoStatus) {
+      const { error } = await supabaseClient.from('membros').update({ status: novoStatus }).eq('id', id);
+      if (!error) {
+        await carregarMembrosDoSupabase();
         showToast(`🔄 Status atualizado para: ${novoStatus}`);
+      } else {
+        alert('Erro ao atualizar status.');
       }
     }
 
-    function excluirMembro(id) {
+    async function excluirMembro(id) {
       if (confirm('Deseja realmente remover este membro da base?')) {
-        baseMembros = baseMembros.filter(m => m.id !== id);
-        localStorage.setItem('comunidade_verde_base', JSON.stringify(baseMembros));
-        atualizarFiltroBairrosCRM();
-        renderizarTabelaMembros();
-        showToast('🗑️ Membro removido da base.');
+        const { error } = await supabaseClient.from('membros').delete().eq('id', id);
+        if (!error) {
+          await carregarMembrosDoSupabase();
+          showToast('🗑️ Membro removido da base.');
+        } else {
+          alert('Erro ao deletar membro.');
+        }
       }
     }
 
@@ -799,7 +777,7 @@
                 <option value="Filiado" ${m.status === 'Filiado' ? 'selected' : ''}>⭐ Filiado</option>
               </select>
             </td>
-            <td class="p-3 text-[11px] text-slate-500">${m.data}</td>
+            <td class="p-3 text-[11px] text-slate-500">${m.data || ''}</td>
             <td class="p-3 text-center whitespace-nowrap">
               <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2.5 py-1.5 rounded-lg transition-colors">Deletar</button>
             </td>
@@ -811,7 +789,7 @@
     function exportarCadastroCSV() {
       if (baseMembros.length === 0) { showToast('⚠️ Não há membros para exportar.'); return; }
       let csv = 'Nome,Bairro,WhatsApp,Status,Data\n';
-      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || 'Não informado'}","${m.zap}","${m.status}","${m.data}"\n`; });
+      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || 'Não informado'}","${m.zap}","${m.status}","${m.data || ''}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -825,9 +803,7 @@
       const linkPlataforma = window.location.origin + window.location.pathname;
       const mensagemSantinho = 
 `🌱 *Seja muito bem-vindo(a) à Comunidade Verde!*
-
 Ficamos muito felizes com o seu interesse em construir pontes e transformar Cabo Frio junto com a gente.
-
 📝 *Clique no link abaixo para acessar a plataforma, preencher seus dados e desbloquear o controle social na hora:*
 ${linkPlataforma}`;
 
@@ -900,13 +876,11 @@ ${linkPlataforma}`;
       }, 100);
     }
 
-    // PESQUISA GLOBAL COM FALLBACK PARA O GOOGLE WEB
     let cachedCamaraSearchData = [];
     let cachedForumSearchData = [];
 
     function openGlobalSearch() {
-      const modal = document.getElementById('global-search-modal');
-      modal.classList.remove('hidden');
+      document.getElementById('global-search-modal').classList.remove('hidden');
       document.getElementById('global-search-input').focus();
     }
     function closeGlobalSearch() { document.getElementById('global-search-modal').classList.add('hidden'); }
@@ -948,7 +922,6 @@ ${linkPlataforma}`;
           </a>
         </div>
       `;
-
       resultsContainer.innerHTML = htmlOutput;
     }
 
@@ -957,7 +930,6 @@ ${linkPlataforma}`;
       if (e.key === 'Escape') { closeGlobalSearch(); closeUnlockModal(); }
     });
 
-    // FÓRUM COM IMPRESSÃO E COMPARTILHAMENTO INDIVIDUAIS POR POSTAGEM
     function renderBloggerPosts(data) {
       const container = document.getElementById('blogger-posts-container');
       const entries = data.feed.entry || [];
@@ -985,12 +957,8 @@ ${linkPlataforma}`;
               <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">${contentHtml}</div>
               
               <div class="no-print pt-4 border-t border-slate-100 flex flex-wrap items-center justify-end gap-2">
-                <button onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">
-                  🖨️ Imprimir Esta Pauta
-                </button>
-                <button onclick="compartilharPostagem('${title.replace(/'/g, "\\'")}', '${postUrl}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-xl border border-emerald-200 transition-colors">
-                  🔗 Compartilhar Pauta
-                </button>
+                <button onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">🖨️ Imprimir Esta Pauta</button>
+                <button onclick="compartilharPostagem('${title.replace(/'/g, "\\'")}', '${postUrl}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-xl border border-emerald-200 transition-colors">🔗 Compartilhar Pauta</button>
               </div>
             </div>
           </article>
@@ -1022,7 +990,6 @@ ${linkPlataforma}`;
       document.body.appendChild(script);
     }
 
-    // Câmara CSV Parser & Ranking
     function parseCSV(text) {
       let lines = []; let row = ['']; let inQuotes = false;
       for (let i = 0; i < text.length; i++) {
@@ -1126,7 +1093,6 @@ ${linkPlataforma}`;
         }).catch(err => console.error(err));
     }
 
-    // Roteamento
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
@@ -1148,6 +1114,7 @@ ${linkPlataforma}`;
       startTimer();
       loadBloggerFeed();
       loadCamaraData();
+      carregarMembrosDoSupabase();
     });
   </script>
 </body>
