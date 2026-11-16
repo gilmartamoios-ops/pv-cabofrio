@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS Client UMD -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- HTML2PDF para geração direta de PDF compartilhável -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +24,10 @@
     .blogger-content iframe, .blogger-content video, .blogger-content .BLOG_video_class { width: 100% !important; max-width: 100% !important; min-height: 320px; border-radius: 1rem; margin: 1rem 0; }
     .blogger-content p { margin-bottom: 0.85rem; line-height: 1.7; }
     .blogger-content a { color: #059669; text-decoration: underline; font-weight: 600; }
-    @media print { header, footer, .no-print, article:not(.print-target) { display: none !important; } body { background: white !important; } }
+    @media print { 
+      header, footer, .no-print, article:not(.print-target), #assistente-chat-container { display: none !important; } 
+      body { background: white !important; } 
+    }
   </style>
 </head>
 <body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
@@ -100,9 +105,15 @@
 
         <div class="flex items-center justify-between flex-wrap gap-3">
           <div class="flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-bold text-slate-500 uppercase">Total de Fichas: <strong class="text-emerald-800" id="total-membros">0</strong></span>
+            <span class="text-xs font-bold text-slate-500 uppercase">Total Exibido: <strong class="text-emerald-800" id="total-membros">0</strong></span>
             <select id="filtro-bairro-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
               <option value="TODOS">Todos os Bairros</option>
+            </select>
+            <select id="filtro-partido-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="TODOS">Todas as Situações Partidárias</option>
+              <option value="PV">⭐ Filiados ao PV</option>
+              <option value="SEM_FILIACAO">🌱 Sem Filiação</option>
+              <option value="OUTRO_PARTIDO">🔄 Filiados a Outro Partido</option>
             </select>
           </div>
           <button onclick="exportarCadastroCSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
@@ -131,18 +142,35 @@
     </div>
   </div>
 
-  <!-- MODAL DE VISUALIZAÇÃO / IMPRESSÃO DE FICHA INDIVIDUAL -->
+  <!-- MODAL DE VISUALIZAÇÃO / PDF / IMPRESSÃO DE FICHA INDIVIDUAL -->
   <div id="modal-ficha-individual" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
-      <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
-      <div class="text-center border-b border-slate-200 pb-4">
-        <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Partido Verde • Cabo Frio</span>
-        <h3 class="text-xl font-extrabold text-slate-900 mt-2">Ficha de Cadastramento e Militância</h3>
+      <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="no-print absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
+      
+      <!-- Área imprimível e exportável para PDF -->
+      <div id="area-impressao-ficha" class="space-y-5 bg-white p-2">
+        <div class="text-center border-b-2 border-emerald-700 pb-4">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Partido Verde • Diretório Cabo Frio</span>
+          <h3 class="text-xl font-extrabold text-slate-900 mt-2">Ficha Individual de Cadastramento e Militância</h3>
+          <p class="text-[11px] text-slate-500">Observatório Verde • Movimento Comunidade Verde</p>
+        </div>
+        <div id="conteudo-ficha-detalhe" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
+        <div class="pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
+          <span>Documento gerado pelo Sistema Observatório Verde</span>
+          <span>Cabo Frio - RJ</span>
+        </div>
       </div>
-      <div id="conteudo-ficha-detalhe" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
-      <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
-        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">🖨️ Imprimir Ficha</button>
-        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">Fechar</button>
+
+      <div class="no-print flex flex-wrap justify-end gap-2.5 pt-4 border-t border-slate-100">
+        <button onclick="baixarFichaPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm">
+          📥 Baixar PDF Compartilhável
+        </button>
+        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
+          🖨️ Imprimir Ficha
+        </button>
+        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
+          Fechar
+        </button>
       </div>
     </div>
   </div>
@@ -168,15 +196,16 @@
     </div>
   </div>
 
-  <!-- ==================== FICHA DE FILIAÇÃO EM BLOCOS (AVANÇAR/VOLTAR) ==================== -->
+  <!-- ==================== FICHA DE FILIAÇÃO EM BLOCOS (CONVITE ACOLHEDOR) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
 
-      <div class="text-center space-y-1">
+      <div class="text-center space-y-1.5">
         <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Comunidade Verde • Cabo Frio</span>
-        <h3 class="text-xl font-extrabold text-slate-900">Ficha de Filiação & Controle Social</h3>
-        <p id="bloco-titulo" class="text-xs text-slate-500 font-semibold">Passo 1 de 3: Identificação Básica</p>
+        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">Que bom ter você com a gente! 🌱</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">Para acessar os painéis completos de controle social, preencha sua ficha rápida em 3 passos simples. O desbloqueio é imediato!</p>
+        <p id="bloco-titulo" class="text-xs text-emerald-700 font-extrabold pt-1">Passo 1 de 3: Identificação Básica</p>
       </div>
 
       <!-- BLOCO 1: Identificação Básica -->
@@ -258,9 +287,9 @@
       <!-- BLOCO 2: Situação Partidária -->
       <div id="bloco-2" class="space-y-3.5 text-left pt-1 hidden">
         <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Você já é filiado(a) a algum partido?</label>
+          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Você já é filiado(a) a algum partido político?</label>
           <select id="auto-filiado" onchange="verificarPartidoAuto()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
-            <option value="Não">Não sou filiado(a)</option>
+            <option value="Sem filiação">Sem filiação partidária</option>
             <option value="Sim (Outro Partido)">Sim, sou filiado(a) a outro partido</option>
             <option value="Partido Verde (PV)">Sim, já sou filiado(a) ao Partido Verde (PV)</option>
           </select>
@@ -572,12 +601,13 @@
     // CONFIGURAÇÃO DO SUPABASE
     // =========================================================================
     const SUPABASE_URL = 'https://naoxprfnhidlwgoueydi.supabase.co';
-    const SUPABASE_ANON_KEY = 'SUA_PUBLISHABLE_KEY_AQUI';
+    const SUPABASE_ANON_KEY = 'sb_publishable_TUIxvFWJyPUTk_YlaCtz0g_ToUs4qHj';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let isMemberUnlocked = false;
     let baseMembros = [];
+    let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
 
     async function carregarMembrosDoSupabase() {
@@ -671,7 +701,9 @@
       const titulo = document.getElementById('auto-titulo').value.trim();
       const redes = document.getElementById('auto-redes').value.trim();
 
-      const situacaoPartidaria = filiado === 'Sim (Outro Partido)' ? `Filiado a: ${qualPartido}` : filiado;
+      const situacaoPartidaria = filiado === 'Sim (Outro Partido)' 
+        ? (qualPartido ? `Filiado a: ${qualPartido}` : 'Filiado (Outro Partido)') 
+        : filiado;
 
       const novo = {
         id: Date.now(),
@@ -688,7 +720,7 @@
 
       const { error } = await supabaseClient.from('membros').insert([novo]);
       if (error) {
-        alert('Erro ao salvar no Supabase.');
+        alert('Erro ao salvar no Supabase. Verifique se as colunas e a chave API estão configuradas.');
         console.error(error);
         return;
       }
@@ -942,28 +974,83 @@
     function visualizarFicha(id) {
       const m = baseMembros.find(item => item.id == id);
       if (!m) return;
+      fichaAtualSelecionada = m;
       document.getElementById('conteudo-ficha-detalhe').innerHTML = `
-        <div class="space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          <p><strong>Nome Completo:</strong> ${m.nome}</p>
-          <p><strong>Bairro / Território:</strong> ${m.bairro || 'Não informado'}</p>
-          <p><strong>WhatsApp:</strong> ${m.zap}</p>
-          <p><strong>Situação Partidária:</strong> <span class="text-emerald-800 font-bold">${m.filiacao || 'Não informada'}</span></p>
-          <p><strong>Profissão:</strong> ${m.profissao || 'Não informada'}</p>
-          <p><strong>Título de Eleitor:</strong> ${m.titulo || 'Não informado'}</p>
-          <p><strong>Redes Sociais:</strong> ${m.redes || 'Não informadas'}</p>
-          <p><strong>Data de Cadastro:</strong> ${m.data || 'Recente'}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+          <div class="sm:col-span-2 border-b border-slate-200 pb-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400">Nome Completo</span>
+            <p class="text-base font-extrabold text-slate-900">${m.nome}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">Bairro / Território</span>
+            <p class="font-bold text-slate-800">${m.bairro || 'Não informado'}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">WhatsApp</span>
+            <p class="font-bold text-emerald-700">${m.zap}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">Situação Partidária</span>
+            <p class="font-extrabold text-emerald-900">${m.filiacao || 'Sem filiação'}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">Profissão / Ocupação</span>
+            <p class="font-semibold text-slate-800">${m.profissao || 'Não informada'}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">Título de Eleitor</span>
+            <p class="font-semibold text-slate-800">${m.titulo || 'Não informado'}</p>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400">Redes Sociais</span>
+            <p class="font-semibold text-slate-800">${m.redes || 'Não informadas'}</p>
+          </div>
+          <div class="sm:col-span-2 pt-2 border-t border-slate-200 flex justify-between">
+            <span><strong>Status no Sistema:</strong> ${m.status}</span>
+            <span><strong>Data:</strong> ${m.data || 'Recente'}</span>
+          </div>
         </div>
       `;
       document.getElementById('modal-ficha-individual').classList.remove('hidden');
     }
 
+    // GERADOR DIRETO DE PDF COMPARTILHÁVEL
+    function baixarFichaPDF() {
+      const elemento = document.getElementById('area-impressao-ficha');
+      const nomeArquivo = fichaAtualSelecionada 
+        ? `Ficha_PV_${fichaAtualSelecionada.nome.replace(/\s+/g, '_')}.pdf` 
+        : 'Ficha_Comunidade_Verde.pdf';
+
+      const opcoes = {
+        margin: 12,
+        filename: nomeArquivo,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      showToast('📄 Gerando PDF compartilhável...');
+      html2pdf().set(opcoes).from(elemento).save();
+    }
+
     function renderizarTabelaMembros() {
       const tbody = document.getElementById('tabela-membros-body');
       const filtroBairro = document.getElementById('filtro-bairro-crm').value;
+      const filtroPartido = document.getElementById('filtro-partido-crm').value;
       
-      const listaFiltrada = filtroBairro === 'TODOS' 
-        ? baseMembros 
-        : baseMembros.filter(m => (m.bairro || 'Não informado') === filtroBairro);
+      let listaFiltrada = baseMembros;
+
+      if (filtroBairro !== 'TODOS') {
+        listaFiltrada = listaFiltrada.filter(m => (m.bairro || 'Não informado') === filtroBairro);
+      }
+
+      if (filtroPartido === 'PV') {
+        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || '').includes('Partido Verde'));
+      } else if (filtroPartido === 'SEM_FILIACAO') {
+        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || 'Sem filiação') === 'Sem filiação');
+      } else if (filtroPartido === 'OUTRO_PARTIDO') {
+        listaFiltrada = listaFiltrada.filter(m => (m.filiacao || '').startsWith('Filiado'));
+      }
 
       document.getElementById('total-membros').textContent = listaFiltrada.length;
 
@@ -974,16 +1061,18 @@
 
       tbody.innerHTML = listaFiltrada.map(m => {
         const badgeClass = m.status === 'Filiado' ? 'bg-purple-100 text-purple-900 border border-purple-200' : 'bg-emerald-100 text-emerald-900 border border-emerald-200';
+        const filiacaoTexto = m.filiacao || 'Sem filiação';
+        const filiacaoColor = filiacaoTexto.startsWith('Filiado a:') ? 'text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md' : 'text-slate-600';
 
         return `
           <tr class="hover:bg-slate-50 transition-colors">
             <td class="p-3 font-bold text-slate-900">${m.nome}</td>
             <td class="p-3"><span class="bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-0.5 rounded-lg font-bold text-[11px]">📍 ${m.bairro || 'Não informado'}</span></td>
             <td class="p-3"><a href="https://wa.me/55${m.zap.replace(/\D/g, '')}" target="_blank" class="text-emerald-700 font-bold">${m.zap} ↗</a></td>
-            <td class="p-3 text-xs font-semibold text-slate-600">${m.filiacao || 'Membro'}</td>
+            <td class="p-3 text-xs font-bold"><span class="${filiacaoColor}">${filiacaoTexto}</span></td>
             <td class="p-3"><span class="text-xs font-bold px-2.5 py-1 rounded-xl ${badgeClass}">${m.status}</span></td>
             <td class="p-3 text-center whitespace-nowrap space-x-1">
-              <button onclick="visualizarFicha(${m.id})" class="text-[11px] font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-lg transition-colors">Ver / Imprimir</button>
+              <button onclick="visualizarFicha(${m.id})" class="text-[11px] font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-lg transition-colors">📄 Ficha / PDF</button>
               <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2.5 py-1.5 rounded-lg transition-colors">Deletar</button>
             </td>
           </tr>
@@ -993,8 +1082,8 @@
 
     function exportarCadastroCSV() {
       if (baseMembros.length === 0) { showToast('⚠️ Não há fichas para exportar.'); return; }
-      let csv = 'Nome,Bairro,WhatsApp,Filiacao,Profissao,Titulo,Redes,Status,Data\n';
-      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || ''}","${m.zap}","${m.filiacao || ''}","${m.profissao || ''}","${m.titulo || ''}","${m.redes || ''}","${m.status}","${m.data || ''}"\n`; });
+      let csv = 'Nome,Bairro,WhatsApp,Situacao_Partidaria,Profissao,Titulo,Redes,Status,Data\n';
+      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || ''}","${m.zap}","${m.filiacao || 'Sem filiação'}","${m.profissao || ''}","${m.titulo || ''}","${m.redes || ''}","${m.status}","${m.data || ''}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
