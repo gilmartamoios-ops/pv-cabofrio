@@ -188,7 +188,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (EXATAMENTE O PADRÃO OFICIAL DO TSE - 9 CAMPOS) ==================== -->
+  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (TSE 100% ORIGINAL) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
@@ -211,7 +211,7 @@
         </button>
       </div>
 
-      <!-- FORMULÁRIO COM OS 9 CAMPOS EXATOS DO TSE (SEM ALTERAÇÕES) -->
+      <!-- FORMULÁRIO COM OS 9 CAMPOS EXATOS DO TSE -->
       <div id="bloco-1" class="space-y-3 text-left pt-1 hidden">
         <div class="text-center pb-2 border-b border-slate-100">
           <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Sistema FILIA / TSE</span>
@@ -267,7 +267,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM (COM WHATSAPP INCLUÍDO NA TABELA) ==================== -->
+  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-6xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
@@ -279,7 +279,7 @@
       </div>
       <div class="p-6 overflow-y-auto space-y-6">
         
-        <!-- SEÇÃO 1: FILIADOS OFICIAIS TSE COM COLUNA WHATSAPP DIRETA -->
+        <!-- SEÇÃO 1: FILIADOS OFICIAIS TSE -->
         <div class="space-y-3">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <h4 class="text-sm font-extrabold text-emerald-950 uppercase tracking-wider">🌿 Filiados Oficiais (Tabela FILIA / TSE): <span id="total-filiados" class="bg-emerald-700 text-white px-2 py-0.5 rounded-full text-xs">0</span></h4>
@@ -522,7 +522,7 @@
         </div>
       </section>
 
-      <!-- Os 4 Cartões Completos de Navegação -->
+      <!-- Os 4 Cartões Completos de Navegação com Verificação Real de Permissão -->
       <section class="pt-4">
         <div class="text-center mb-6">
           <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
@@ -530,9 +530,9 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <!-- CARTÃO 1: FÓRUM -->
-          <a href="#forum" onclick="navigateTo('forum'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="member-lock-badge absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+          <!-- CARTÃO 1: FÓRUM (Requer Membro) -->
+          <div onclick="tentarAcessar('forum')" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
+            <span id="badge-lock-forum" class="absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Cadastre-se</span>
             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
             </div>
@@ -541,11 +541,11 @@
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">Fórum Permanente</h3>
               <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial do movimento com postagens independentes, vídeos e propostas populares.</p>
             </div>
-          </a>
+          </div>
 
-          <!-- CARTÃO 2: AGENDA -->
-          <a href="#agenda" onclick="navigateTo('agenda'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="member-lock-badge absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Membros</span>
+          <!-- CARTÃO 2: AGENDA (Requer Membro) -->
+          <div onclick="tentarAcessar('agenda')" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
+            <span id="badge-lock-agenda" class="absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Cadastre-se</span>
             <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
@@ -554,11 +554,11 @@
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-amber-800 transition-colors">Agenda nos Bairros</h3>
               <p class="text-sm text-slate-600 mt-1 leading-relaxed">Calendário vivo das plenárias, reuniões comunitárias e visitas técnicas em Cabo Frio.</p>
             </div>
-          </a>
+          </div>
 
-          <!-- CARTÃO 3: ORÇAMENTO -->
-          <a href="#orcamento" onclick="navigateTo('orcamento'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="filiado-lock-badge absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
+          <!-- CARTÃO 3: ORÇAMENTO (Requer Filiado TSE) -->
+          <div onclick="tentarAcessar('orcamento')" class="card-hover group bg-white rounded-2xl p-6 border border-teal-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
+            <span id="badge-lock-orcamento" class="absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
             <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
@@ -567,11 +567,11 @@
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">Orçamento Municipal</h3>
               <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e acompanhamento detalhado da execução orçamentária.</p>
             </div>
-          </a>
+          </div>
 
-          <!-- CARTÃO 4: CÂMARA -->
-          <a href="#camara" onclick="navigateTo('camara'); return false;" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative">
-            <span class="filiado-lock-badge absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
+          <!-- CARTÃO 4: CÂMARA (Requer Filiado TSE) -->
+          <div onclick="tentarAcessar('camara')" class="card-hover group bg-white rounded-2xl p-6 border border-sky-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
+            <span id="badge-lock-camara" class="absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">🌿 Filiados PV</span>
             <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
@@ -580,7 +580,7 @@
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-sky-800 transition-colors">Câmara Municipal</h3>
               <p class="text-sm text-slate-600 mt-1 leading-relaxed">Acompanhamento de projetos, produtividade dos vereadores e votações nominais.</p>
             </div>
-          </a>
+          </div>
         </div>
       </section>
     </div>
@@ -703,11 +703,19 @@
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let accessLevel = localStorage.getItem('pv_access_level') || 'filiado';
     let baseMembros = [];
     let baseFiliados = [];
     let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
+
+    // Funções de Checagem de Sessão Real
+    function isMembroCadastrado() {
+      return usuarioAtual && (usuarioAtual.status === 'Membro Simples' || usuarioAtual.status === 'Filiado TSE');
+    }
+
+    function isFiliadoTSE() {
+      return usuarioAtual && usuarioAtual.status === 'Filiado TSE';
+    }
 
     async function carregarDadosSupabase() {
       const { data: m, error: errM } = await supabaseClient.from('membros').select('*').order('id', { ascending: false });
@@ -724,17 +732,54 @@
 
     let modalCadastroAberto = false;
 
-    function aplicarPermissoesVisuais() {
-      document.querySelectorAll('.member-lock-badge').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.filiado-lock-badge').forEach(el => el.style.display = 'none');
+    // Atualiza visualmente os crachás dos cartões conforme o usuário esteja logado ou seja visitante novo
+    function atualizarPermissoesVisuaisNaHome() {
+      const badgeForum = document.getElementById('badge-lock-forum');
+      const badgeAgenda = document.getElementById('badge-lock-agenda');
+      const badgeOrcamento = document.getElementById('badge-lock-orcamento');
+      const badgeCamara = document.getElementById('badge-lock-camara');
       const chatBadge = document.getElementById('chat-lock-badge');
-      if (chatBadge) chatBadge.style.display = 'none';
+
+      if (isMembroCadastrado()) {
+        if (badgeForum) { badgeForum.textContent = '✓ Liberado'; badgeForum.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (badgeAgenda) { badgeAgenda.textContent = '✓ Liberado'; badgeAgenda.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (chatBadge) chatBadge.style.display = 'none';
+      } else {
+        if (badgeForum) { badgeForum.textContent = '🔒 Cadastre-se'; badgeForum.className = 'absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (badgeAgenda) { badgeAgenda.textContent = '🔒 Cadastre-se'; badgeAgenda.className = 'absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (chatBadge) chatBadge.style.display = 'inline-block';
+      }
+
+      if (isFiliadoTSE()) {
+        if (badgeOrcamento) { badgeOrcamento.textContent = '✓ Filiado PV'; badgeOrcamento.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (badgeCamara) { badgeCamara.textContent = '✓ Filiado PV'; badgeCamara.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold'; }
+      } else {
+        if (badgeOrcamento) { badgeOrcamento.textContent = '🌿 Filiados PV'; badgeOrcamento.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold'; }
+        if (badgeCamara) { badgeCamara.textContent = '🌿 Filiados PV'; badgeCamara.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold'; }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      aplicarPermissoesVisuais();
+      atualizarPermissoesVisuaisNaHome();
       carregarMensagensChatInterno();
     });
+
+    // Função que controla o acesso real aos cartões
+    function tentarAcessar(tipo) {
+      if (tipo === 'forum' || tipo === 'agenda') {
+        if (isMembroCadastrado()) {
+          navigateTo(tipo);
+        } else {
+          abrirModalMembroSimples();
+        }
+      } else if (tipo === 'orcamento' || tipo === 'camara') {
+        if (isFiliadoTSE()) {
+          navigateTo(tipo);
+        } else {
+          openUnlockModal();
+        }
+      }
+    }
 
     // ==================== FLUXO 1: FICHA SIMPLES (MEMBRO) ====================
     function abrirModalMembroSimples() {
@@ -791,8 +836,9 @@
       usuarioAtual = novo;
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
       fecharModalMembroSimples();
+      atualizarPermissoesVisuaisNaHome();
       await carregarDadosSupabase();
-      showToast('🌱 Cadastro de Membro concluído!');
+      showToast('🌱 Cadastro de Membro concluído com sucesso!');
     }
 
     // ==================== FLUXO 2: FILIAÇÃO AO PV (TSE 100% ORIGINAL) ====================
@@ -828,7 +874,7 @@
         titulo_eleitor,
         nome_eleitor,
         cpf,
-        whatsapp: '', // Inicialmente vazio, preenchido direto na tabela pela coordenação
+        whatsapp: '',
         uf,
         estado,
         municipio,
@@ -848,6 +894,7 @@
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
       await carregarDadosSupabase();
       closeUnlockModal();
+      atualizarPermissoesVisuaisNaHome();
 
       alert('🌿 Filiação oficial registrada com sucesso no padrão FILIA / TSE!\n\nTodos os painéis de fiscalização (Orçamento Municipal e Câmara) estão liberados.');
       showToast('🌿 Filiado(a) cadastrado(a) no padrão TSE!');
@@ -886,7 +933,11 @@
     }
 
     function tentarAbrirChat() {
-      toggleChatWindow();
+      if (isMembroCadastrado()) {
+        toggleChatWindow();
+      } else {
+        abrirModalMembroSimples();
+      }
     }
 
     function toggleMasterDropdown() {
@@ -1290,10 +1341,10 @@ ${linkPlataforma}`;
 
       let matches = [];
       cachedCamaraSearchData.forEach(item => {
-        if (item.text.includes(query)) matches.push({ type: '🏛️ Câmara Municipal', badgeColor: 'bg-sky-100 text-sky-800', title: item.title, desc: item.desc, action: () => { navigateTo('camara'); setTimeout(() => { const el = document.getElementById(item.id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 200); } });
+        if (item.text.includes(query)) matches.push({ type: '🏛️ Câmara Municipal', badgeColor: 'bg-sky-100 text-sky-800', title: item.title, desc: item.desc, action: () => { tentarAcessar('camara'); setTimeout(() => { const el = document.getElementById(item.id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 200); } });
       });
       cachedForumSearchData.forEach(item => {
-        if (item.text.includes(query)) matches.push({ type: '💬 Fórum Permanente', badgeColor: 'bg-emerald-100 text-emerald-800', title: item.title, desc: item.desc, action: () => { navigateTo(item.id); } });
+        if (item.text.includes(query)) matches.push({ type: '💬 Fórum Permanente', badgeColor: 'bg-emerald-100 text-emerald-800', title: item.title, desc: item.desc, action: () => { tentarAcessar('forum'); setTimeout(() => { navigateTo(item.id); }, 200); } });
       });
 
       let htmlOutput = '';
@@ -1561,7 +1612,7 @@ ${linkPlataforma}`;
     });
 
     window.addEventListener('DOMContentLoaded', () => {
-      aplicarPermissoesVisuais();
+      atualizarPermissoesVisuaisNaHome();
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
