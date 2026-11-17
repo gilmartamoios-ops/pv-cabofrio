@@ -833,23 +833,36 @@
       // Exatamente os 9 campos oficiais exigidos pelo FILIA / TSE
       const novoFiliadoTSE = {
         id: Date.now(),
-        titulo_eleitor,
-        nome_eleitor,
-        cpf,
-        uf,
-        estado,
-        municipio,
-        zona_eleitoral,
-        secao_eleitoral,
-        data_filiacao
+        titulo_eleitor: titulo_eleitor,
+        nome_eleitor: nome_eleitor,
+        cpf: cpf,
+        uf: uf,
+        estado: estado,
+        municipio: municipio,
+        zona_eleitoral: zona_eleitoral,
+        secao_eleitoral: secao_eleitoral,
+        data_filiacao: data_filiacao
       };
 
       const { error } = await supabaseClient.from('filiados').insert([novoFiliadoTSE]);
       if (error) {
-        alert('Erro ao salvar na tabela "filiados" do Supabase. Verifique se as 9 colunas exatas foram criadas.');
-        console.error(error);
+        alert('Erro no Supabase: ' + error.message);
+        console.error('Detalhes do erro Supabase:', error);
         return;
       }
+
+      usuarioAtual = { id: novoFiliadoTSE.id, nome: nome_eleitor, bairro: municipio, status: 'Filiado TSE' };
+      localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
+
+      accessLevel = 'filiado';
+      localStorage.setItem('pv_access_level', 'filiado');
+      aplicarPermissoesVisuais();
+      await carregarDadosSupabase();
+      closeUnlockModal();
+
+      alert('🌿 Filiação oficial registrada com sucesso no padrão FILIA / TSE!\n\nTodos os painéis de fiscalização (Orçamento Municipal e Câmara) estão liberados.');
+      showToast('🌿 Filiado(a) cadastrado(a) no padrão TSE!');
+    }
 
       usuarioAtual = { id: novoFiliadoTSE.id, nome: nome_eleitor, bairro: municipio, status: 'Filiado TSE' };
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
