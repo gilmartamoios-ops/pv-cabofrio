@@ -188,7 +188,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (CAMPOS ESSENCIAIS DO TSE + AVISO DO DRIVE) ==================== -->
+  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (TSE + TABELA FILIADOS) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
@@ -333,7 +333,7 @@
             </select>
             <select id="filtro-partido-crm" onchange="renderizarTabelaMembros()" class="bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-xl focus:outline-none focus:border-emerald-600">
               <option value="TODOS">Todos (Filiados + Membros)</option>
-              <option value="PV">🌿 Filiados ao PV</option>
+              <option value="PV">🌿 Filiados ao PV (TSE)</option>
               <option value="MEMBROS">👥 Membros Simples</option>
             </select>
           </div>
@@ -708,16 +708,25 @@
     if (localStorage.getItem('comunidade_verde_unlocked') === 'true') accessLevel = 'filiado';
 
     let baseMembros = [];
+    let baseFiliados = [];
     let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
 
     async function carregarMembrosDoSupabase() {
-      const { data, error } = await supabaseClient.from('membros').select('*').order('id', { ascending: false });
-      if (!error && data) {
-        baseMembros = data;
-        atualizarFiltroBairrosCRM();
-        if (!modalCadastroAberto) renderizarTabelaMembros();
+      // Carrega membros simples
+      const { data: dataMembros, error: errMembros } = await supabaseClient.from('membros').select('*').order('id', { ascending: false });
+      if (!errMembros && dataMembros) {
+        baseMembros = dataMembros;
       }
+
+      // Carrega filiados oficiais (TSE)
+      const { data: dataFiliados, error: errFiliados } = await supabaseClient.from('filiados').select('*').order('id', { ascending: false });
+      if (!errFiliados && dataFiliados) {
+        baseFiliados = dataFiliados;
+      }
+
+      atualizarFiltroBairrosCRM();
+      if (!modalCadastroAberto) renderizarTabelaMembros();
     }
 
     let modalCadastroAberto = false;
@@ -807,7 +816,7 @@
 
       const { error } = await supabaseClient.from('membros').insert([novo]);
       if (error) {
-        alert('Erro ao salvar no Supabase. Verifique a chave API.');
+        alert('Erro ao salvar no Supabase. Verifique se as colunas da tabela coincidem.');
         console.error(error);
         return;
       }
@@ -824,7 +833,7 @@
       showToast(isJaFiliadoPV ? '🌿 Bem-vindo(a) Filiado(a) PV! Acesso integral liberado.' : '🌱 Cadastro de Membro concluído! Fórum, Agenda e Chat liberados.');
     }
 
-    // ==================== FLUXO 2: FILIAÇÃO AO PV (TSE + AVISO DO DRIVE) ====================
+    // ==================== FLUXO 2: FILIAÇÃO AO PV (TSE + TABELA FILIADOS) ====================
     function verificarOutroBairroAuto() {
       const select = document.getElementById('auto-bairro');
       const inputOutro = document.getElementById('auto-bairro-outro');
@@ -855,24 +864,26 @@
         return;
       }
 
-      const novo = {
+      // Objeto dedicado exclusivamente à nova tabela 'filiados' no Supabase
+      const novoFiliado = {
         id: Date.now(),
         nome,
         bairro,
         zap,
+        cpf,
+        titulo,
         status: 'Filiado',
-        filiacao: `CPF: ${cpf} | Título: ${titulo}`,
         data: new Date().toLocaleDateString('pt-BR')
       };
 
-      const { error } = await supabaseClient.from('membros').insert([novo]);
+      const { error } = await supabaseClient.from('filiados').insert([novoFiliado]);
       if (error) {
-        alert('Erro ao salvar no Supabase. Verifique se as colunas da tabela coincidem.');
+        alert('Erro ao salvar filiação no Supabase. Verifique se a tabela "filiados" foi criada corretamente.');
         console.error(error);
         return;
       }
 
-      usuarioAtual = novo;
+      usuarioAtual = { ...novoFiliado, filiacao: `CPF: ${cpf} | Título: ${titulo}` };
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
 
       accessLevel = 'filiado';
@@ -881,9 +892,8 @@
       await carregarMembrosDoSupabase();
       closeUnlockModal();
 
-      // Alerta acolhedor informando que o formulário completo do Drive será enviado no WhatsApp
-      alert(`🌿 Filiação rápida concluída com sucesso! Seus acessos aos painéis foram liberados.\n\n📱 A nossa coordenação enviará o formulário complementar do Partido Verde para o seu WhatsApp (${zap}) para concluirmos todos os detalhes exigidos pelo partido.`);
-      showToast('🌿 Filiação ao Partido Verde concluída com sucesso!');
+      alert(`🌿 Filiação oficial ao Partido Verde concluída com sucesso! Seus acessos aos painéis foram liberados.\n\n📱 A nossa coordenação enviará o formulário complementar para o seu WhatsApp (${zap}) para concluirmos todos os trâmites do partido.`);
+      showToast('🌿 Filiado(a) cadastrado(a) com segurança!');
     }
 
     function tentarAbrirChat() {
@@ -1070,8 +1080,9 @@
       const resumoContainer = document.getElementById('resumo-bairros-container');
       const badgesContainer = document.getElementById('badges-bairros');
       
+      const todosRegistros = [...baseFiliados.map(f => ({...f, status: 'Filiado'})), ...baseMembros];
       const contagemBairros = {};
-      baseMembros.forEach(m => {
+      todosRegistros.forEach(m => {
         const b = m.bairro || 'Não informado';
         contagemBairros[b] = (contagemBairros[b] || 0) + 1;
       });
@@ -1091,16 +1102,17 @@
       }
 
       const valorAtual = selectFiltro.value;
-      selectFiltro.innerHTML = `<option value="TODOS">Todos os Bairros (${baseMembros.length})</option>` + 
+      selectFiltro.innerHTML = `<option value="TODOS">Todos os Bairros (${todosRegistros.length})</option>` + 
         bairrosOrdenados.map(([bairro, qtd]) => `<option value="${bairro}">${bairro} (${qtd})</option>`).join('');
       if ([...selectFiltro.options].some(o => o.value === valorAtual)) {
         selectFiltro.value = valorAtual;
       }
     }
 
-    async function excluirMembro(id) {
+    async function excluirRegistro(id, isFiliadoTabela) {
       if (confirm('Deseja realmente remover esta ficha da base?')) {
-        const { error } = await supabaseClient.from('membros').delete().eq('id', id);
+        const tabela = isFiliadoTabela ? 'filiados' : 'membros';
+        const { error } = await supabaseClient.from(tabela).delete().eq('id', id);
         if (!error) {
           await carregarMembrosDoSupabase();
           showToast('🗑️ Ficha removida da base.');
@@ -1108,10 +1120,22 @@
       }
     }
 
-    function visualizarFicha(id) {
-      const m = baseMembros.find(item => item.id == id);
+    function visualizarFicha(id, isFiliadoTabela) {
+      const listaBusca = isFiliadoTabela ? baseFiliados : baseMembros;
+      const m = listaBusca.find(item => item.id == id);
       if (!m) return;
       fichaAtualSelecionada = m;
+
+      const infoTseHtml = isFiliadoTabela 
+        ? `<div class="sm:col-span-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400">Dados TSE (Filiado Oficial)</span>
+            <p class="font-extrabold text-emerald-950">CPF: ${m.cpf} | Título: ${m.titulo}</p>
+           </div>`
+        : `<div class="sm:col-span-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400">Situação Partidária</span>
+            <p class="font-extrabold text-emerald-900">${m.filiacao || 'Não informado'}</p>
+           </div>`;
+
       document.getElementById('conteudo-ficha-detalhe').innerHTML = `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-5 rounded-2xl border border-slate-200">
           <div class="sm:col-span-2 border-b border-slate-200 pb-2">
@@ -1120,18 +1144,15 @@
           </div>
           <div>
             <span class="text-[10px] uppercase font-bold text-slate-400">Bairro / Território</span>
-            <p class="font-bold text-slate-800">${m.bairro || 'Não informado'}</p>
+            <p class="font-bold text-slate-800">${m.bairro || 'Not informed'}</p>
           </div>
           <div>
             <span class="text-[10px] uppercase font-bold text-slate-400">WhatsApp</span>
             <p class="font-bold text-emerald-700">${m.zap}</p>
           </div>
-          <div class="sm:col-span-2">
-            <span class="text-[10px] uppercase font-bold text-slate-400">Dados TSE (CPF / Título / Situação)</span>
-            <p class="font-extrabold text-emerald-900">${m.filiacao || 'Não informado'}</p>
-          </div>
+          ${infoTseHtml}
           <div class="sm:col-span-2 pt-2 border-t border-slate-200 flex justify-between">
-            <span><strong>Nível de Acesso:</strong> ${m.status}</span>
+            <span><strong>Nível de Acesso:</strong> ${isFiliadoTabela ? 'Filiado PV' : m.status}</span>
             <span><strong>Data:</strong> ${m.data || 'Recente'}</span>
           </div>
         </div>
@@ -1162,26 +1183,38 @@
       const filtroBairro = document.getElementById('filtro-bairro-crm').value;
       const filtroPartido = document.getElementById('filtro-partido-crm').value;
       
-      let listaFiltrada = baseMembros;
+      let listaFiliadosFormatada = baseFiliados.map(f => ({
+        ...f,
+        status: 'Filiado',
+        filiacao: `CPF: ${f.cpf} | T.Eleitor: ${f.titulo}`,
+        isFiliadoTabela: true
+      }));
+
+      let listaMembrosFormatada = baseMembros.map(m => ({
+        ...m,
+        isFiliadoTabela: false
+      }));
+
+      let todosRegistros = [...listaFiliadosFormatada, ...listaMembrosFormatada];
 
       if (filtroBairro !== 'TODOS') {
-        listaFiltrada = listaFiltrada.filter(m => (m.bairro || 'Não informado') === filtroBairro);
+        todosRegistros = todosRegistros.filter(m => (m.bairro || 'Não informado') === filtroBairro);
       }
 
       if (filtroPartido === 'PV') {
-        listaFiltrada = listaFiltrada.filter(m => m.status === 'Filiado');
+        todosRegistros = todosRegistros.filter(m => m.status === 'Filiado');
       } else if (filtroPartido === 'MEMBROS') {
-        listaFiltrada = listaFiltrada.filter(m => m.status !== 'Filiado');
+        todosRegistros = todosRegistros.filter(m => m.status !== 'Filiado');
       }
 
-      document.getElementById('total-membros').textContent = listaFiltrada.length;
+      document.getElementById('total-membros').textContent = todosRegistros.length;
 
-      if (listaFiltrada.length === 0) {
+      if (todosRegistros.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Nenhuma ficha encontrada para este filtro.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = listaFiltrada.map(m => {
+      tbody.innerHTML = todosRegistros.map(m => {
         const isFiliado = m.status === 'Filiado';
         const badgeClass = isFiliado ? 'bg-emerald-700 text-white' : 'bg-amber-100 text-amber-900 border border-amber-200';
 
@@ -1193,8 +1226,8 @@
             <td class="p-3 text-xs font-semibold text-slate-600">${m.filiacao || 'Não informado'}</td>
             <td class="p-3"><span class="text-xs font-bold px-2.5 py-1 rounded-xl ${badgeClass}">${isFiliado ? '🌿 Filiado PV' : '👤 Membro'}</span></td>
             <td class="p-3 text-center whitespace-nowrap space-x-1">
-              <button onclick="visualizarFicha(${m.id})" class="text-[11px] font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-lg transition-colors">📄 Ficha / PDF</button>
-              <button onclick="excluirMembro(${m.id})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2.5 py-1.5 rounded-lg transition-colors">Deletar</button>
+              <button onclick="visualizarFicha(${m.id}, ${m.isFiliadoTabela})" class="text-[11px] font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 px-2.5 py-1.5 rounded-lg transition-colors">📄 Ficha / PDF</button>
+              <button onclick="excluirRegistro(${m.id}, ${m.isFiliadoTabela})" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 px-2.5 py-1.5 rounded-lg transition-colors">Deletar</button>
             </td>
           </tr>
         `;
@@ -1202,9 +1235,10 @@
     }
 
     function exportarCadastroCSV() {
-      if (baseMembros.length === 0) { showToast('⚠️ Não há fichas para exportar.'); return; }
-      let csv = 'Nome,Bairro,WhatsApp,Dados_TSE,Nivel,Data\n';
-      baseMembros.forEach(m => { csv += `"${m.nome}","${m.bairro || ''}","${m.zap}","${m.filiacao || ''}","${m.status}","${m.data || ''}"\n`; });
+      const todosRegistros = [...baseFiliados.map(f => ({...f, status: 'Filiado', filiacao: `CPF: ${f.cpf} | Titulo: ${f.titulo}`})), ...baseMembros];
+      if (todosRegistros.length === 0) { showToast('⚠️ Não há fichas para exportar.'); return; }
+      let csv = 'Nome,Bairro,WhatsApp,Dados_TSE_Ou_Filiacao,Nivel,Data\n';
+      todosRegistros.forEach(m => { csv += `"${m.nome}","${m.bairro || ''}","${m.zap}","${m.filiacao || ''}","${m.status}","${m.data || ''}"\n`; });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
