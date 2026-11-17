@@ -64,7 +64,7 @@
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- MENU MESTRE (Sempre visível para facilitar testes e controle) -->
+        <!-- MENU MESTRE -->
         <div id="master-menu-container" class="relative">
           <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
             <span>⚙️ Gestão Master</span>
@@ -188,7 +188,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (PADRÃO FILIA / TSE EXATO - 9 CAMPOS) ==================== -->
+  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (EXATAMENTE O PADRÃO OFICIAL DO TSE - 9 CAMPOS) ==================== -->
   <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
@@ -204,14 +204,14 @@
         </p>
         <div class="bg-emerald-50/80 border border-emerald-200 p-4 rounded-2xl text-left space-y-2 text-xs text-slate-700">
           <p class="font-extrabold text-emerald-950">✨ Ficha Padrão Oficial FILIA / TSE:</p>
-          <p>Preencha rigorosamente os 9 campos obrigatórios da Justiça Eleitoral para efetivar o seu registro e liberar o acesso integral imediatamente.</p>
+          <p>Preencha os 9 campos oficiais da Justiça Eleitoral para efetivar sua filiação e liberar o acesso integral imediatamente.</p>
         </div>
         <button onclick="avancarBloco(1)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all">
-          🌿 Preencher Ficha do FILIA / TSE ➔
+          🌿 Preencher Ficha Oficial FILIA / TSE ➔
         </button>
       </div>
 
-      <!-- FORMULÁRIO COM OS 9 CAMPOS EXIGIDOS PELO FILIA / TSE -->
+      <!-- FORMULÁRIO COM OS 9 CAMPOS EXATOS DO TSE (SEM ALTERAÇÕES) -->
       <div id="bloco-1" class="space-y-3 text-left pt-1 hidden">
         <div class="text-center pb-2 border-b border-slate-100">
           <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Sistema FILIA / TSE</span>
@@ -267,7 +267,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM ==================== -->
+  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM (COM WHATSAPP INCLUÍDO NA TABELA) ==================== -->
   <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
     <div class="bg-white w-full max-w-6xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
@@ -279,13 +279,18 @@
       </div>
       <div class="p-6 overflow-y-auto space-y-6">
         
-        <!-- SEÇÃO 1: FILIADOS OFICIAIS TSE -->
+        <!-- SEÇÃO 1: FILIADOS OFICIAIS TSE COM COLUNA WHATSAPP DIRETA -->
         <div class="space-y-3">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <h4 class="text-sm font-extrabold text-emerald-950 uppercase tracking-wider">🌿 Filiados Oficiais (Tabela FILIA / TSE): <span id="total-filiados" class="bg-emerald-700 text-white px-2 py-0.5 rounded-full text-xs">0</span></h4>
-            <button onclick="exportarFiliadosTSECSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
-              📥 Baixar CSV Padrão FILIA / TSE
-            </button>
+            <div class="flex items-center gap-2">
+              <button onclick="abrirModalAdicionarZapFiliado()" class="text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl shadow-sm transition-colors">
+                📱 Adicionar WhatsApp a Filiado
+              </button>
+              <button onclick="exportarFiliadosTSECSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
+                📥 Baixar CSV Padrão FILIA / TSE
+              </button>
+            </div>
           </div>
           <div class="border border-slate-200 rounded-2xl overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
@@ -294,6 +299,7 @@
                   <th class="p-3">Título de Eleitor</th>
                   <th class="p-3">Nome do Eleitor</th>
                   <th class="p-3">CPF</th>
+                  <th class="p-3">WhatsApp (Contato)</th>
                   <th class="p-3">Município / UF</th>
                   <th class="p-3">Zona / Seção</th>
                   <th class="p-3">Data Filiação</th>
@@ -301,7 +307,7 @@
                 </tr>
               </thead>
               <tbody id="tabela-filiados-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-                <tr><td colspan="7" class="p-6 text-center text-slate-400">Carregando filiados...</td></tr>
+                <tr><td colspan="8" class="p-6 text-center text-slate-400">Carregando filiados...</td></tr>
               </tbody>
             </table>
           </div>
@@ -331,6 +337,26 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RÁPIDO PARA VINCULAR/EDITAR WHATSAPP DO FILIADO -->
+  <div id="modal-zap-filiado" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl border border-emerald-100 p-6 space-y-4 relative">
+      <button onclick="document.getElementById('modal-zap-filiado').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
+      <h3 class="text-base font-extrabold text-slate-900">Atualizar WhatsApp do Filiado</h3>
+      <p class="text-xs text-slate-600">Selecione o filiado e digite o WhatsApp para contato rápido na tabela:</p>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Filiado</label>
+          <select id="select-filiado-zap" class="w-full bg-slate-50 border border-slate-200 text-xs p-2.5 rounded-xl font-medium"></select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">WhatsApp (com DDD)</label>
+          <input type="text" id="input-novo-zap-filiado" placeholder="Ex: 22 99999-9999" class="w-full bg-slate-50 border border-slate-200 text-xs p-2.5 rounded-xl font-medium" />
+        </div>
+        <button onclick="salvarZapFiliadoTabela()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl shadow transition-colors">Salvar WhatsApp</button>
       </div>
     </div>
   </div>
@@ -769,7 +795,7 @@
       showToast('🌱 Cadastro de Membro concluído!');
     }
 
-    // ==================== FLUXO 2: FILIAÇÃO AO PV (PADRÃO FILIA / TSE EXATO - 9 CAMPOS) ====================
+    // ==================== FLUXO 2: FILIAÇÃO AO PV (TSE 100% ORIGINAL) ====================
     function avancarBloco(numero) {
       if (numero === 1) {
         document.getElementById('bloco-0').classList.add('hidden');
@@ -802,6 +828,7 @@
         titulo_eleitor,
         nome_eleitor,
         cpf,
+        whatsapp: '', // Inicialmente vazio, preenchido direto na tabela pela coordenação
         uf,
         estado,
         municipio,
@@ -824,6 +851,38 @@
 
       alert('🌿 Filiação oficial registrada com sucesso no padrão FILIA / TSE!\n\nTodos os painéis de fiscalização (Orçamento Municipal e Câmara) estão liberados.');
       showToast('🌿 Filiado(a) cadastrado(a) no padrão TSE!');
+    }
+
+    // ==================== GESTÃO DE WHATSAPP NA TABELA ====================
+    function abrirModalAdicionarZapFiliado() {
+      const select = document.getElementById('select-filiado-zap');
+      if (baseFiliados.length === 0) {
+        alert('Nenhum filiado cadastrado ainda.');
+        return;
+      }
+      select.innerHTML = baseFiliados.map(f => `<option value="${f.id}">${f.nome_eleitor} (Título: ${f.titulo_eleitor})</option>`).join('');
+      document.getElementById('input-novo-zap-filiado').value = '';
+      document.getElementById('modal-zap-filiado').classList.remove('hidden');
+    }
+
+    async function salvarZapFiliadoTabela() {
+      const filiadoId = document.getElementById('select-filiado-zap').value;
+      const novoZap = document.getElementById('input-novo-zap-filiado').value.trim();
+
+      if (!novoZap) {
+        alert('Digite o número do WhatsApp.');
+        return;
+      }
+
+      const { error } = await supabaseClient.from('filiados').update({ whatsapp: novoZap }).eq('id', filiadoId);
+      if (error) {
+        alert('Erro ao atualizar WhatsApp no Supabase: ' + error.message);
+        return;
+      }
+
+      document.getElementById('modal-zap-filiado').classList.add('hidden');
+      await carregarDadosSupabase();
+      showToast('📱 WhatsApp do filiado atualizado com sucesso!');
     }
 
     function tentarAbrirChat() {
@@ -1078,7 +1137,7 @@
       document.getElementById('total-filiados').textContent = baseFiliados.length;
 
       if (baseFiliados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Nenhum filiado oficial cadastrado ainda.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Nenhum filiado oficial cadastrado ainda.</td></tr>`;
         return;
       }
 
@@ -1087,7 +1146,8 @@
           <td class="p-3 font-bold text-slate-900">${f.titulo_eleitor}</td>
           <td class="p-3 font-extrabold text-emerald-950">${f.nome_eleitor}</td>
           <td class="p-3">${f.cpf}</td>
-          <td class="p-3">${f.municipio} - ${f.uf} (${f.estado})</td>
+          <td class="p-3">${f.whatsapp ? `<a href="https://wa.me/55${f.whatsapp.replace(/\D/g, '')}" target="_blank" class="text-emerald-700 font-bold">${f.whatsapp} ↗</a>` : '<span class="text-slate-400 italic">Não informado</span>'}</td>
+          <td class="p-3">${f.municipio} - ${f.uf}</td>
           <td class="p-3">Zona: ${f.zona_eleitoral} | Seção: ${f.secao_eleitoral}</td>
           <td class="p-3 font-bold text-emerald-800">${f.data_filiacao}</td>
           <td class="p-3 text-center whitespace-nowrap space-x-1">
@@ -1124,9 +1184,9 @@
 
     function exportarFiliadosTSECSV() {
       if (baseFiliados.length === 0) { showToast('⚠️ Não há filiados para exportar.'); return; }
-      let csv = 'Titulo de eleitor,Nome do eleitor,CPF,UF,Estado,Municipio,Zona eleitoral,Secao eleitoral,Data de filiacao\n';
+      let csv = 'Titulo de eleitor,Nome do eleitor,CPF,WhatsApp,UF,Estado,Municipio,Zona eleitoral,Secao eleitoral,Data de filiacao\n';
       baseFiliados.forEach(f => {
-        csv += `"${f.titulo_eleitor}","${f.nome_eleitor}","${f.cpf}","${f.uf}","${f.estado}","${f.municipio}","${f.zona_eleitoral}","${f.secao_eleitoral}","${f.data_filiacao}"\n`;
+        csv += `"${f.titulo_eleitor}","${f.nome_eleitor}","${f.cpf}","${f.whatsapp || ''}","${f.uf}","${f.estado}","${f.municipio}","${f.zona_eleitoral}","${f.secao_eleitoral}","${f.data_filiacao}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
