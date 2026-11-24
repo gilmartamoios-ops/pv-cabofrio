@@ -4,7 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Observatório Verde • Partido Verde Cabo Frio</title>
-  <meta property="description" content="Observatório Verde - Partido Verde (PV) Cabo Frio. Inteligência Cívica e Controle Social." />
+  <meta name="description" content="Enquanto constroem muros, escolhemos construir pontes. Inteligência cívica, união Centro-Tamoios e fiscalização cidadã em Cabo Frio." />
+
+  <!-- Tags Open Graph (Facebook, WhatsApp, Instagram, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pvcabofrio.vercel.app/" />
+  <meta property="og:title" content="Observatório Verde • Comunidade Verde Cabo Frio" />
+  <meta property="og:description" content="Enquanto constroem muros, escolhemos construir pontes. Fiscalize o orçamento, a Câmara Municipal e participe da 4ª Escolha!" />
+  <meta property="og:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Tags para Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Observatório Verde • Comunidade Verde Cabo Frio" />
+  <meta name="twitter:description" content="Enquanto constroem muros, escolhemos construir pontes. Fiscalize o orçamento e a Câmara de Cabo Frio!" />
+  <meta name="twitter:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS Client UMD -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,7 +52,7 @@
   <!-- Cabeçalho / Navbar -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
-      <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0">
+      <a href="#" id="logo-master-trigger" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0 select-none">
         <div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center shadow-sm overflow-hidden border-2 border-emerald-600 group-hover:scale-105 transition-transform shrink-0">
           <img src="logo.jpg" alt="Logo Oficial Partido Verde" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="hidden w-full h-full items-center justify-center bg-emerald-700 text-white font-extrabold text-sm tracking-tighter">
@@ -65,14 +82,17 @@
 
       <div class="flex items-center gap-2 shrink-0">
         <!-- MENU MESTRE -->
-        <div id="master-menu-container" class="relative">
+        <div id="master-menu-container" class="relative hidden">
           <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
             <span>⚙️ Gestão Master</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </button>
           
           <div id="master-dropdown" class="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-emerald-100 hidden py-2 z-50 animate-fade-in">
-            <button onclick="copiarSantinhoLiberacao(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors">
+            <button onclick="desbloquearCartoesMaster(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-extrabold text-emerald-900 bg-emerald-50/70 hover:bg-emerald-100 flex items-center gap-2.5 transition-colors">
+              <span>🔓</span> Desbloquear Todos os Cartões
+            </button>
+            <button onclick="copiarSantinhoLiberacao(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors border-t border-slate-100">
               <span>🔑</span> Link do Santinho Digital
             </button>
             <button onclick="abrirModalCadastro(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors border-t border-slate-100">
@@ -80,6 +100,9 @@
             </button>
             <button onclick="abrirModalPainelCoord(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-emerald-800 hover:bg-emerald-50 flex items-center gap-2.5 transition-colors border-t border-slate-100">
               <span>💬</span> Painel de Atendimento (Chats)
+            </button>
+            <button onclick="simularVisitanteNovo(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-amber-800 hover:bg-amber-50 flex items-center gap-2.5 transition-colors border-t border-slate-100">
+              <span>👁️</span> Testar Visão de Visitante (Bloquear)
             </button>
           </div>
         </div>
@@ -708,13 +731,82 @@
     let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
 
-    // Funções de Checagem de Sessão Real
+    // ==================== COMANDOS PRÁTICOS DO GESTOR MASTER ====================
+    // 1. Ativação via URL (?master=1) para abrir no celular ou em qualquer navegador novo
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('master') === '1') {
+      localStorage.setItem('pv_gestor_master', 'ativo');
+      desbloquearCartoesMaster(true);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 2. Ativação por toque longo (3 segundos) na logo do PV (funciona no celular e PC)
+    let pressTimer = null;
+    const logoTrigger = document.getElementById('logo-master-trigger');
+    if (logoTrigger) {
+      const startPress = () => {
+        pressTimer = setTimeout(() => {
+          const ativo = localStorage.getItem('pv_gestor_master') === 'ativo';
+          if (ativo) {
+            localStorage.removeItem('pv_gestor_master');
+            showToast('🔒 Modo Gestor Master desativado neste aparelho.');
+          } else {
+            localStorage.setItem('pv_gestor_master', 'ativo');
+            desbloquearCartoesMaster(true);
+            showToast('⚙️ Modo Gestor Master ATIVADO e cartões liberados!');
+          }
+          atualizarPermissoesVisuaisNaHome();
+        }, 2500);
+      };
+      const cancelPress = () => clearTimeout(pressTimer);
+
+      logoTrigger.addEventListener('mousedown', startPress);
+      logoTrigger.addEventListener('touchstart', startPress, { passive: true });
+      logoTrigger.addEventListener('mouseup', cancelPress);
+      logoTrigger.addEventListener('mouseleave', cancelPress);
+      logoTrigger.addEventListener('touchend', cancelPress);
+    }
+
+    // 3. Comando direto do menu Master: desbloqueia todos os cartões imediatamente
+    function desbloquearCartoesMaster(silencioso = false) {
+      usuarioAtual = {
+        id: 'master_' + Date.now(),
+        nome: 'Gestor Master PV',
+        bairro: 'Cabo Frio',
+        status: 'Filiado TSE',
+        titulo_eleitor: '000000000000'
+      };
+      localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
+      localStorage.setItem('pv_gestor_master', 'ativo');
+      atualizarPermissoesVisuaisNaHome();
+      if (!silencioso) {
+        showToast('🔓 Todos os 4 cartões e o chat foram desbloqueados!');
+      }
+    }
+
+    // 4. Comando de teste para visualizar como visitante bloqueado
+    function simularVisitanteNovo() {
+      localStorage.removeItem('comunidade_verde_usuario_atual');
+      usuarioAtual = null;
+      atualizarPermissoesVisuaisNaHome();
+      navigateTo('home');
+      showToast('👁️ Modo Visitante ativado: os cartões agora estão bloqueados.');
+    }
+
+    function isGestorMaster() {
+      return localStorage.getItem('pv_gestor_master') === 'ativo' || (usuarioAtual && usuarioAtual.nome && usuarioAtual.nome.toUpperCase().includes('GILMAR'));
+    }
+
     function isMembroCadastrado() {
-      return usuarioAtual && (usuarioAtual.status === 'Membro Simples' || usuarioAtual.status === 'Filiado TSE');
+      if (!usuarioAtual) return false;
+      const status = usuarioAtual.status || '';
+      return status === 'Membro Simples' || status === 'Filiado TSE' || Boolean(usuarioAtual.titulo_eleitor) || Boolean(usuarioAtual.zap);
     }
 
     function isFiliadoTSE() {
-      return usuarioAtual && usuarioAtual.status === 'Filiado TSE';
+      if (!usuarioAtual) return false;
+      const status = usuarioAtual.status || '';
+      return status === 'Filiado TSE' || Boolean(usuarioAtual.titulo_eleitor);
     }
 
     async function carregarDadosSupabase() {
@@ -732,13 +824,17 @@
 
     let modalCadastroAberto = false;
 
-    // Atualiza visualmente os crachás dos cartões conforme o usuário esteja logado ou seja visitante novo
     function atualizarPermissoesVisuaisNaHome() {
       const badgeForum = document.getElementById('badge-lock-forum');
       const badgeAgenda = document.getElementById('badge-lock-agenda');
       const badgeOrcamento = document.getElementById('badge-lock-orcamento');
       const badgeCamara = document.getElementById('badge-lock-camara');
       const chatBadge = document.getElementById('chat-lock-badge');
+      const masterMenu = document.getElementById('master-menu-container');
+
+      if (masterMenu) {
+        masterMenu.style.display = isGestorMaster() ? 'block' : 'none';
+      }
 
       if (isMembroCadastrado()) {
         if (badgeForum) { badgeForum.textContent = '✓ Liberado'; badgeForum.className = 'absolute top-4 right-4 text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold'; }
@@ -764,7 +860,6 @@
       carregarMensagensChatInterno();
     });
 
-    // Função que controla o acesso real aos cartões
     function tentarAcessar(tipo) {
       if (tipo === 'forum' || tipo === 'agenda') {
         if (isMembroCadastrado()) {
@@ -890,8 +985,9 @@
         return;
       }
 
-      usuarioAtual = { id: novoFiliadoTSE.id, nome: nome_eleitor, bairro: municipio, status: 'Filiado TSE' };
+      usuarioAtual = { id: novoFiliadoTSE.id, nome: nome_eleitor, bairro: municipio, status: 'Filiado TSE', titulo_eleitor: titulo_eleitor };
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
+      
       await carregarDadosSupabase();
       closeUnlockModal();
       atualizarPermissoesVisuaisNaHome();
