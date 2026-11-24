@@ -4,6 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Observatório Verde • Partido Verde (PV) Cabo Frio</title>
+  <meta name="description" content="Você sabe o que está acontecendo nos bairros, no orçamento e na Câmara de Cabo Frio? Acompanhe no Observatório Verde do PV." />
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Comunidade Verde - Cabo Frio" />
+  <meta property="og:url" content="https://pvcabofrio.vercel.app/" />
+  <meta property="og:title" content="Observatório Verde • Partido Verde (PV) Cabo Frio" />
+  <meta property="og:description" content="Você sabe o que está acontecendo nos bairros, no orçamento e na Câmara de Cabo Frio? Acompanhe em tempo real." />
+  <meta property="og:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
+  <meta property="og:image:secure_url" content="https://pvcabofrio.vercel.app/capa.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Observatório Verde • Partido Verde (PV) Cabo Frio" />
+  <meta name="twitter:description" content="Mobilização, Transparência e Controle Social em Cabo Frio." />
+  <meta name="twitter:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -372,6 +391,32 @@
 
     <!-- TELA INICIAL (HOME) -->
     <section id="view-home" class="space-y-8 animate-fade-in">
+      <!-- BANNER OFICIAL DA PLATAFORMA: OBSERVATÓRIO VERDE (capa.jpg) -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-900 text-white shadow-xl border border-emerald-700/60">
+        <img src="./capa.jpg" alt="Observatório Verde • Partido Verde Cabo Frio" onerror="this.style.display='none'" class="w-full max-h-[380px] object-cover object-center block" />
+        <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-900 px-6 sm:px-8 py-5 border-t border-emerald-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-amber-300">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              Partido Verde (PV) • Cabo Frio - RJ
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-black tracking-tight uppercase text-white leading-tight">
+              OBSERVATÓRIO <span class="text-amber-400">VERDE</span>
+            </h1>
+            <p class="text-xs sm:text-sm text-emerald-100/90 font-medium">
+              Mobilização comunitária, fiscalização do orçamento público e acompanhamento da Câmara Municipal.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button onclick="abrirModalMembroSimples()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-colors">
+              🌱 Participar
+            </button>
+            <button onclick="openUnlockModal()" class="bg-white/10 hover:bg-white/20 text-white border border-white/25 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-colors">
+              🌿 Filiação PV
+            </button>
+          </div>
+        </div>
+      </div>
       <!-- STORIES INTERATIVOS (7 LÂMINAS) -->
       <div class="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-100 shadow-sm space-y-5">
         <div class="flex items-center justify-between gap-2">
