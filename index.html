@@ -1,575 +1,357 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Observatório Verde • Partido Verde Cabo Frio</title>
-  <meta name="description" content="Enquanto constroem muros, escolhemos construir pontes. Inteligência cívica, união Centro-Tamoios e fiscalização cidadã em Cabo Frio." />
-
-  <!-- Tags Open Graph (Facebook, WhatsApp, Instagram, LinkedIn) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://pvcabofrio.vercel.app/" />
-  <meta property="og:title" content="Observatório Verde • Comunidade Verde Cabo Frio" />
-  <meta property="og:description" content="Enquanto constroem muros, escolhemos construir pontes. Fiscalize o orçamento, a Câmara Municipal e participe da 4ª Escolha!" />
-  <meta property="og:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
-  <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Tags para Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Observatório Verde • Comunidade Verde Cabo Frio" />
-  <meta name="twitter:description" content="Enquanto constroem muros, escolhemos construir pontes. Fiscalize o orçamento e a Câmara de Cabo Frio!" />
-  <meta name="twitter:image" content="https://pvcabofrio.vercel.app/capa.jpg" />
-
+  <title>Observatório Verde • Partido Verde (PV) Cabo Frio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Supabase JS Client UMD -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- HTML2PDF para geração direta de PDF compartilhável -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeIn 0.25s ease-out; }
     .story-progress-bar { transition: width 0.1s linear; }
-    .card-hover { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .card-hover:hover { transform: translateY(-4px); }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in { animation: fadeIn 0.35s ease-out forwards; }
-    .blogger-content img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; border: 1px solid #e2e8f0; }
-    .blogger-content iframe, .blogger-content video, .blogger-content .BLOG_video_class { width: 100% !important; max-width: 100% !important; min-height: 320px; border-radius: 1rem; margin: 1rem 0; }
-    .blogger-content p { margin-bottom: 0.85rem; line-height: 1.7; }
-    .blogger-content a { color: #059669; text-decoration: underline; font-weight: 600; }
-    @media print { 
-      header, footer, .no-print, article:not(.print-target), #assistente-chat-container { display: none !important; } 
-      body { background: white !important; } 
+    .blogger-content p { margin-bottom: 0.9rem; }
+    .blogger-content img { max-width: 100%; height: auto; border-radius: 1rem; margin: 0.75rem 0; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; }
     }
   </style>
 </head>
-<body class="bg-[#f4f7f5] text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
+<body class="bg-gradient-to-br from-emerald-50/70 via-white to-teal-50/60 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Cabeçalho / Navbar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100/80 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
-      <a href="#" id="logo-master-trigger" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0 select-none">
-        <div class="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center shadow-sm overflow-hidden border-2 border-emerald-600 group-hover:scale-105 transition-transform shrink-0">
-          <img src="logo.jpg" alt="Logo Oficial Partido Verde" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <div class="hidden w-full h-full items-center justify-center bg-emerald-700 text-white font-extrabold text-sm tracking-tighter">
-            <svg viewBox="0 0 100 100" class="w-8 h-8">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#ffffff" stroke-width="10" stroke-dasharray="235 30" transform="rotate(-20 50 50)"/>
-              <path d="M32 34 L50 70 L68 34" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="hidden md:block">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="font-extrabold text-emerald-950 tracking-tight text-sm sm:text-base leading-none">OBSERVATÓRIO VERDE</span>
-            <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">PV Cabo Frio</span>
-          </div>
-          <p class="text-xs text-emerald-700 font-semibold mt-1">Partido Verde • Movimento Comunidade Verde</p>
-        </div>
-      </a>
-
-      <!-- Pesquisa Global -->
-      <div class="flex-1 max-w-sm">
-        <button onclick="openGlobalSearch()" class="w-full flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 text-slate-500 text-xs sm:text-sm px-4 py-2.5 rounded-full border border-slate-200 transition-all shadow-sm">
-          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <span class="truncate">Pesquisar pautas, leis...</span>
-          <span class="ml-auto hidden lg:inline-block text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-md font-bold text-slate-400">Ctrl + K</span>
+  <!-- CABEÇALHO PRINCIPAL -->
+  <header class="no-print sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-emerald-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="logo-master-trigger" type="button" onclick="navigateTo('home')" class="w-10 h-10 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm flex items-center justify-center shadow-sm shrink-0 select-none transition-colors" title="Observatório Verde • Cabo Frio">
+          PV
         </button>
+        <div class="min-w-0">
+          <p class="text-sm sm:text-base font-extrabold text-emerald-950 truncate">Observatório Verde • Cabo Frio</p>
+          <p class="text-[11px] text-slate-500 truncate">Mobilização, Transparência e Controle Social</p>
+        </div>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- MENU MESTRE -->
-        <div id="master-menu-container" class="relative hidden">
-          <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-extrabold px-3.5 py-2.5 rounded-full shadow transition-all">
-            <span>⚙️ Gestão Master</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        <button onclick="openGlobalSearch()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl border border-slate-200 transition-colors" title="Buscar (Ctrl+K)">
+          <span>🔎</span>
+          <span class="hidden sm:inline">Buscar</span>
+        </button>
+
+        <button onclick="tentarAbrirChat()" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-900 px-3 py-2 rounded-xl border border-emerald-200 transition-colors">
+          <span>💬</span>
+          <span class="hidden sm:inline">Canal</span>
+          <span id="chat-lock-badge" class="text-[10px] bg-amber-200 text-amber-950 px-1.5 py-0.5 rounded-full font-extrabold">🔒</span>
+        </button>
+
+        <div id="master-menu-container" style="display: none;" class="relative">
+          <button onclick="toggleMasterDropdown()" class="inline-flex items-center gap-1 text-xs font-extrabold bg-amber-400 hover:bg-amber-500 text-slate-950 px-3 py-2 rounded-xl shadow-sm transition-colors">
+            <span>⚙️</span>
+            <span class="hidden md:inline">Gestor</span>
           </button>
-          
-          <div id="master-dropdown" class="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-emerald-100 hidden py-2 z-50 animate-fade-in">
-            <button onclick="desbloquearCartoesMaster(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-extrabold text-emerald-900 bg-emerald-50/70 hover:bg-emerald-100 flex items-center gap-2.5 transition-colors">
-              <span>🔓</span> Desbloquear Todos os Cartões
-            </button>
-            <button onclick="copiarSantinhoLiberacao(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors border-t border-slate-100">
-              <span>🔑</span> Link do Santinho Digital
-            </button>
-            <button onclick="abrirModalCadastro(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 flex items-center gap-2.5 transition-colors border-t border-slate-100">
-              <span>👥</span> Repositório de Filiados (TSE) & Membros
-            </button>
-            <button onclick="abrirModalPainelCoord(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-emerald-800 hover:bg-emerald-50 flex items-center gap-2.5 transition-colors border-t border-slate-100">
-              <span>💬</span> Painel de Atendimento (Chats)
-            </button>
-            <button onclick="simularVisitanteNovo(); toggleMasterDropdown();" class="w-full text-left px-4 py-3 text-xs font-bold text-amber-800 hover:bg-amber-50 flex items-center gap-2.5 transition-colors border-t border-slate-100">
-              <span>👁️</span> Testar Visão de Visitante (Bloquear)
-            </button>
+          <div id="master-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 z-50 space-y-1 text-xs">
+            <button onclick="abrirModalCadastro()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 font-bold text-slate-800">📋 Base de Membros & Filiados</button>
+            <button onclick="abrirModalPainelCoord()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 font-bold text-slate-800">📨 Mensagens da Coordenação</button>
+            <button onclick="abrirModalAdicionarZapFiliado()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 font-bold text-slate-800">📱 Atualizar WhatsApp Filiado</button>
+            <button onclick="exportarFiliadosTSECSV()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 font-bold text-slate-800">📥 Exportar CSV FILIA/TSE</button>
+            <button onclick="copiarSantinhoLiberacao()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 font-bold text-slate-800">🔑 Copiar Mensagem de Convite</button>
+            <div class="border-t border-slate-100 my-1"></div>
+            <button onclick="simularVisitanteNovo()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 font-bold text-rose-700">👁️ Simular Visitante Novo</button>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- ==================== MODAL 1: FICHA SIMPLES (MEMBRO) ==================== -->
-  <div id="modal-membro-simples" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative">
-      <button onclick="fecharModalMembroSimples()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
-
-      <div class="text-center space-y-1.5">
-        <span class="inline-block bg-emerald-50 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-200">Partido Verde • Cabo Frio</span>
-        <h3 class="text-xl font-extrabold text-slate-900">Cadastro de Membro</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Preencha seus dados básicos para liberar na hora o <strong>Fórum Permanente</strong>, a <strong>Agenda nos Bairros</strong> e o <strong>Atendimento Privado</strong>.
-        </p>
+  <!-- MODAL DE BUSCA GLOBAL -->
+  <div id="global-search-modal" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-start justify-center p-4 pt-16">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-fade-in">
+      <div class="p-4 border-b border-slate-100 flex items-center gap-3">
+        <span class="text-lg">🔎</span>
+        <input id="global-search-input" type="text" oninput="runGlobalSearch()" placeholder="Buscar em receitas, pastas, emendas, pautas ou Câmara..." class="flex-1 text-sm font-semibold text-slate-900 focus:outline-none" />
+        <button onclick="closeGlobalSearch()" class="text-xs font-extrabold text-slate-500 hover:text-slate-800 px-2.5 py-1 rounded-lg bg-slate-100">ESC</button>
       </div>
-
-      <div class="space-y-3.5 text-left pt-1">
-        <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Nome Completo</label>
-          <input type="text" id="simples-nome" placeholder="Digite seu nome completo" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu WhatsApp (com DDD)</label>
-          <input type="text" id="simples-zap" placeholder="Ex: 22 99999-9999" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Seu Bairro / Distrito (Cabo Frio)</label>
-          <select id="simples-bairro" onchange="verificarOutroBairroSimples()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
-            <option value="">Selecione seu bairro...</option>
-            <optgroup label="1º Distrito (Sede / Centro)">
-              <option value="Centro">Centro</option>
-              <option value="São Cristóvão">São Cristóvão</option>
-              <option value="Jardim Esperança">Jardim Esperança</option>
-              <option value="Braga">Braga</option>
-              <option value="Algodoal">Algodoal</option>
-              <option value="Passagem">Passagem</option>
-              <option value="Vila Nova">Vila Nova</option>
-              <option value="Peró">Peró</option>
-              <option value="Ogiva">Ogiva</option>
-              <option value="Gamboa">Gamboa</option>
-              <option value="Jacaré">Jacaré</option>
-              <option value="Portinho">Portinho</option>
-              <option value="Palmeiras">Palmeiras</option>
-              <option value="Parque Burle">Parque Burle</option>
-              <option value="Guarani">Guarani</option>
-              <option value="Itajuru">Itajuru</option>
-              <option value="Jardim Caiçara">Jardim Caiçara</option>
-              <option value="Jardim Excelsior">Jardim Excelsior</option>
-              <option value="Jardim Flamboyant">Jardim Flamboyant</option>
-              <option value="Jardim Nautillus">Jardim Nautillus</option>
-              <option value="Jardim Olinda">Jardim Olinda</option>
-              <option value="Jardim Peró">Jardim Peró</option>
-              <option value="Manoel Corrêa">Manoel Corrêa</option>
-              <option value="Monte Alegre">Monte Alegre</option>
-              <option value="Boca do Mato">Boca do Mato</option>
-              <option value="Caminho de Búzios">Caminho de Búzios</option>
-              <option value="Tangará">Tangará</option>
-              <option value="Reserva do Peró">Reserva do Peró</option>
-              <option value="Célula Mater">Célula Mater</option>
-              <option value="Vila do Sol">Vila do Sol</option>
-              <option value="Vila do Ar">Vila do Ar</option>
-              <option value="Recanto das Dunas">Recanto das Dunas</option>
-              <option value="Novo Portinho">Novo Portinho</option>
-              <option value="Forte">Forte</option>
-            </optgroup>
-            <optgroup label="2º Distrito (Tamoios)">
-              <option value="Tamoios - Unamar">Tamoios - Unamar</option>
-              <option value="Tamoios - Aquarius">Tamoios - Aquarius</option>
-              <option value="Tamoios - Santo Antônio">Tamoios - Santo Antônio</option>
-              <option value="Tamoios - Samburá">Tamoios - Samburá</option>
-              <option value="Tamoios - Sinagoga">Tamoios - Sinagoga</option>
-              <option value="Tamoios - Florestinha">Tamoios - Florestinha</option>
-              <option value="Tamoios - Maria Joaquina">Tamoios - Maria Joaquina</option>
-              <option value="Tamoios - Centro Hípico">Tamoios - Centro Hípico</option>
-              <option value="Tamoios - Campos Novos">Tamoios - Campos Novos</option>
-              <option value="Tamoios - Botafogo">Tamoios - Botafogo</option>
-              <option value="Tamoios - Angelim">Tamoios - Angelim</option>
-              <option value="Tamoios - Pacheco">Tamoios - Pacheco</option>
-              <option value="Tamoios - Santa Margarida">Tamoios - Santa Margarida</option>
-              <option value="Tamoios - Agrisa">Tamoios - Agrisa</option>
-              <option value="Tamoios - Long Beach">Tamoios - Long Beach</option>
-              <option value="Tamoios - Nova Califórnia">Tamoios - Nova Califórnia</option>
-              <option value="Tamoios - Vista Alegre">Tamoios - Vista Alegre</option>
-            </optgroup>
-            <option value="OUTRO">Outro Bairro / Zona Rural...</option>
-          </select>
-          <input type="text" id="simples-bairro-outro" placeholder="Digite o nome do seu bairro" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div>
-          <label class="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Situação Partidária</label>
-          <select id="simples-filiado" onchange="verificarPartidoSimples()" class="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium text-slate-700">
-            <option value="Sem filiação">Sem filiação partidária</option>
-            <option value="Sim (Outro Partido)">Filiado(a) a outro partido</option>
-            <option value="Partido Verde (PV)">Já sou filiado(a) ao Partido Verde (PV)</option>
-          </select>
-          <input type="text" id="simples-qual-partido" placeholder="Qual partido?" class="hidden mt-2 w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <button onclick="salvarMembroSimples()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-5 rounded-2xl shadow-lg transition-all">
-          ✓ Liberar Acesso de Membro
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== MODAL 2: FILIAÇÃO AO PV (TSE 100% ORIGINAL) ==================== -->
-  <div id="unlock-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-5 relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeUnlockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors" title="Fechar">✕</button>
-
-      <!-- PASSO 0: APRESENTAÇÃO -->
-      <div id="bloco-0" class="space-y-4 text-center pt-2">
-        <div class="inline-flex items-center gap-1.5 bg-emerald-700 text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-full shadow-sm">
-          <span>🌿</span> Partido Verde (PV) • Cabo Frio
-        </div>
-        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">Filiação Oficial ao Partido Verde</h3>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed px-1">
-          Os painéis de <strong class="text-emerald-900">Orçamento Municipal</strong> e <strong class="text-emerald-900">Monitoramento da Câmara</strong> são exclusivos para filiados ao <strong class="text-emerald-800">Partido Verde (PV)</strong>.
-        </p>
-        <div class="bg-emerald-50/80 border border-emerald-200 p-4 rounded-2xl text-left space-y-2 text-xs text-slate-700">
-          <p class="font-extrabold text-emerald-950">✨ Ficha Padrão Oficial FILIA / TSE:</p>
-          <p>Preencha os 9 campos oficiais da Justiça Eleitoral para efetivar sua filiação e liberar o acesso integral imediatamente.</p>
-        </div>
-        <button onclick="avancarBloco(1)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 px-6 rounded-2xl shadow-lg transition-all">
-          🌿 Preencher Ficha Oficial FILIA / TSE ➔
-        </button>
-      </div>
-
-      <!-- FORMULÁRIO COM OS 9 CAMPOS EXATOS DO TSE -->
-      <div id="bloco-1" class="space-y-3 text-left pt-1 hidden">
-        <div class="text-center pb-2 border-b border-slate-100">
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Sistema FILIA / TSE</span>
-          <h4 class="text-base font-extrabold text-slate-900 mt-1">Dados Oficiais de Filiação</h4>
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Título de eleitor</label>
-          <input type="text" id="tse-titulo-eleitor" placeholder="Número do Título de Eleitor" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Nome do eleitor</label>
-          <input type="text" id="tse-nome-eleitor" placeholder="Nome completo igual ao Título" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">CPF</label>
-          <input type="text" id="tse-cpf" placeholder="000.000.000-00" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">UF</label>
-            <input type="text" id="tse-uf" value="RJ" maxlength="2" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium uppercase" />
-          </div>
-          <div>
-            <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Estado</label>
-            <input type="text" id="tse-estado" value="Rio de Janeiro" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Município</label>
-          <input type="text" id="tse-municipio" value="Cabo Frio" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Zona eleitoral</label>
-            <input type="text" id="tse-zona-eleitoral" placeholder="Ex: 096" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-          </div>
-          <div>
-            <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Seção eleitoral</label>
-            <input type="text" id="tse-secao-eleitoral" placeholder="Ex: 0123" class="w-full bg-slate-50 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Data de filiação</label>
-          <input type="text" id="tse-data-filiacao" class="w-full bg-slate-100 border border-slate-200 text-xs px-3.5 py-2.5 rounded-xl text-slate-600 font-bold" readonly />
-        </div>
-
-        <div class="flex gap-2 pt-2">
-          <button onclick="document.getElementById('bloco-1').classList.add('hidden'); document.getElementById('bloco-0').classList.remove('hidden');" class="w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold text-xs py-3 rounded-2xl transition-all">← Voltar</button>
-          <button onclick="finalizarCadastroTSE()" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-3 rounded-2xl shadow transition-all">✓ Concluir e Salvar no FILIA</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== MODAL REPOSITÓRIO DE FICHAS / CRM ==================== -->
-  <div id="modal-cadastro" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-6xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Repositório Oficial • Sincronizado Supabase</span>
-          <h3 class="text-xl font-extrabold mt-1">Filiados Oficiais (FILIA / TSE) & Membros</h3>
-        </div>
-        <button onclick="fecharModalCadastro()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-6">
-        
-        <!-- SEÇÃO 1: FILIADOS OFICIAIS TSE -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <h4 class="text-sm font-extrabold text-emerald-950 uppercase tracking-wider">🌿 Filiados Oficiais (Tabela FILIA / TSE): <span id="total-filiados" class="bg-emerald-700 text-white px-2 py-0.5 rounded-full text-xs">0</span></h4>
-            <div class="flex items-center gap-2">
-              <button onclick="abrirModalAdicionarZapFiliado()" class="text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl shadow-sm transition-colors">
-                📱 Adicionar WhatsApp a Filiado
-              </button>
-              <button onclick="exportarFiliadosTSECSV()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow-sm transition-colors">
-                📥 Baixar CSV Padrão FILIA / TSE
-              </button>
-            </div>
-          </div>
-          <div class="border border-slate-200 rounded-2xl overflow-x-auto">
-            <table class="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr class="bg-emerald-50 text-emerald-950 font-bold uppercase text-[10px] border-b border-emerald-200">
-                  <th class="p-3">Título de Eleitor</th>
-                  <th class="p-3">Nome do Eleitor</th>
-                  <th class="p-3">CPF</th>
-                  <th class="p-3">WhatsApp (Contato)</th>
-                  <th class="p-3">Município / UF</th>
-                  <th class="p-3">Zona / Seção</th>
-                  <th class="p-3">Data Filiação</th>
-                  <th class="p-3 text-center">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabela-filiados-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-                <tr><td colspan="8" class="p-6 text-center text-slate-400">Carregando filiados...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- SEÇÃO 2: MEMBROS SIMPLES -->
-        <div class="space-y-3 pt-4 border-t border-slate-200">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <h4 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider">👥 Membros Cadastrados (Fórum & Agenda): <span id="total-membros" class="bg-slate-700 text-white px-2 py-0.5 rounded-full text-xs">0</span></h4>
-          </div>
-          <div class="border border-slate-200 rounded-2xl overflow-x-auto">
-            <table class="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr class="bg-slate-100 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
-                  <th class="p-3">Nome</th>
-                  <th class="p-3">Bairro</th>
-                  <th class="p-3">WhatsApp</th>
-                  <th class="p-3">Situação Partidária</th>
-                  <th class="p-3">Data</th>
-                  <th class="p-3 text-center">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabela-membros-body" class="divide-y divide-slate-100 font-medium text-slate-700">
-                <tr><td colspan="6" class="p-6 text-center text-slate-400">Carregando membros...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL RÁPIDO PARA VINCULAR/EDITAR WHATSAPP DO FILIADO -->
-  <div id="modal-zap-filiado" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl border border-emerald-100 p-6 space-y-4 relative">
-      <button onclick="document.getElementById('modal-zap-filiado').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
-      <h3 class="text-base font-extrabold text-slate-900">Atualizar WhatsApp do Filiado</h3>
-      <p class="text-xs text-slate-600">Selecione o filiado e digite o WhatsApp para contato rápido na tabela:</p>
-      <div class="space-y-3">
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">Filiado</label>
-          <select id="select-filiado-zap" class="w-full bg-slate-50 border border-slate-200 text-xs p-2.5 rounded-xl font-medium"></select>
-        </div>
-        <div>
-          <label class="block text-[10px] font-extrabold uppercase text-slate-600 mb-1">WhatsApp (com DDD)</label>
-          <input type="text" id="input-novo-zap-filiado" placeholder="Ex: 22 99999-9999" class="w-full bg-slate-50 border border-slate-200 text-xs p-2.5 rounded-xl font-medium" />
-        </div>
-        <button onclick="salvarZapFiliadoTabela()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl shadow transition-colors">Salvar WhatsApp</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL DE VISUALIZAÇÃO / PDF -->
-  <div id="modal-ficha-individual" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
-      <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="no-print absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs">✕</button>
-      
-      <div id="area-impressao-ficha" class="space-y-5 bg-white p-2">
-        <div class="text-center border-b-2 border-emerald-700 pb-4">
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Sistema FILIA / TSE • Partido Verde</span>
-          <h3 class="text-xl font-extrabold text-slate-900 mt-2">Ficha Oficial de Filiação Partidária</h3>
-          <p class="text-[11px] text-slate-500">Diretório Municipal de Cabo Frio - RJ</p>
-        </div>
-        <div id="conteudo-ficha-detalhe" class="space-y-3 text-xs sm:text-sm text-slate-700"></div>
-        <div class="pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400">
-          <span>Documento gerado pelo Observatório Verde</span>
-          <span>Cabo Frio - RJ</span>
-        </div>
-      </div>
-
-      <div class="no-print flex flex-wrap justify-end gap-2.5 pt-4 border-t border-slate-100">
-        <button onclick="baixarFichaPDF()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm">
-          📥 Baixar PDF Compartilhável
-        </button>
-        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
-          🖨️ Imprimir Ficha
-        </button>
-        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors">
-          Fechar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== PAINEL DE ATENDIMENTO DA COORDENAÇÃO (MASTER) ==================== -->
-  <div id="modal-coord-chats" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[85vh]">
-      <div class="p-6 bg-emerald-800 text-white flex items-center justify-between">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-700 px-2.5 py-0.5 rounded-full">Painel Exclusivo • Coordenação & Presidente</span>
-          <h3 class="text-xl font-extrabold mt-1">Central de Atendimento Privado aos Membros</h3>
-        </div>
-        <button onclick="fecharModalPainelCoord()" class="w-8 h-8 rounded-full bg-emerald-700 hover:bg-emerald-600 flex items-center justify-center font-bold text-xs transition-colors">✕</button>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 flex-1 overflow-hidden">
-        <div class="border-r border-slate-200 overflow-y-auto p-4 bg-slate-50 space-y-2" id="lista-conversas-coord">
-          <p class="text-xs text-slate-400 text-center py-6">Carregando conversas...</p>
-        </div>
-        <div class="md:col-span-2 flex flex-col justify-between bg-white p-4" id="painel-conversa-ativa">
-          <div class="text-center text-slate-400 text-sm my-auto">Selecione um membro à esquerda para visualizar e responder ao chat privado.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== WIDGET DE CHAT PRIVADO ==================== -->
-  <div id="assistente-chat-container" class="fixed bottom-5 left-5 z-40">
-    <button id="chat-trigger-btn" onclick="tentarAbrirChat()" class="flex items-center gap-2.5 bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-full shadow-xl transition-all border border-emerald-600 group relative">
-      <span id="chat-lock-badge" class="absolute -top-2 -right-1 text-[10px] bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full font-extrabold shadow">🔒 Membros</span>
-      <div class="w-7 h-7 rounded-full bg-emerald-700 flex items-center justify-center border border-emerald-400 shrink-0 text-white">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 00-7-7m7 7v3a2 2 0 01-2 2h-1"/>
-        </svg>
-      </div>
-      <span>💬 Atendimento Privado</span>
-    </button>
-
-    <div id="chat-window" class="hidden absolute bottom-14 left-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden flex flex-col h-[480px] animate-fade-in z-50">
-      <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-full bg-emerald-700 flex items-center justify-center border-2 border-emerald-600 shadow shrink-0 text-white">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 00-7-7m7 7v3a2 2 0 01-2 2h-1"/>
-            </svg>
-          </div>
-          <div>
-            <h4 class="text-xs font-extrabold uppercase tracking-wider">Atendimento Privado</h4>
-            <p class="text-[10px] text-emerald-200">Canal Direto com a Coordenação</p>
-          </div>
-        </div>
-        <button onclick="toggleChatWindow()" class="text-emerald-200 hover:text-white font-bold text-xs px-2 py-1">✕</button>
-      </div>
-
-      <div id="chat-messages" class="p-4 flex-1 overflow-y-auto space-y-3 text-xs bg-slate-50/50">
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
-          <p class="font-bold text-emerald-900">Olá! Este é o seu canal seguro e privado.</p>
-          <p>Envie sua dúvida ou sugestão diretamente para a coordenação do Partido Verde:</p>
-        </div>
-      </div>
-
-      <div class="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
-        <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') enviarMensagemChatInterno()" placeholder="Digite sua mensagem..." class="flex-1 bg-slate-100 border border-slate-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none focus:border-emerald-600 font-medium" />
-        <button onclick="enviarMensagemChatInterno()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2.5 rounded-xl transition-colors">Enviar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL DE PESQUISA GLOBAL -->
-  <div id="global-search-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">
-    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[80vh]">
-      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
-        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="text" id="global-search-input" oninput="runGlobalSearch()" placeholder="Busque posts, leis, orçamento ou qualquer termo..." class="w-full bg-transparent text-sm sm:text-base text-slate-800 placeholder-slate-400 focus:outline-none font-medium" autofocus/>
-        <button onclick="closeGlobalSearch()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl transition-colors">ESC</button>
-      </div>
-      <div id="global-search-results" class="p-4 sm:p-6 overflow-y-auto space-y-3 divide-y divide-slate-100">
+      <div id="global-search-results" class="p-4 max-h-96 overflow-y-auto space-y-2">
         <div class="text-center text-slate-400 text-xs sm:text-sm py-8">Digite qualquer termo acima para pesquisar.</div>
       </div>
     </div>
   </div>
 
-  <main id="main-content" class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+  <!-- MODAL 1: CADASTRO SIMPLES DE MEMBRO -->
+  <div id="modal-membro-simples" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-emerald-100 p-6 space-y-4 animate-fade-in">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full">Participação Comunitária</span>
+          <h3 class="text-lg font-extrabold text-slate-900 mt-1">Cadastro de Membro</h3>
+        </div>
+        <button onclick="fecharModalMembroSimples()" class="text-slate-400 hover:text-slate-700 font-bold text-lg px-2">✕</button>
+      </div>
 
-    <div id="view-home" class="space-y-8 animate-fade-in">
-      <!-- Banner Principal -->
-      <section class="relative rounded-3xl overflow-hidden shadow-md border border-emerald-200/60 bg-slate-900 min-h-[300px] sm:min-h-[400px] flex items-end">
-        <img src="capa.jpg" alt="Observatório Verde • Partido Verde Cabo Frio" class="absolute inset-0 w-full h-full object-cover object-top sm:object-[center_18%] opacity-85" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"></div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nome completo *</label>
+          <input id="simples-nome" type="text" placeholder="Seu nome" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:border-emerald-600" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">WhatsApp *</label>
+          <input id="simples-zap" type="tel" placeholder="(22) 99999-9999" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:border-emerald-600" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Bairro / Localidade em Cabo Frio *</label>
+          <select id="simples-bairro" onchange="verificarOutroBairroSimples()" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold bg-white focus:outline-none focus:border-emerald-600">
+            <option value="">Selecione o bairro...</option>
+            <option value="Centro">Centro</option>
+            <option value="Passagem">Passagem</option>
+            <option value="Braga">Braga</option>
+            <option value="São Cristóvão">São Cristóvão</option>
+            <option value="Jardim Caiçara">Jardim Caiçara</option>
+            <option value="Portinho">Portinho</option>
+            <option value="Unamar (Tamoios)">Unamar (Tamoios)</option>
+            <option value="Santo Antônio (Tamoios)">Santo Antônio (Tamoios)</option>
+            <option value="OUTRO">Outro bairro / localidade...</option>
+          </select>
+          <input id="simples-bairro-outro" type="text" placeholder="Digite o nome do bairro ou localidade" class="hidden mt-2 w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:border-emerald-600" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Situação partidária</label>
+          <select id="simples-filiado" onchange="verificarPartidoSimples()" class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold bg-white focus:outline-none focus:border-emerald-600">
+            <option value="Sem filiação partidária">Sem filiação partidária</option>
+            <option value="Filiado ao PV">Filiado ao PV</option>
+            <option value="Sim (Outro Partido)">Sim (Outro Partido)</option>
+          </select>
+          <input id="simples-qual-partido" type="text" placeholder="Qual partido?" class="hidden mt-2 w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:border-emerald-600" />
+        </div>
+      </div>
 
-        <div class="relative z-10 p-6 sm:p-10 w-full text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div class="max-w-2xl space-y-2">
-            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
-              Construindo Pontes, <span class="text-emerald-300">Fiscalizando Recursos</span>
-            </h1>
-            <p class="text-xs sm:text-sm text-white/95 font-medium leading-relaxed drop-shadow">
-              Uma iniciativa do <strong class="text-emerald-300 font-extrabold">Partido Verde (PV)</strong> e do movimento <strong class="text-amber-300 font-extrabold">Comunidade Verde</strong> para Cabo Frio.
-            </p>
+      <div class="pt-2 flex items-center justify-end gap-2">
+        <button onclick="fecharModalMembroSimples()" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancelar</button>
+        <button onclick="salvarMembroSimples()" class="px-5 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">Salvar e Liberar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: FILIAÇÃO OFICIAL FILIA / TSE -->
+  <div id="unlock-modal" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-emerald-100 p-6 space-y-5 animate-fade-in max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full">Padrão FILIA / TSE</span>
+          <h3 class="text-lg font-extrabold text-slate-900 mt-1">Registro de Filiado(a) • Partido Verde</h3>
+        </div>
+        <button onclick="closeUnlockModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg px-2">✕</button>
+      </div>
+
+      <div id="bloco-0" class="space-y-4 text-sm text-slate-600">
+        <p class="leading-relaxed">O acesso aos painéis aprofundados de <strong>Orçamento Municipal</strong> e <strong>Câmara Municipal</strong> é destinado aos filiados e à coordenação do Partido Verde.</p>
+        <button onclick="avancarBloco(1)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm py-3 px-5 rounded-2xl shadow-sm transition-colors">
+          Iniciar Preenchimento da Ficha FILIA / TSE →
+        </button>
+      </div>
+
+      <div id="bloco-1" class="hidden space-y-3 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Título de Eleitor *</label>
+            <input id="tse-titulo-eleitor" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
           </div>
-          <div class="shrink-0">
-            <span class="inline-block bg-emerald-600 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-2 rounded-xl shadow-lg border border-emerald-500">
-              Partido Verde • Plataforma de Controle Social
-            </span>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">CPF *</label>
+            <input id="tse-cpf" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
           </div>
         </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nome do Eleitor *</label>
+          <input id="tse-nome-eleitor" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">UF *</label>
+            <input id="tse-uf" type="text" value="RJ" maxlength="2" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold uppercase" />
+          </div>
+          <div class="col-span-2">
+            <label class="block font-bold text-slate-700 mb-1">Estado *</label>
+            <input id="tse-estado" type="text" value="Rio de Janeiro" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Município *</label>
+          <input id="tse-municipio" type="text" value="Cabo Frio" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Zona Eleitoral *</label>
+            <input id="tse-zona-eleitoral" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Seção Eleitoral *</label>
+            <input id="tse-secao-eleitoral" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Data Filiação *</label>
+            <input id="tse-data-filiacao" type="text" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium" />
+          </div>
+        </div>
+        <div class="pt-3 flex items-center justify-end gap-2">
+          <button onclick="closeUnlockModal()" class="px-4 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100">Fechar</button>
+          <button onclick="finalizarCadastroTSE()" class="px-5 py-2.5 rounded-xl font-extrabold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm">Concluir Filiação</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL BASE DE MEMBROS & FILIADOS -->
+  <div id="modal-cadastro" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl border border-slate-200 p-6 space-y-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-lg font-extrabold text-slate-900">Base de Filiados (<span id="total-filiados">0</span>) & Membros (<span id="total-membros">0</span>)</h3>
+        <button onclick="fecharModalCadastro()" class="text-slate-400 hover:text-slate-700 font-bold text-lg px-2">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800">Filiados (Padrão FILIA / TSE)</h4>
+        <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-extrabold uppercase">
+              <tr>
+                <th class="p-3">Título</th>
+                <th class="p-3">Nome</th>
+                <th class="p-3">CPF</th>
+                <th class="p-3">WhatsApp</th>
+                <th class="p-3">Município/UF</th>
+                <th class="p-3">Zona/Seção</th>
+                <th class="p-3">Data</th>
+                <th class="p-3 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-filiados-body" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="text-xs font-extrabold uppercase tracking-wider text-teal-800">Membros Comunitários</h4>
+        <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-extrabold uppercase">
+              <tr>
+                <th class="p-3">Nome</th>
+                <th class="p-3">Bairro</th>
+                <th class="p-3">WhatsApp</th>
+                <th class="p-3">Filiação</th>
+                <th class="p-3">Data</th>
+                <th class="p-3 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-membros-body" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FICHA INDIVIDUAL PDF -->
+  <div id="modal-ficha-individual" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 p-6 space-y-4">
+      <div id="area-impressao-ficha" class="space-y-3">
+        <h3 class="text-lg font-extrabold text-emerald-950">Ficha de Filiação • Partido Verde (PV)</h3>
+        <div id="conteudo-ficha-detalhe"></div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="document.getElementById('modal-ficha-individual').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Fechar</button>
+        <button onclick="baixarFichaPDF()" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-700 hover:bg-emerald-800 text-white">Baixar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ATUALIZAR WHATSAPP FILIADO -->
+  <div id="modal-zap-filiado" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 p-6 space-y-4">
+      <h3 class="text-base font-extrabold text-slate-900">Atualizar WhatsApp de Filiado</h3>
+      <select id="select-filiado-zap" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold bg-white"></select>
+      <input id="input-novo-zap-filiado" type="tel" placeholder="(22) 99999-9999" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" />
+      <div class="flex justify-end gap-2">
+        <button onclick="document.getElementById('modal-zap-filiado').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancelar</button>
+        <button onclick="salvarZapFiliadoTabela()" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-700 text-white">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PAINEL COORDENAÇÃO CHAT -->
+  <div id="modal-coord-chats" class="no-print hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden grid grid-cols-1 md:grid-cols-3 h-[75vh]">
+      <div class="border-r border-slate-200 p-4 overflow-y-auto bg-slate-50 space-y-2">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+          <h4 class="text-xs font-extrabold uppercase text-slate-700">Conversas</h4>
+          <button onclick="fecharModalPainelCoord()" class="text-xs font-bold text-slate-500 hover:text-slate-800">✕</button>
+        </div>
+        <div id="lista-conversas-coord" class="space-y-2"></div>
+      </div>
+      <div id="painel-conversa-ativa" class="md:col-span-2 flex flex-col justify-between bg-white">
+        <div class="p-6 text-center text-xs text-slate-400 my-auto">Selecione uma conversa ao lado para responder.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JANELA FLUTUANTE DO CHAT -->
+  <div id="chat-window" class="no-print hidden fixed bottom-20 right-5 z-40 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-emerald-200 overflow-hidden flex flex-col max-h-[70vh] animate-fade-in">
+    <div class="bg-emerald-800 text-white px-4 py-3 flex items-center justify-between">
+      <div>
+        <h4 class="text-xs font-extrabold">Canal com a Coordenação</h4>
+        <p class="text-[10px] text-emerald-200">Observatório Verde • Cabo Frio</p>
+      </div>
+      <button onclick="toggleChatWindow()" class="text-emerald-100 hover:text-white font-bold text-sm px-2">✕</button>
+    </div>
+    <div id="chat-messages" class="p-3.5 flex-1 overflow-y-auto space-y-2.5 bg-slate-50 text-xs"></div>
+    <div class="p-3 border-t border-slate-200 bg-white flex items-center gap-2">
+      <input id="chat-input" type="text" onkeydown="if(event.key==='Enter') enviarMensagemChatInterno()" placeholder="Escreva sua mensagem..." class="flex-1 bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:border-emerald-600" />
+      <button onclick="enviarMensagemChatInterno()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl">Enviar</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
+
+    <!-- VIEW INICIAL (STORIES + 4 CARTÕES) -->
+    <div id="view-home" class="space-y-10 animate-fade-in">
+      <section class="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-100 shadow-sm space-y-5">
+        <div class="flex items-center justify-between gap-2">
+          <span id="slide-counter" class="text-xs font-extrabold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">1 / 7</span>
+          <div class="flex items-center gap-2">
+            <button onclick="prevSlide()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl">← Anterior</button>
+            <button id="btn-pause" onclick="togglePause()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl">Pausar</button>
+            <button onclick="nextSlide()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl">Próximo →</button>
+          </div>
+        </div>
+
+        <div id="progress-container" class="grid grid-cols-7 gap-1.5"></div>
+        <div id="slide-content" class="min-h-[240px] flex items-center"></div>
       </section>
 
-      <!-- Stories (7 Lâminas) -->
-      <section class="max-w-xl mx-auto">
-        <div class="flex items-center justify-between mb-3 px-1">
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Toque nas laterais para avançar ou voltar
-          </span>
-          <button id="btn-pause" onclick="togglePause()" class="text-xs font-semibold text-slate-600 hover:text-emerald-800 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-sm">Pausar</button>
-        </div>
-
-        <div class="relative bg-white rounded-3xl shadow-md border border-emerald-100/80 overflow-hidden min-h-[390px] sm:min-h-[410px] flex flex-col justify-between p-6 sm:p-8 select-none">
-          <div id="progress-container" class="grid grid-cols-7 gap-1.5 mb-6 z-20 relative"></div>
-          <div onclick="prevSlide()" class="absolute inset-y-12 left-0 w-1/3 z-10 cursor-pointer" title="Anterior"></div>
-          <div onclick="nextSlide()" class="absolute inset-y-12 right-0 w-2/3 z-10 cursor-pointer" title="Próximo"></div>
-          <div id="slide-content" class="relative z-0 flex-1 flex flex-col justify-center"></div>
-          <div class="relative z-20 pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
-            <span id="slide-counter" class="text-xs font-bold text-slate-400">1 / 7</span>
-            <div class="flex items-center gap-2">
-              <button onclick="prevSlide()" class="p-2 rounded-full bg-slate-100 hover:bg-emerald-100 text-slate-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
-              <button onclick="nextSlide()" class="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Os 4 Cartões Completos de Navegação com Verificação Real de Permissão -->
-      <section class="pt-4">
-        <div class="text-center mb-6">
-          <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-950">Ferramentas do Observatório Verde</h2>
-          <p class="text-sm text-slate-600 mt-1">Cadastre-se como membro para os debates e agenda, ou filie-se ao PV para acesso integral</p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <!-- CARTÃO 1: FÓRUM (Requer Membro) -->
+      <section class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- CARTÃO 1: FÓRUM PERMANENTE -->
           <div onclick="tentarAcessar('forum')" class="card-hover group bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
             <span id="badge-lock-forum" class="absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Cadastre-se</span>
             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
             </div>
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Blog & Artigos</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Debate Aberto</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">Fórum Permanente</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Editorial do movimento com postagens independentes, vídeos e propostas populares.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Artigos, pautas da cidade e espaço para participação coletiva.</p>
             </div>
           </div>
 
-          <!-- CARTÃO 2: AGENDA (Requer Membro) -->
+          <!-- CARTÃO 2: AGENDA NOS BAIRROS -->
           <div onclick="tentarAcessar('agenda')" class="card-hover group bg-white rounded-2xl p-6 border border-amber-100 shadow-sm hover:shadow-md flex items-start gap-4 relative cursor-pointer">
             <span id="badge-lock-agenda" class="absolute top-4 right-4 text-xs bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">🔒 Cadastre-se</span>
-            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
             <div>
@@ -586,9 +368,9 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <div>
-              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Contas Públicas</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">LOA 2027, Receitas & Pastas</span>
               <h3 class="text-lg font-extrabold text-slate-900 group-hover:text-teal-800 transition-colors">Orçamento Municipal</h3>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Painel de receitas, royalties e acompanhamento detalhado da execução orçamentária.</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">Total da LOA 2027, acumulado utilizado, comparativo Recebido x Aplicado e aplicação nas pastas.</p>
             </div>
           </div>
 
@@ -651,47 +433,159 @@
       </div>
     </section>
 
-    <!-- ORÇAMENTO MUNICIPAL (LAYOUT RESPONSIVO COM DROPDOWN + CARDS INDIVIDUAIS) -->
+    <!-- ORÇAMENTO MUNICIPAL: DESTAQUE LOA 2027 & ACUMULADO + BARRAS COMPARATIVAS + ENTRADAS/PASTAS -->
     <section id="view-orcamento" class="hidden space-y-6 animate-fade-in">
       <div class="no-print flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-teal-100 shadow-sm">
         <button onclick="navigateTo('home')" class="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 hover:text-emerald-950 bg-teal-50 px-4 py-2.5 rounded-xl border border-teal-200 shadow-sm transition-all">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           ← Voltar ao Início
         </button>
-        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pubhtml" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 px-3.5 py-2 rounded-xl border border-teal-200 transition-colors">
-          📊 Planilha Completa ↗
-        </a>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="copiarRelatorioNotebookLM()" class="inline-flex items-center gap-1.5 text-xs font-extrabold bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-2 rounded-xl shadow-sm transition-colors" title="Copia todos os dados agrupados e somados prontos para colar no NotebookLM">
+            🎬 Exportar p/ Vídeo (NotebookLM)
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pubhtml" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 px-3.5 py-2 rounded-xl border border-teal-200 transition-colors">
+            📊 Planilha Original ↗
+          </a>
+        </div>
       </div>
 
-      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
-        <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Exclusivo Filiados PV • Receitas Públicas</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Orçamento Municipal (Entradas)</h2>
-          <p class="text-sm text-slate-600 mt-1">Selecione uma receita na lista abaixo para consultar os valores detalhados sem rolagem lateral.</p>
-        </div>
-
-        <!-- DROPDOWN SELETOR DE RECEITAS -->
-        <div class="bg-teal-50/70 border border-teal-200 p-4 sm:p-5 rounded-2xl space-y-2.5">
-          <label for="orcamento-dropdown" class="block text-xs font-extrabold uppercase tracking-wider text-teal-900">
-            🔍 Escolher Fonte de Receita (Dropdown):
-          </label>
-          <select id="orcamento-dropdown" onchange="selecionarReceitaOrcamento(this.value)" class="w-full bg-white border-2 border-teal-300 text-slate-900 text-sm font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-teal-600 shadow-sm">
-            <option value="">Carregando fontes de receita...</option>
-          </select>
-        </div>
-
-        <!-- CARTÃO DE DETALHES DA RECEITA SELECIONADA NO DROPDOWN -->
-        <div id="orcamento-detalhe-card" class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 animate-fade-in">
-          <div class="text-center text-slate-500 text-xs py-4 animate-pulse">Sincronizando dados financeiros do município...</div>
-        </div>
-
-        <!-- LISTA SANFONADA (TODAS AS LINHAS COMO CÉLULAS EXPANSÍVEIS) -->
-        <div class="pt-4 border-t border-slate-100 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Todas as Rubricas Orçamentárias (Toque para abrir)</h3>
-            <span id="orcamento-total-itens" class="text-[11px] font-bold bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">0 itens</span>
+      <!-- REPRESENTAÇÃO GRÁFICA ESPECIAL DE DESTAQUE: TOTAL DA LOA 2027 & TOTAL ACUMULADO UTILIZADO -->
+      <section id="destaque-loa-acumulado" class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-700/60 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/15 pb-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 bg-amber-400 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
+              ⚡ Painel de Destaque • Controle Orçamentário
+            </span>
+            <h2 class="text-xl sm:text-2xl font-extrabold mt-2 tracking-tight">Total da LOA vs. Total Acumulado Utilizado</h2>
           </div>
-          <div id="orcamento-accordion-list" class="space-y-2.5"></div>
+          <span id="loa-rotulo-ano" class="text-xs font-extrabold bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-xl text-emerald-200">
+            Exercício 2027 • Cabo Frio
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- CARTÃO 1: TOTAL DA LOA -->
+          <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 flex flex-col justify-between gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-200">🏛️ Total da LOA (Estimativa 2027)</span>
+              <span class="text-xs font-bold bg-emerald-500/20 text-emerald-200 px-2.5 py-0.5 rounded-full">Orçamento Base</span>
+            </div>
+            <div>
+              <div id="valor-total-loa-destaque" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Sincronizando...</div>
+              <p id="descricao-total-loa-destaque" class="text-xs text-emerald-100/80 mt-1">Totalização oficial da LOA aprovada para Cabo Frio.</p>
+            </div>
+            <div class="h-2.5 w-full bg-black/30 rounded-full overflow-hidden">
+              <div class="h-full w-full bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full"></div>
+            </div>
+          </div>
+
+          <!-- CARTÃO 2: TOTAL ACUMULADO UTILIZADO -->
+          <div class="bg-white/10 backdrop-blur-sm border border-amber-300/30 rounded-2xl p-5 flex flex-col justify-between gap-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-300">📊 Total Acumulado Utilizado</span>
+              <span id="percentual-utilizado-badge" class="text-xs font-extrabold bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full">0,0%</span>
+            </div>
+            <div>
+              <div id="valor-total-utilizado-destaque" class="text-2xl sm:text-3xl font-extrabold text-amber-300 tracking-tight">Sincronizando...</div>
+              <p id="descricao-total-utilizado-destaque" class="text-xs text-emerald-100/80 mt-1">Soma acumulada dos recursos aplicados/executados.</p>
+            </div>
+            <div class="space-y-1.5">
+              <div class="h-3 w-full bg-black/35 rounded-full overflow-hidden p-0.5">
+                <div id="barra-progresso-utilizado" class="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400 rounded-full transition-all duration-700" style="width: 0%"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-bold text-emerald-100/90">
+                <span id="texto-progresso-utilizado">0% da LOA utilizado</span>
+                <span id="saldo-restante-loa">Saldo: —</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRÁFICO COMPARATIVO DE BARRAS HORIZONTAIS ("RECEBIDO x APLICADO") -->
+      <section class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-5">
+        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Leitura Simples • Recebido x Aplicado</span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Comparativo por Área (Barras Horizontais)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">Apenas o essencial: quanto entrou/vinculou (<strong>Recebido</strong>) e quanto já foi executado (<strong>Aplicado</strong>) em cada área da cidade.</p>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-extrabold">
+            <span class="inline-flex items-center gap-1.5 text-teal-800"><span class="w-3 h-3 rounded-sm bg-teal-600 inline-block"></span> Recebido</span>
+            <span class="inline-flex items-center gap-1.5 text-amber-800"><span class="w-3 h-3 rounded-sm bg-amber-500 inline-block"></span> Aplicado</span>
+          </div>
+        </div>
+
+        <div id="grafico-barras-comparativo" class="space-y-4">
+          <div class="text-center text-slate-400 text-xs py-6 animate-pulse">Montando gráfico comparativo por eixo...</div>
+        </div>
+      </section>
+
+      <!-- DETALHAMENTO POR ABAS: 1. ENTRADAS vs 2. APLICAÇÃO NAS PASTAS -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-teal-100 shadow-sm space-y-6">
+        <div class="space-y-2">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-full">Detalhamento & Subitens Agrupados</span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">Fontes de Receita e Aplicação nas Pastas</h3>
+          <p class="text-sm text-slate-600">Subitens de uma mesma categoria aparecem agrupados no mesmo cartão com somatório automático.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+          <button id="tab-btn-entradas" onclick="alternarAbaOrcamento('entradas')" class="py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-teal-700 text-white shadow-sm transition-all flex items-center justify-center gap-2">
+            <span>💰</span> 1. Entradas (Fontes de Receita)
+          </button>
+          <button id="tab-btn-pastas" onclick="alternarAbaOrcamento('pastas')" class="py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all flex items-center justify-center gap-2">
+            <span>🏛️</span> 2. Aplicação nas Pastas (Secretarias)
+          </button>
+        </div>
+
+        <!-- PAINEL 1: ENTRADAS (FONTES DE RECEITA) -->
+        <div id="painel-orcamento-entradas" class="space-y-6">
+          <div class="bg-teal-50/80 border border-teal-200 p-4 sm:p-5 rounded-2xl space-y-2.5">
+            <label for="orcamento-dropdown" class="block text-xs font-extrabold uppercase tracking-wider text-teal-950">
+              🔍 Selecione a Fonte de Receita (com subitens e somatório):
+            </label>
+            <select id="orcamento-dropdown" onchange="selecionarGrupoOrcamento('entradas', this.value)" class="w-full bg-white border-2 border-teal-400 text-slate-900 text-sm font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-teal-700 shadow-sm">
+              <option value="">Carregando fontes de receita...</option>
+            </select>
+          </div>
+
+          <div id="orcamento-detalhe-card" class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-4 animate-fade-in">
+            <div class="text-center text-slate-500 text-xs py-4 animate-pulse">Sincronizando e agrupando fontes de receita...</div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Todas as Fontes Agrupadas (Toque para ver subitens e somatório)</h4>
+              <span id="orcamento-total-itens" class="text-[11px] font-bold bg-teal-100 text-teal-900 px-2.5 py-0.5 rounded-full">0 grupos</span>
+            </div>
+            <div id="orcamento-accordion-list" class="space-y-2.5"></div>
+          </div>
+        </div>
+
+        <!-- PAINEL 2: APLICAÇÃO DOS RECURSOS NAS PASTAS (SECRETARIAS) -->
+        <div id="painel-orcamento-pastas" class="hidden space-y-6">
+          <div class="bg-emerald-50/80 border border-emerald-200 p-4 sm:p-5 rounded-2xl space-y-2.5">
+            <label for="pastas-dropdown" class="block text-xs font-extrabold uppercase tracking-wider text-emerald-950">
+              🏛️ Selecione a Pasta / Área Municipal (Aplicação dos Recursos):
+            </label>
+            <select id="pastas-dropdown" onchange="selecionarGrupoOrcamento('pastas', this.value)" class="w-full bg-white border-2 border-emerald-400 text-slate-900 text-sm font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-emerald-700 shadow-sm">
+              <option value="">Carregando pastas e aplicações...</option>
+            </select>
+          </div>
+
+          <div id="pastas-detalhe-card" class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-4 animate-fade-in">
+            <div class="text-center text-slate-500 text-xs py-4">Carregando destinação por pasta...</div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Aplicação por Área / Pasta (Toque para abrir)</h4>
+              <span id="pastas-total-itens" class="text-[11px] font-bold bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full">0 pastas</span>
+            </div>
+            <div id="pastas-accordion-list" class="space-y-2.5"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -744,10 +638,14 @@
 
   <script>
     // =========================================================================
-    // CONFIGURAÇÃO DO SUPABASE
+    // CONFIGURAÇÃO DO SUPABASE E PLANILHAS DO ORÇAMENTO (Página1 + Aplicacao_Pastas)
     // =========================================================================
     const SUPABASE_URL = 'https://naoxprfnhidlwgoueydi.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_TUIxvFWJyPUTk_YlaCtz0g_ToUs4qHj';
+
+    const ORCAMENTO_BASE_PUB_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pub';
+    const CSV_ENTRADAS_URL = `${ORCAMENTO_BASE_PUB_URL}?gid=0&single=true&output=csv`;
+    const CSV_PASTAS_URL = `${ORCAMENTO_BASE_PUB_URL}?gid=1393572416&single=true&output=csv`;
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -876,11 +774,6 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      atualizarPermissoesVisuaisNaHome();
-      carregarMensagensChatInterno();
-    });
-
     function tentarAcessar(tipo) {
       if (tipo === 'forum' || tipo === 'agenda') {
         if (isMembroCadastrado()) {
@@ -1008,7 +901,7 @@
 
       usuarioAtual = { id: novoFiliadoTSE.id, nome: nome_eleitor, bairro: municipio, status: 'Filiado TSE', titulo_eleitor: titulo_eleitor };
       localStorage.setItem('comunidade_verde_usuario_atual', JSON.stringify(usuarioAtual));
-      
+
       await carregarDadosSupabase();
       closeUnlockModal();
       atualizarPermissoesVisuaisNaHome();
@@ -1070,12 +963,12 @@
       }
     });
 
-    function openUnlockModal() { 
+    function openUnlockModal() {
       document.getElementById('bloco-0').classList.remove('hidden');
       document.getElementById('bloco-1').classList.add('hidden');
-      document.getElementById('unlock-modal').classList.remove('hidden'); 
+      document.getElementById('unlock-modal').classList.remove('hidden');
     }
-    
+
     function closeUnlockModal() { document.getElementById('unlock-modal').classList.add('hidden'); }
 
     function toggleChatWindow() {
@@ -1113,7 +1006,7 @@
       if (!chatMsgs) return;
 
       const { data, error } = await supabaseClient.from('mensagens_chat').select('*').order('created_at', { ascending: true });
-      
+
       if (!error && data) {
         chatMsgs.innerHTML = `
           <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-1 text-slate-700">
@@ -1218,9 +1111,9 @@
       renderizarTabelaFiliados();
       renderizarTabelaMembros();
     }
-    function fecharModalCadastro() { 
+    function fecharModalCadastro() {
       modalCadastroAberto = false;
-      document.getElementById('modal-cadastro').classList.add('hidden'); 
+      document.getElementById('modal-cadastro').classList.add('hidden');
     }
 
     async function excluirFiliadoTSE(id) {
@@ -1283,8 +1176,8 @@
 
     function baixarFichaPDF() {
       const elemento = document.getElementById('area-impressao-ficha');
-      const nomeArquivo = fichaAtualSelecionada 
-        ? `Ficha_FILIA_PV_${fichaAtualSelecionada.nome_eleitor.replace(/\s+/g, '_')}.pdf` 
+      const nomeArquivo = fichaAtualSelecionada
+        ? `Ficha_FILIA_PV_${fichaAtualSelecionada.nome_eleitor.replace(/\s+/g, '_')}.pdf`
         : 'Ficha_Filiacao_PV.pdf';
 
       const opcoes = {
@@ -1367,7 +1260,7 @@
 
     function copiarSantinhoLiberacao() {
       const linkPlataforma = window.location.origin + window.location.pathname;
-      const mensagemSantinho = 
+      const mensagemSantinho =
 `🌿 *Seja muito bem-vindo(a) ao Observatório Verde do Partido Verde (PV) Cabo Frio!*
 Participe dos debates sobre a nossa cidade, acompanhe o orçamento público e fiscalize a Câmara Municipal.
 🔗 *Acesse a plataforma pelo link abaixo:*
@@ -1418,7 +1311,7 @@ ${linkPlataforma}`;
       const content = document.getElementById('slide-content');
       document.getElementById('slide-counter').textContent = `${currentSlide + 1} / ${slides.length}`;
       content.innerHTML = `
-        <div class="space-y-4 animate-fade-in">
+        <div class="space-y-4 animate-fade-in w-full">
           <span class="inline-block ${slide.badgeColor} text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">${slide.tag}</span>
           <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${slide.title}</h3>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">${slide.text}</p>
@@ -1459,7 +1352,7 @@ ${linkPlataforma}`;
 
       let matches = [];
       cachedOrcamentoSearchData.forEach(item => {
-        if (item.text.includes(query)) matches.push({ type: '💰 Orçamento Municipal', badgeColor: 'bg-teal-100 text-teal-800', title: item.title, desc: item.desc, action: () => { tentarAcessar('orcamento'); setTimeout(() => { selecionarReceitaOrcamento(item.index); }, 200); } });
+        if (item.text.includes(query)) matches.push({ type: item.aba === 'pastas' ? '🏛️ Aplicação nas Pastas' : '💰 Orçamento (Entradas)', badgeColor: 'bg-teal-100 text-teal-800', title: item.title, desc: item.desc, action: () => { tentarAcessar('orcamento'); setTimeout(() => { alternarAbaOrcamento(item.aba); selecionarGrupoOrcamento(item.aba, item.index); }, 200); } });
       });
       cachedCamaraSearchData.forEach(item => {
         if (item.text.includes(query)) matches.push({ type: '🏛️ Câmara Municipal', badgeColor: 'bg-sky-100 text-sky-800', title: item.title, desc: item.desc, action: () => { tentarAcessar('camara'); setTimeout(() => { const el = document.getElementById(item.id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 200); } });
@@ -1525,7 +1418,7 @@ ${linkPlataforma}`;
             <div class="p-6 sm:p-8 space-y-6">
               <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">${title}</h3>
               <div class="blogger-content text-slate-700 text-sm sm:text-base leading-relaxed">${contentHtml}</div>
-              
+
               <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5 space-y-4">
                 <div class="flex items-center gap-2">
                   <span class="text-xl">💬</span>
@@ -1614,139 +1507,649 @@ ${linkPlataforma}`;
       return lines;
     }
 
-    // ==================== ORÇAMENTO MUNICIPAL (DROPDOWN + CARDS) ====================
-    let dadosOrcamentoItens = [];
+    // ==================== ORÇAMENTO: LOA 2027, ACUMULADO, BARRAS, PASTAS & EMENDAS ====================
+    let gruposEntradas = [];
+    let gruposPastas = [];
+    let resumoEixosComparativos = [];
+    let totalLoaDetectado = 0;
+    let totalAcumuladoUtilizado = 0;
 
-    function loadOrcamentoData() {
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vREG9PO2sRLbiy49IXnvzMGIMdlnoiB2BHsx871Bu6gdbsjq5qEt03hYbueWhqLAdDB61zI4Sq5rCzt/pub?output=csv';
-      fetch(csvUrl)
-        .then(res => res.text())
-        .then(csvText => {
-          const rows = parseCSV(csvText);
-          const dropdown = document.getElementById('orcamento-dropdown');
-          const accordionList = document.getElementById('orcamento-accordion-list');
-          const totalBadge = document.getElementById('orcamento-total-itens');
-          cachedOrcamentoSearchData = [];
+    const EIXOS_GRAFICO = [
+      { nome: 'Saúde', icone: '🏥', palavras: ['saude', 'saúde', 'hospital', 'upa', 'posto', 'sus', 'vacina', 'farmacia', 'farmácia', 'medico', 'médico'] },
+      { nome: 'Educação', icone: '🎓', palavras: ['educacao', 'educação', 'escola', 'creche', 'fundeb', 'mde', 'aluno', 'merenda', 'ensino'] },
+      { nome: 'Segurança', icone: '🛡️', palavras: ['seguranca', 'segurança', 'guarda', 'defesa civil', 'policiamento', 'ronda', 'vigilancia', 'vigilância'] },
+      { nome: 'Políticas Sociais', icone: '🤝', palavras: ['social', 'assistencia', 'assistência', 'cras', 'creas', 'idoso', 'crianca', 'criança', 'mulher', 'vulnerav'] },
+      { nome: 'Infraestrutura', icone: '🏗️', palavras: ['infraestrutura', 'obra', 'asfalto', 'drenagem', 'pavimenta', 'rua', 'iluminacao', 'iluminação', 'tamoios', 'urbaniza'] },
+      { nome: 'Cultura', icone: '🎭', palavras: ['cultura', 'teatro', 'biblioteca', 'patrimonio', 'patrimônio', 'festa', 'museu', 'artista', 'cultural'] },
+      { nome: 'Esporte & Lazer', icone: '⚽', palavras: ['esporte', 'lazer', 'quadra', 'ginasio', 'ginásio', 'praca', 'praça', 'campo', 'recreacao', 'recreação', 'esportivo'] },
+      { nome: 'Meio Ambiente', icone: '🌿', palavras: ['meio ambiente', 'ambiental', 'lagoa', 'duna', 'restinga', 'arvore', 'árvore', 'saneamento', 'esgoto', 'limpeza', 'lixo', 'residuo', 'resíduo'] },
+      { nome: 'Trabalho & Renda', icone: '💼', palavras: ['trabalho', 'emprego', 'renda', 'comercio', 'comércio', 'turismo', 'pesca', 'pescador', 'rural', 'agricultura', 'royalt', 'petroleo', 'petróleo'] },
+      { nome: 'Transporte & Mobilidade', icone: '🚌', palavras: ['transporte', 'mobilidade', 'transito', 'trânsito', 'onibus', 'ônibus', 'van', 'passagem', 'terminal', 'viario', 'viário'] }
+    ];
 
-          // Localiza automaticamente a linha de cabeçalho real (ignorando linhas vazias ou títulos decorativos no topo)
-          let headerRowIndex = rows.findIndex(r => {
-            const nonEmpty = r.filter(c => c && c.trim().length > 0);
-            return nonEmpty.length >= 2 && r.some(c => /iptu|receita|fonte|tributo|descri|rubrica/i.test(c));
-          });
-          if (headerRowIndex === -1) {
-            headerRowIndex = rows.findIndex(r => r.filter(c => c && c.trim().length > 0).length >= 2);
+    function ehErroPlanilha(str) {
+      if (!str) return false;
+      return /^#(DIV\/0!|REF!|VALUE!|NAME\?|N\/A|NUM!|NULL!|ERROR!)$/i.test(str.trim());
+    }
+
+    function ehApenasUrl(str) {
+      if (!str) return false;
+      const t = str.trim();
+      return /^(https?:\/\/|www\.)\S+$/i.test(t) || /^[A-Z0-9.-]+\.(GOV\.BR|COM\.BR|ORG\.BR|EDU\.BR)\S*$/i.test(t);
+    }
+
+    function extrairValorMonetario(str) {
+      if (!str || ehErroPlanilha(str) || ehApenasUrl(str)) return null;
+      const texto = str.trim();
+      const lower = texto.toLowerCase();
+
+      const matchEscala = lower.match(/([\d.,]+)\s*(bilh[ãa]o|bilh[õo]es|milh[ãa]o|milh[õo]es|mil)/i);
+      if (matchEscala) {
+        let baseStr = matchEscala[1];
+        if (baseStr.includes(',') && baseStr.includes('.')) {
+          baseStr = baseStr.replace(/\./g, '').replace(',', '.');
+        } else if (baseStr.includes(',')) {
+          baseStr = baseStr.replace(',', '.');
+        }
+        const baseVal = parseFloat(baseStr);
+        if (!isNaN(baseVal)) {
+          const unidade = matchEscala[2].toLowerCase();
+          if (unidade.startsWith('bilh')) return baseVal * 1e9;
+          if (unidade.startsWith('milh')) return baseVal * 1e6;
+          if (unidade === 'mil') return baseVal * 1e3;
+        }
+      }
+
+      const limpo = texto.replace(/R\$\s?/gi, '').trim();
+      if (!/[\d]/.test(limpo) || /[a-zA-Z]{2,}/.test(limpo) || limpo.includes('%')) return null;
+
+      let numStr = limpo;
+      if (numStr.includes(',') && numStr.includes('.')) {
+        numStr = numStr.replace(/\./g, '').replace(',', '.');
+      } else if (numStr.includes(',')) {
+        numStr = numStr.replace(',', '.');
+      }
+      const val = parseFloat(numStr.replace(/[^\d.-]/g, ''));
+      return isNaN(val) ? null : val;
+    }
+
+    function formatarBRL(num) {
+      return (num || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function detectarEixo(texto) {
+      const t = (texto || '').toLowerCase();
+      for (const eixo of EIXOS_GRAFICO) {
+        if (eixo.palavras.some(p => t.includes(p))) {
+          return eixo.nome;
+        }
+      }
+      return null;
+    }
+
+    function extrairLoaDaPlanilha(rows) {
+      for (const r of rows) {
+        const linhaTexto = r.join(' ').toLowerCase();
+        if (linhaTexto.includes('loa')) {
+          for (const celula of r) {
+            const val = extrairValorMonetario(celula);
+            if (val !== null && val > 100000) {
+              return val;
+            }
           }
+        }
+      }
+      return null;
+    }
 
-          if (headerRowIndex === -1 || rows.length <= headerRowIndex + 1) {
-            dropdown.innerHTML = `<option value="">Nenhum dado encontrado na planilha</option>`;
+    function processarPlanilhaAgrupada(rows, tipoPadrao) {
+      let headerIdx = rows.findIndex(r => {
+        const nonEmpty = r.filter(c => c && c.trim().length > 0 && !ehErroPlanilha(c));
+        return nonEmpty.length >= 2 && r.some(c => /exerc[ií]cio|iptu|receita|fonte|tributo|descri[cç][aã]o\s*da\s*emenda|origem|valor|previsto|arrecadado|eixo|aplicado|recebido|total acumulado|pasta|secretaria/i.test(c));
+      });
+      if (headerIdx === -1) {
+        headerIdx = rows.findIndex(r => r.filter(c => c && c.trim().length > 0).length >= 2);
+      }
+      if (headerIdx === -1 || rows.length <= headerIdx + 1) return [];
+
+      const rawHeaders = rows[headerIdx];
+      const validColIndices = [];
+      rawHeaders.forEach((h, idx) => {
+        const hasValidData = rows.slice(headerIdx).some(r => {
+          const cell = (r[idx] || '').trim();
+          return cell !== '' && !ehErroPlanilha(cell) && !ehApenasUrl(cell);
+        });
+        if (hasValidData) validColIndices.push(idx);
+      });
+
+      const headers = validColIndices.map((colIdx, i) => {
+        const h = (rawHeaders[colIdx] || '').trim();
+        if (h) return h;
+        if (i === 0) return tipoPadrao === 'pastas' ? 'Eixo / Pasta' : 'Fonte de Receita';
+        return `Detalhe ${i}`;
+      });
+
+      const idxDescricao = headers.findIndex(h => /descri[cç][aã]o\s*da\s*emenda|descri[cç][aã]o|finalidade|objeto|emenda/i.test(h));
+      const idxOrigem = headers.findIndex(h => /^origem$|autor|deputado|minist[eé]rio|secretaria/i.test(h));
+
+      const dataRows = rows.slice(headerIdx + 1).filter(r => {
+        const vals = validColIndices.map(idx => (r[idx] || '').trim()).filter(v => v !== '' && !ehErroPlanilha(v) && !ehApenasUrl(v));
+        return vals.length > 0;
+      });
+
+      const gruposMap = new Map();
+      let categoriaAtual = null;
+
+      dataRows.forEach(r => {
+        const cols = validColIndices.map(idx => (r[idx] || '').trim());
+        const col0 = cols[0];
+        const col1 = cols[1] || '';
+
+        if (/^(total\s*(geral|das|dos|receitas|despesas|arrecadado)?|total\s*da\s*loa|loas?\s*\(estimativa\)|%)$/i.test(col0) || /^(loas?\s*\(estimativa\)|total\s*arrecadado|%)$/i.test(col1)) {
+          return;
+        }
+
+        const descEmenda = idxDescricao >= 0 ? (cols[idxDescricao] || '') : '';
+        const origemItem = idxOrigem >= 0 ? (cols[idxOrigem] || '') : '';
+
+        if (col0 !== '') {
+          categoriaAtual = col0;
+        }
+
+        const chaveGrupo = categoriaAtual
+          || (descEmenda ? detectarEixo(`${descEmenda} ${origemItem}`) || 'Emendas e Convênios' : null)
+          || (tipoPadrao === 'pastas' ? 'Aplicações Diversas' : 'Outras Receitas');
+
+        if (!gruposMap.has(chaveGrupo)) {
+          gruposMap.set(chaveGrupo, {
+            titulo: chaveGrupo,
+            headers: headers,
+            itens: [],
+            somasPorColuna: {},
+            totalNumerico: 0
+          });
+        }
+
+        const grupo = gruposMap.get(chaveGrupo);
+
+        let nomeSubitem = '';
+        if (descEmenda && origemItem) {
+          nomeSubitem = `${descEmenda} • Origem: ${origemItem}`;
+        } else if (descEmenda) {
+          nomeSubitem = descEmenda;
+        } else if (origemItem) {
+          nomeSubitem = `Origem: ${origemItem}`;
+        } else if (col0 === '') {
+          nomeSubitem = col1 && !ehErroPlanilha(col1) && !ehApenasUrl(col1) ? col1 : `Detalhamento de ${chaveGrupo}`;
+        } else {
+          nomeSubitem = col1 && !ehErroPlanilha(col1) && !ehApenasUrl(col1) && extrairValorMonetario(col1) === null
+            ? `${chaveGrupo} • ${col1}`
+            : chaveGrupo;
+        }
+
+        const detalhes = [];
+        const startIdx = (idxDescricao === 0 || idxOrigem === 0) ? 0 : 1;
+
+        headers.slice(startIdx).forEach((h, offset) => {
+          const colPos = startIdx + offset;
+          if (colPos === idxDescricao && descEmenda) return;
+          const valStr = cols[colPos] || '';
+          if (!valStr || ehApenasUrl(valStr)) return;
+
+          if (ehErroPlanilha(valStr)) {
+            detalhes.push({ label: h, valor: '0,0% (aguardando exercício 2027)' });
             return;
           }
 
-          const rawHeaders = rows[headerRowIndex];
-          // Identifica quais colunas realmente possuem conteúdo
-          const validColIndices = [];
-          rawHeaders.forEach((h, idx) => {
-            const hasColData = rows.slice(headerRowIndex).some(r => r[idx] && r[idx].trim() !== '');
-            if (hasColData) validColIndices.push(idx);
-          });
+          detalhes.push({ label: h, valor: valStr });
 
-          const headers = validColIndices.map((colIdx, i) => (rawHeaders[colIdx] || '').trim() || (i === 0 ? 'Fonte de Receita' : `Detalhe ${i}`));
-          const dataRows = rows.slice(headerRowIndex + 1).filter(r => {
-            const vals = validColIndices.map(idx => (r[idx] || '').trim());
-            return vals.some(v => v !== '');
-          });
-
-          dadosOrcamentoItens = dataRows.map((r, rowIndex) => {
-            const cols = validColIndices.map(idx => (r[idx] || '').trim());
-            const titulo = cols[0] || `Item ${rowIndex + 1}`;
-            const campos = headers.slice(1).map((h, i) => ({
-              label: h,
-              valor: cols[i + 1] || '—'
-            })).filter(c => c.valor !== '' && c.valor !== '—');
-
-            cachedOrcamentoSearchData.push({
-              index: rowIndex,
-              title: titulo,
-              desc: campos.map(c => `${c.label}: ${c.valor}`).join(' | ') || 'Receita Municipal',
-              text: `${titulo} ${campos.map(c => c.label + ' ' + c.valor).join(' ')}`.toLowerCase()
-            });
-
-            return { titulo, campos };
-          });
-
-          if (totalBadge) totalBadge.textContent = `${dadosOrcamentoItens.length} rubricas`;
-
-          // Popula o Dropdown
-          dropdown.innerHTML = dadosOrcamentoItens.map((item, idx) => `
-            <option value="${idx}">${item.titulo}</option>
-          `).join('');
-
-          // Popula os cards sanfonados (células individuais recolhíveis)
-          if (accordionList) {
-            accordionList.innerHTML = dadosOrcamentoItens.map((item, idx) => `
-              <details class="group bg-slate-50 hover:bg-teal-50/40 border border-slate-200 rounded-2xl overflow-hidden transition-colors">
-                <summary class="cursor-pointer px-4 py-3.5 flex items-center justify-between gap-3 select-none">
-                  <div class="flex items-center gap-2.5 min-w-0">
-                    <span class="w-6 h-6 rounded-lg bg-teal-700 text-white text-[11px] font-extrabold flex items-center justify-center shrink-0">${idx + 1}</span>
-                    <span class="text-xs sm:text-sm font-extrabold text-slate-900 truncate">${item.titulo}</span>
-                  </div>
-                  <span class="text-teal-700 font-extrabold text-xs shrink-0 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <div class="px-4 pb-4 pt-2 border-t border-slate-200/80 bg-white space-y-2">
-                  ${item.campos.length > 0 ? item.campos.map(c => `
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 py-1.5 border-b border-slate-100 last:border-none text-xs">
-                      <span class="font-bold text-slate-500 uppercase text-[10px]">${c.label}</span>
-                      <span class="font-extrabold text-slate-900">${c.valor}</span>
-                    </div>
-                  `).join('') : '<p class="text-xs text-slate-500">Rubrica cadastrada no orçamento municipal.</p>'}
-                </div>
-              </details>
-            `).join('');
+          const num = extrairValorMonetario(valStr);
+          if (num !== null) {
+            grupo.somasPorColuna[h] = (grupo.somasPorColuna[h] || 0) + num;
+            grupo.totalNumerico += num;
           }
-
-          // Exibe imediatamente o primeiro item no cartão destaque
-          if (dadosOrcamentoItens.length > 0) {
-            selecionarReceitaOrcamento(0);
-          }
-        })
-        .catch(err => {
-          console.error('Erro ao carregar orçamento:', err);
-          const card = document.getElementById('orcamento-detalhe-card');
-          if (card) card.innerHTML = `<div class="text-xs text-rose-700 font-bold">Não foi possível carregar os dados agora. Tente atualizar a página.</div>`;
         });
+
+        if (detalhes.length > 0 || descEmenda || origemItem) {
+          grupo.itens.push({
+            subtitulo: nomeSubitem,
+            ehSublinha: col0 === '',
+            detalhes
+          });
+        }
+      });
+
+      return Array.from(gruposMap.values());
     }
 
-    function selecionarReceitaOrcamento(indexStr) {
-      const idx = parseInt(indexStr, 10);
-      const card = document.getElementById('orcamento-detalhe-card');
-      const dropdown = document.getElementById('orcamento-dropdown');
-      if (isNaN(idx) || !dadosOrcamentoItens[idx] || !card) return;
+    function construirGraficoEixosEDestaqueLOA(rowsEntradas, rowsPastas) {
+      const mapaEixos = new Map();
+      EIXOS_GRAFICO.forEach(e => {
+        mapaEixos.set(e.nome, { nome: e.nome, icone: e.icone, recebido: 0, aplicado: 0 });
+      });
 
-      if (dropdown && dropdown.value !== String(idx)) {
-        dropdown.value = String(idx);
+      let somaReceitasEntradas = 0;
+      let somaAplicadoGeral = 0;
+
+      gruposEntradas.forEach(g => {
+        const eixoNome = detectarEixo(`${g.titulo} ${g.itens.map(i => i.subtitulo).join(' ')}`);
+        let valorGrupo = 0;
+        const chaves = Object.keys(g.somasPorColuna);
+        if (chaves.length > 0) valorGrupo = g.somasPorColuna[chaves[0]];
+        somaReceitasEntradas += valorGrupo;
+        if (eixoNome && mapaEixos.has(eixoNome)) {
+          mapaEixos.get(eixoNome).recebido += valorGrupo;
+        }
+      });
+
+      gruposPastas.forEach(g => {
+        let recebidoPasta = 0;
+        let aplicadoPasta = 0;
+
+        Object.keys(g.somasPorColuna).forEach(col => {
+          const v = g.somasPorColuna[col];
+          if (/aplic|execut|utiliz|empenh|pago|saida|saída/i.test(col)) {
+            aplicadoPasta += v;
+          } else if (/receb|previst|vincul|orcado|orçado|dotac|dotação/i.test(col)) {
+            recebidoPasta += v;
+          }
+        });
+
+        const chaves = Object.keys(g.somasPorColuna);
+        if (aplicadoPasta === 0 && chaves.length > 0) {
+          aplicadoPasta = g.somasPorColuna[chaves[chaves.length - 1]] || 0;
+        }
+        if (recebidoPasta === 0 && chaves.length > 1) {
+          recebidoPasta = g.somasPorColuna[chaves[0]] || 0;
+        }
+
+        somaAplicadoGeral += aplicadoPasta;
+
+        const eixoNome = detectarEixo(`${g.titulo} ${g.itens.map(i => i.subtitulo).join(' ')}`);
+        if (eixoNome && mapaEixos.has(eixoNome)) {
+          const alvo = mapaEixos.get(eixoNome);
+          alvo.recebido += recebidoPasta;
+          alvo.aplicado += aplicadoPasta;
+        }
+      });
+
+      const loaNaPlanilha = extrairLoaDaPlanilha(rowsEntradas) || (rowsPastas ? extrairLoaDaPlanilha(rowsPastas) : null);
+      totalLoaDetectado = loaNaPlanilha || somaReceitasEntradas;
+      totalAcumuladoUtilizado = somaAplicadoGeral;
+
+      const elLoa = document.getElementById('valor-total-loa-destaque');
+      const elDescLoa = document.getElementById('descricao-total-loa-destaque');
+      const elUtil = document.getElementById('valor-total-utilizado-destaque');
+      const elDescUtil = document.getElementById('descricao-total-utilizado-destaque');
+      const elBadgePct = document.getElementById('percentual-utilizado-badge');
+      const elBarra = document.getElementById('barra-progresso-utilizado');
+      const elTextoProg = document.getElementById('texto-progresso-utilizado');
+      const elSaldo = document.getElementById('saldo-restante-loa');
+
+      if (elLoa) elLoa.textContent = formatarBRL(totalLoaDetectado);
+      if (elDescLoa) {
+        elDescLoa.textContent = loaNaPlanilha
+          ? 'Valor oficial da LOA 2027 identificado na planilha orçamentária.'
+          : 'Total consolidado das receitas identificadas na planilha.';
       }
 
-      const item = dadosOrcamentoItens[idx];
+      if (elUtil) elUtil.textContent = formatarBRL(totalAcumuladoUtilizado);
+      if (elDescUtil) {
+        elDescUtil.textContent = totalAcumuladoUtilizado > 0
+          ? 'Somatório acumulado dos recursos aplicados nas pastas/eixos.'
+          : 'Aguardando início da execução orçamentária de 2027 na aba Aplicacao_Pastas.';
+      }
+
+      const pct = totalLoaDetectado > 0 ? Math.min(100, Math.max(0, (totalAcumuladoUtilizado / totalLoaDetectado) * 100)) : 0;
+      const pctReal = totalLoaDetectado > 0 ? ((totalAcumuladoUtilizado / totalLoaDetectado) * 100).toFixed(2) : '0,00';
+      const saldoRestante = totalLoaDetectado - totalAcumuladoUtilizado;
+
+      if (elBadgePct) elBadgePct.textContent = `${pctReal}%`;
+      if (elBarra) elBarra.style.width = `${pct}%`;
+      if (elTextoProg) elTextoProg.textContent = `${pctReal}% do total da LOA utilizado`;
+      if (elSaldo) elSaldo.textContent = `Saldo disponível: ${formatarBRL(saldoRestante)}`;
+
+      resumoEixosComparativos = Array.from(mapaEixos.values());
+      const maiorValor = Math.max(
+        1,
+        ...resumoEixosComparativos.map(e => Math.max(e.recebido, e.aplicado))
+      );
+
+      const graficoContainer = document.getElementById('grafico-barras-comparativo');
+      if (graficoContainer) {
+        graficoContainer.innerHTML = resumoEixosComparativos.map(eixo => {
+          const wRec = Math.min(100, (eixo.recebido / maiorValor) * 100);
+          const wApl = Math.min(100, (eixo.aplicado / maiorValor) * 100);
+
+          let statusCurto = 'Aguardando 2027';
+          let corStatus = 'bg-slate-100 text-slate-600';
+          if (eixo.recebido > 0 || eixo.aplicado > 0) {
+            if (eixo.aplicado > eixo.recebido && eixo.recebido > 0) {
+              statusCurto = 'Aplicou acima do recebido';
+              corStatus = 'bg-rose-100 text-rose-800';
+            } else if (eixo.aplicado > 0) {
+              const pEixo = eixo.recebido > 0 ? ((eixo.aplicado / eixo.recebido) * 100).toFixed(0) : 100;
+              statusCurto = `${pEixo}% executado`;
+              corStatus = 'bg-emerald-100 text-emerald-800';
+            } else {
+              statusCurto = 'Recurso recebido, aguardando aplicação';
+              corStatus = 'bg-amber-100 text-amber-900';
+            }
+          }
+
+          return `
+            <div class="p-4 rounded-2xl border border-slate-200/90 bg-slate-50/60 space-y-2.5">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">${eixo.icone}</span>
+                  <span class="text-sm font-extrabold text-slate-900">${eixo.nome}</span>
+                </div>
+                <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${corStatus}">${statusCurto}</span>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-teal-800">Recebido</span>
+                  <span class="font-extrabold text-slate-900">${formatarBRL(eixo.recebido)}</span>
+                </div>
+                <div class="h-3 w-full bg-teal-100/70 rounded-full overflow-hidden">
+                  <div class="h-full bg-teal-600 rounded-full transition-all duration-500" style="width: ${wRec}%"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-amber-800">Aplicado</span>
+                  <span class="font-extrabold text-slate-900">${formatarBRL(eixo.aplicado)}</span>
+                </div>
+                <div class="h-3 w-full bg-amber-100/80 rounded-full overflow-hidden">
+                  <div class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: ${wApl}%"></div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function alternarAbaOrcamento(aba) {
+      const btnEntradas = document.getElementById('tab-btn-entradas');
+      const btnPastas = document.getElementById('tab-btn-pastas');
+      const painelEntradas = document.getElementById('painel-orcamento-entradas');
+      const painelPastas = document.getElementById('painel-orcamento-pastas');
+
+      if (aba === 'entradas') {
+        btnEntradas.className = 'py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-teal-700 text-white shadow-sm transition-all flex items-center justify-center gap-2';
+        btnPastas.className = 'py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all flex items-center justify-center gap-2';
+        painelEntradas.classList.remove('hidden');
+        painelPastas.classList.add('hidden');
+      } else {
+        btnPastas.className = 'py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-700 text-white shadow-sm transition-all flex items-center justify-center gap-2';
+        btnEntradas.className = 'py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all flex items-center justify-center gap-2';
+        painelPastas.classList.remove('hidden');
+        painelEntradas.classList.add('hidden');
+      }
+    }
+
+    function renderizarSecaoAgrupada(tipo, grupos) {
+      const isPastas = tipo === 'pastas';
+      const dropdown = document.getElementById(isPastas ? 'pastas-dropdown' : 'orcamento-dropdown');
+      const accordionList = document.getElementById(isPastas ? 'pastas-accordion-list' : 'orcamento-accordion-list');
+      const totalBadge = document.getElementById(isPastas ? 'pastas-total-itens' : 'orcamento-total-itens');
+      const corBadge = isPastas ? 'bg-emerald-700' : 'bg-teal-700';
+
+      if (totalBadge) {
+        totalBadge.textContent = `${grupos.length} ${isPastas ? 'eixos / pastas' : 'fontes'}`;
+      }
+
+      if (!grupos || grupos.length === 0) {
+        if (dropdown) dropdown.innerHTML = `<option value="">Nenhum registro encontrado</option>`;
+        return;
+      }
+
+      if (dropdown) {
+        dropdown.innerHTML = grupos.map((g, idx) => {
+          const chavesSoma = Object.keys(g.somasPorColuna);
+          const resumoSoma = chavesSoma.length > 0 ? ` — Total: ${formatarBRL(g.somasPorColuna[chavesSoma[0]])}` : '';
+          return `<option value="${idx}">${g.titulo}${resumoSoma}</option>`;
+        }).join('');
+      }
+
+      if (accordionList) {
+        accordionList.innerHTML = grupos.map((g, idx) => {
+          const chavesSoma = Object.keys(g.somasPorColuna);
+          const somaPrincipal = chavesSoma.length > 0 ? formatarBRL(g.somasPorColuna[chavesSoma[0]]) : '';
+
+          return `
+            <details class="group bg-slate-50 hover:bg-teal-50/40 border border-slate-200 rounded-2xl overflow-hidden transition-colors">
+              <summary class="cursor-pointer px-4 py-3.5 flex items-center justify-between gap-3 select-none">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span class="w-6 h-6 rounded-lg ${corBadge} text-white text-[11px] font-extrabold flex items-center justify-center shrink-0">${idx + 1}</span>
+                  <div class="min-w-0">
+                    <span class="block text-xs sm:text-sm font-extrabold text-slate-900 truncate">${g.titulo}</span>
+                    <span class="block text-[11px] font-bold text-slate-500">
+                      ${g.itens.length > 1 ? `${g.itens.length} subitens agrupados` : '1 lançamento'} ${somaPrincipal ? `• Somatório: <strong class="text-emerald-800">${somaPrincipal}</strong>` : ''}
+                    </span>
+                  </div>
+                </div>
+                <span class="text-teal-700 font-extrabold text-xs shrink-0 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="px-4 pb-4 pt-3 border-t border-slate-200/80 bg-white space-y-3">
+                ${chavesSoma.length > 0 ? `
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-emerald-50/80 border border-emerald-200 p-3 rounded-xl">
+                    ${chavesSoma.map(col => `
+                      <div>
+                        <span class="block text-[10px] font-extrabold uppercase text-emerald-800">Somatório (${col})</span>
+                        <span class="text-sm font-extrabold text-emerald-950">${formatarBRL(g.somasPorColuna[col])}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                ` : ''}
+
+                <div class="space-y-2">
+                  ${g.itens.map((sub, sIdx) => `
+                    <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1.5">
+                      <div class="text-xs font-extrabold text-slate-800">${sIdx + 1}. ${sub.subtitulo}</div>
+                      ${sub.detalhes.map(d => `
+                        <div class="flex items-center justify-between gap-2 text-xs">
+                          <span class="text-slate-500 font-semibold">${d.label}:</span>
+                          <span class="font-extrabold text-slate-900">${d.valor}</span>
+                        </div>
+                      `).join('')}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </details>
+          `;
+        }).join('');
+      }
+
+      selecionarGrupoOrcamento(tipo, 0);
+    }
+
+    function selecionarGrupoOrcamento(tipo, indexStr) {
+      const idx = parseInt(indexStr, 10);
+      const isPastas = tipo === 'pastas';
+      const lista = isPastas ? gruposPastas : gruposEntradas;
+      const card = document.getElementById(isPastas ? 'pastas-detalhe-card' : 'orcamento-detalhe-card');
+      const dropdown = document.getElementById(isPastas ? 'pastas-dropdown' : 'orcamento-dropdown');
+
+      if (isNaN(idx) || !lista[idx] || !card) return;
+      if (dropdown && dropdown.value !== String(idx)) dropdown.value = String(idx);
+
+      const g = lista[idx];
+      const chavesSoma = Object.keys(g.somasPorColuna);
+
       card.innerHTML = `
-        <div class="flex items-start justify-between gap-2 border-b border-slate-200 pb-3">
+        <div class="flex flex-wrap items-start justify-between gap-2 border-b border-slate-200 pb-3">
           <div>
-            <span class="text-[10px] font-extrabold uppercase tracking-wider bg-teal-100 text-teal-900 px-2.5 py-0.5 rounded-full">Rubrica #${idx + 1}</span>
-            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">${item.titulo}</h3>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider ${isPastas ? 'bg-emerald-100 text-emerald-900' : 'bg-teal-100 text-teal-900'} px-2.5 py-0.5 rounded-full">
+              ${isPastas ? 'Eixo / Pasta' : 'Fonte de Receita'} #${idx + 1} • ${g.itens.length} ${g.itens.length > 1 ? 'itens agrupados' : 'item'}
+            </span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">${g.titulo}</h3>
           </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          ${item.campos.length > 0 ? item.campos.map(c => `
-            <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-sm">
-              <span class="block text-[10px] font-extrabold uppercase text-slate-400">${c.label}</span>
-              <span class="block text-sm sm:text-base font-extrabold text-teal-950 mt-0.5">${c.valor}</span>
+
+        ${chavesSoma.length > 0 ? `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-emerald-50 border border-emerald-200 p-4 rounded-2xl">
+            ${chavesSoma.map(col => `
+              <div>
+                <span class="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-800">∑ Somatório Total • ${col}</span>
+                <span class="block text-base sm:text-lg font-extrabold text-emerald-950 mt-0.5">${formatarBRL(g.somasPorColuna[col])}</span>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="space-y-2.5 pt-1">
+          <h4 class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Detalhamento e Subitens desta Categoria:</h4>
+          ${g.itens.map((sub, sIdx) => `
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-sm space-y-2">
+              <div class="text-xs sm:text-sm font-extrabold text-slate-900 border-b border-slate-100 pb-1.5">
+                ${g.itens.length > 1 ? `${sIdx + 1}. ` : ''}${sub.subtitulo}
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${sub.detalhes.map(d => `
+                  <div class="bg-slate-50 px-3 py-2 rounded-lg flex items-center justify-between gap-2 text-xs">
+                    <span class="font-bold text-slate-500">${d.label}:</span>
+                    <span class="font-extrabold text-teal-950">${d.valor}</span>
+                  </div>
+                `).join('')}
+              </div>
             </div>
-          `).join('') : `
-            <div class="col-span-full bg-white p-3.5 rounded-xl border border-slate-200/80 text-xs text-slate-600">
-              Esta fonte compõe o quadro oficial de receitas do município de Cabo Frio.
-            </div>
-          `}
+          `).join('')}
         </div>
       `;
+    }
+
+    async function loadOrcamentoData() {
+      cachedOrcamentoSearchData = [];
+      let rowsEntradas = [];
+      let rowsPastas = [];
+
+      try {
+        const resEntradas = await fetch(CSV_ENTRADAS_URL);
+        const textEntradas = await resEntradas.text();
+        rowsEntradas = parseCSV(textEntradas);
+        gruposEntradas = processarPlanilhaAgrupada(rowsEntradas, 'entradas');
+
+        gruposEntradas.forEach((g, idx) => {
+          const chavesSoma = Object.keys(g.somasPorColuna);
+          const resumo = chavesSoma.map(k => `${k}: ${formatarBRL(g.somasPorColuna[k])}`).join(' | ');
+          cachedOrcamentoSearchData.push({
+            aba: 'entradas',
+            index: idx,
+            title: g.titulo,
+            desc: resumo || `${g.itens.length} lançamentos`,
+            text: `${g.titulo} ${resumo} ${g.itens.map(i => i.subtitulo).join(' ')}`.toLowerCase()
+          });
+        });
+
+        renderizarSecaoAgrupada('entradas', gruposEntradas);
+
+        try {
+          const resPastas = await fetch(CSV_PASTAS_URL);
+          const textPastas = await resPastas.text();
+          if (textPastas && !textPastas.trim().startsWith('<!DOCTYPE') && textPastas !== textEntradas) {
+            rowsPastas = parseCSV(textPastas);
+            gruposPastas = processarPlanilhaAgrupada(rowsPastas, 'pastas');
+          }
+        } catch (e) {
+          console.warn('Erro ao ler aba Aplicacao_Pastas:', e);
+        }
+
+        if (gruposPastas.length === 0) {
+          gruposPastas = extrairPastasPadrao();
+        }
+
+        gruposPastas.forEach((g, idx) => {
+          const chavesSoma = Object.keys(g.somasPorColuna);
+          const resumo = chavesSoma.map(k => `${k}: ${formatarBRL(g.somasPorColuna[k])}`).join(' | ');
+          cachedOrcamentoSearchData.push({
+            aba: 'pastas',
+            index: idx,
+            title: g.titulo,
+            desc: resumo || `${g.itens.length} aplicações`,
+            text: `${g.titulo} ${resumo} ${g.itens.map(i => i.subtitulo).join(' ')}`.toLowerCase()
+          });
+        });
+
+        renderizarSecaoAgrupada('pastas', gruposPastas);
+        construirGraficoEixosEDestaqueLOA(rowsEntradas, rowsPastas);
+
+      } catch (err) {
+        console.error('Erro ao carregar orçamento:', err);
+        const card = document.getElementById('orcamento-detalhe-card');
+        if (card) card.innerHTML = `<div class="text-xs text-rose-700 font-bold">Não foi possível sincronizar os dados do orçamento agora.</div>`;
+      }
+    }
+
+    function extrairPastasPadrao() {
+      return EIXOS_GRAFICO.map(eixo => ({
+        titulo: eixo.nome,
+        headers: ['Eixo', 'Fonte_ou_Pasta', 'Item_Detalhe', 'Recebido', 'Aplicado'],
+        itens: [{
+          subtitulo: `Aguardando publicação da aba Aplicacao_Pastas (${eixo.nome})`,
+          ehSublinha: false,
+          detalhes: [
+            { label: 'Recebido', valor: 'R$ 0,00' },
+            { label: 'Aplicado', valor: 'R$ 0,00' }
+          ]
+        }],
+        somasPorColuna: { Recebido: 0, Aplicado: 0 }
+      }));
+    }
+
+    function copiarRelatorioNotebookLM() {
+      const dataAtual = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+      const pct = totalLoaDetectado > 0 ? ((totalAcumuladoUtilizado / totalLoaDetectado) * 100).toFixed(2) : '0,00';
+
+      let texto = `RELATÓRIO MENSAL DE ACOMPANHAMENTO ORÇAMENTÁRIO — CABO FRIO (${dataAtual.toUpperCase()})\n`;
+      texto += `Fonte: Observatório Verde • Partido Verde (PV) Cabo Frio\n`;
+      texto += `====================================================================\n\n`;
+
+      texto += `DESTAQUE CONSOLIDADO:\n`;
+      texto += `• TOTAL DA LOA (ESTIMATIVA 2027): ${formatarBRL(totalLoaDetectado)}\n`;
+      texto += `• TOTAL ACUMULADO UTILIZADO: ${formatarBRL(totalAcumuladoUtilizado)} (${pct}% da LOA)\n`;
+      texto += `• SALDO DISPONÍVEL: ${formatarBRL(totalLoaDetectado - totalAcumuladoUtilizado)}\n\n`;
+
+      texto += `COMPARATIVO POR ÁREA (RECEBIDO x APLICADO):\n`;
+      resumoEixosComparativos.forEach(e => {
+        texto += `• ${e.nome}: Recebido ${formatarBRL(e.recebido)} | Aplicado ${formatarBRL(e.aplicado)}\n`;
+      });
+
+      texto += `\n1. ENTRADAS — FONTES DE RECEITA (AGRUPADAS E SOMADAS)\n`;
+      texto += `--------------------------------------------------------------------\n`;
+      gruposEntradas.forEach((g, idx) => {
+        texto += `\n[${idx + 1}] ${g.titulo}\n`;
+        Object.keys(g.somasPorColuna).forEach(col => {
+          texto += `   • SOMATÓRIO (${col}): ${formatarBRL(g.somasPorColuna[col])}\n`;
+        });
+        g.itens.forEach(sub => {
+          const vals = sub.detalhes.map(d => `${d.label}: ${d.valor}`).join(' | ');
+          texto += `   - ${sub.subtitulo}: ${vals}\n`;
+        });
+      });
+
+      texto += `\n\n2. SAÍDAS — APLICAÇÃO DOS RECURSOS NAS PASTAS\n`;
+      texto += `--------------------------------------------------------------------\n`;
+      gruposPastas.forEach((g, idx) => {
+        texto += `\n[${idx + 1}] EIXO / PASTA: ${g.titulo}\n`;
+        Object.keys(g.somasPorColuna).forEach(col => {
+          texto += `   • SOMATÓRIO (${col}): ${formatarBRL(g.somasPorColuna[col])}\n`;
+        });
+        g.itens.forEach(sub => {
+          const vals = sub.detalhes.map(d => `${d.label}: ${d.valor}`).join(' | ');
+          texto += `   - ${sub.subtitulo}: ${vals}\n`;
+        });
+      });
+
+      navigator.clipboard.writeText(texto).then(() => {
+        showToast('🎬 Relatório consolidado copiado! Cole como fonte no NotebookLM para gerar seu vídeo.');
+      }).catch(() => {
+        alert(texto);
+      });
     }
 
     // ==================== CÂMARA MUNICIPAL ====================
@@ -1870,6 +2273,7 @@ ${linkPlataforma}`;
 
     window.addEventListener('DOMContentLoaded', () => {
       atualizarPermissoesVisuaisNaHome();
+      carregarMensagensChatInterno();
       showSlide(currentSlide);
       startTimer();
       loadBloggerFeed();
