@@ -773,6 +773,52 @@
     let fichaAtualSelecionada = null;
     let usuarioAtual = JSON.parse(localStorage.getItem('comunidade_verde_usuario_atual') || 'null');
 
+    function escapeAttr(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function getCardShareUrl(anchorId, customUrl) {
+      if (customUrl && customUrl !== '#') return customUrl;
+      const base = `${window.location.origin}${window.location.pathname}`;
+      return anchorId ? `${base}#${anchorId}` : base;
+    }
+
+    function copiarLinkCartao(title, anchorId, customUrl) {
+      const shareUrl = getCardShareUrl(anchorId, customUrl);
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        showToast('📋 Link do cartão copiado!');
+      }).catch(() => {
+        prompt('Copie o link do cartão:', shareUrl);
+      });
+    }
+
+    function compartilharCartao(title, anchorId, customUrl) {
+      const shareUrl = getCardShareUrl(anchorId, customUrl);
+      const shareText = `${title} • Observatório Verde PV Cabo Frio`;
+      if (navigator.share) {
+        navigator.share({ title: shareText, text: shareText, url: shareUrl }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(`${shareText} — ${shareUrl}`).then(() => {
+          showToast('🔗 Link e título copiados para compartilhar!');
+        }).catch(() => {
+          prompt('Copie o link para compartilhar:', shareUrl);
+        });
+      }
+    }
+
+    function renderAcoesCartao(title, anchorId, customUrl = '#', extraHtml = '') {
+      const safeTitle = escapeAttr(title);
+      const safeAnchor = escapeAttr(anchorId);
+      const safeUrl = escapeAttr(customUrl);
+      return `
+        <div class="no-print pt-2 flex flex-wrap items-center justify-end gap-2">
+          ${extraHtml}
+          <button type="button" onclick="copiarLinkCartao('${safeTitle}', '${safeAnchor}', '${safeUrl}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl border border-slate-200 transition-colors">📋 Copiar Link do Cartão</button>
+          <button type="button" onclick="compartilharCartao('${safeTitle}', '${safeAnchor}', '${safeUrl}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-xl border border-emerald-200 transition-colors">🔗 Compartilhar</button>
+        </div>
+      `;
+    }
+
     // ==================== MODAL PÚBLICO LOA 2027 ====================
     function abrirModalLoaPublico() {
       const modal = document.getElementById('modal-loa-publico');
@@ -1414,7 +1460,7 @@ ${linkPlataforma}`;
       setTimeout(() => toast.classList.add('hidden'), 3500);
     }
 
-    // Stories (7 Lâminas) com imagens de apoio temáticas
+    // Stories (7 Lâminas)
     const slides = [
       {
         tag: "1 • A Força da Comunidade",
@@ -1440,8 +1486,8 @@ ${linkPlataforma}`;
         text: "Enquanto cidades vizinhas atraem empresas e empregos qualificados do setor offshore, ficamos presos apenas ao turismo sazonal e à especulação imobiliária — ignorando até nossa imensa área rural produtora de alimentos.",
         highlight: "Emprego o ano inteiro, não só no verão.",
         badgeColor: "bg-teal-100 text-teal-900",
-        imgUrl: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
-        imgAlt: "Campo e produção local em área rural"
+        imgUrl: "https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?auto=format&fit=crop&w=900&q=80",
+        imgAlt: "Plataforma de petróleo em alto mar"
       },
       {
         tag: "4 • A Contradição do IBGE",
@@ -1449,8 +1495,8 @@ ${linkPlataforma}`;
         text: "Com mais de 230 mil habitantes, Cabo Frio tem PIB per capita de R$ 76.000/ano, mas a renda média do trabalhador é de apenas R$ 2.600/mês. É o retrato de governos que não priorizam o cidadão.",
         highlight: "PIB R$ 76 mil/ano vs. Renda R$ 2.600/mês",
         badgeColor: "bg-rose-100 text-rose-900",
-        imgUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
-        imgAlt: "Análise de dados financeiros e orçamento público"
+        imgUrl: "https://images.unsplash.com/photo-1579621970795-87facc2f976d?auto=format&fit=crop&w=900&q=80",
+        imgAlt: "Casal em casa avaliando contas e dificuldades financeiras"
       },
       {
         tag: "5 • Controle Social no Celular",
@@ -1467,8 +1513,8 @@ ${linkPlataforma}`;
         text: "De um lado, a bolha da direita; do outro, a bolha da esquerda; e no meio, a postura irresponsável de quem se omite. Nenhum desses três caminhos resolveu os problemas reais de Cabo Frio.",
         highlight: "Não somos uma 4ª bolha.",
         badgeColor: "bg-slate-200 text-slate-800",
-        imgUrl: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
-        imgAlt: "Bairros e vias urbanas da cidade"
+        imgUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80",
+        imgAlt: "Muro alto dividindo áreas e comunidades"
       },
       {
         tag: "7 • A 4ª Escolha • Partido Verde",
@@ -1478,7 +1524,7 @@ ${linkPlataforma}`;
         isCTA: true,
         badgeColor: "bg-emerald-600 text-white",
         imgUrl: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80",
-        imgAlt: "Conexão urbana e construção de pontes"
+        imgAlt: "Ponte conectando lados acima da cidade"
       }
     ];
 
@@ -1610,6 +1656,8 @@ ${linkPlataforma}`;
 
         cachedForumSearchData.push({ id: postId, title: title, desc: contentHtml.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...', text: `${title} ${contentHtml} ${category}`.toLowerCase() });
 
+        const extraPrintBtn = `<button type="button" onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">🖨️ Imprimir Esta Pauta</button>`;
+
         return `
           <article id="${postId}" class="print-target bg-white rounded-3xl border border-emerald-100 shadow-sm overflow-hidden scroll-mt-24">
             <div class="bg-emerald-700 text-white px-6 py-3 flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
@@ -1635,10 +1683,7 @@ ${linkPlataforma}`;
                 </div>
               </div>
 
-              <div class="no-print pt-2 flex flex-wrap items-center justify-end gap-2">
-                <button onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">🖨️ Imprimir Esta Pauta</button>
-                <button onclick="compartilharPostagem('${title.replace(/'/g, "\\'")}', '${postUrl}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-3.5 py-2 rounded-xl border border-emerald-200 transition-colors">🔗 Compartilhar Pauta</button>
-              </div>
+              ${renderAcoesCartao(title, postId, postUrl, extraPrintBtn)}
             </div>
           </article>
         `;
@@ -1674,16 +1719,6 @@ ${linkPlataforma}`;
       document.querySelectorAll('main > *').forEach(child => { if (child !== el) child.style.display = 'none'; });
       window.print();
       document.querySelectorAll('main > *').forEach(child => { child.style.display = ''; });
-    }
-
-    function compartilharPostagem(title, url) {
-      if (navigator.share) {
-        navigator.share({ title: title, text: `Confira esta pauta do Partido Verde: ${title}`, url: url !== '#' ? url : window.location.href }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(`${title} - ${url !== '#' ? url : window.location.href}`).then(() => {
-          showToast('🔗 Link da pauta copiado para a área de transferência!');
-        });
-      }
     }
 
     function loadBloggerFeed() {
@@ -2119,9 +2154,10 @@ ${linkPlataforma}`;
         accordionList.innerHTML = grupos.map((g, idx) => {
           const chavesSoma = Object.keys(g.somasPorColuna);
           const somaPrincipal = chavesSoma.length > 0 ? formatarBRL(g.somasPorColuna[chavesSoma[0]]) : '';
+          const itemAnchorId = `orcamento-${tipo}-${idx}`;
 
           return `
-            <details class="group bg-slate-50 hover:bg-teal-50/40 border border-slate-200 rounded-2xl overflow-hidden transition-colors">
+            <details id="${itemAnchorId}" class="group bg-slate-50 hover:bg-teal-50/40 border border-slate-200 rounded-2xl overflow-hidden transition-colors scroll-mt-24">
               <summary class="cursor-pointer px-4 py-3.5 flex items-center justify-between gap-3 select-none">
                 <div class="flex items-center gap-2.5 min-w-0">
                   <span class="w-6 h-6 rounded-lg ${corBadge} text-white text-[11px] font-extrabold flex items-center justify-center shrink-0">${idx + 1}</span>
@@ -2159,6 +2195,8 @@ ${linkPlataforma}`;
                     </div>
                   `).join('')}
                 </div>
+
+                ${renderAcoesCartao(g.titulo, itemAnchorId)}
               </div>
             </details>
           `;
@@ -2180,6 +2218,10 @@ ${linkPlataforma}`;
 
       const g = lista[idx];
       const chavesSoma = Object.keys(g.somasPorColuna);
+      const cardAnchorId = `orcamento-${tipo}-${idx}`;
+
+      card.id = cardAnchorId;
+      card.classList.add('scroll-mt-24');
 
       card.innerHTML = `
         <div class="flex flex-wrap items-start justify-between gap-2 border-b border-slate-200 pb-3">
@@ -2220,6 +2262,8 @@ ${linkPlataforma}`;
             </div>
           `).join('')}
         </div>
+
+        ${renderAcoesCartao(g.titulo, cardAnchorId)}
       `;
     }
 
@@ -2277,6 +2321,7 @@ ${linkPlataforma}`;
 
         renderizarSecaoAgrupada('pastas', gruposPastas);
         construirGraficoEixosEDestaqueLOA(rowsEntradas, rowsPastas);
+        aplicarHashSePresente();
 
       } catch (err) {
         console.error('Erro ao carregar orçamento:', err);
@@ -2403,7 +2448,8 @@ ${linkPlataforma}`;
             });
 
             const cardId = `camara-projeto-${index}`;
-            cachedCamaraSearchData.push({ id: cardId, title: `${atoLegislativo} - ${project}`, desc: `Autor: ${author} | Contexto: ${context}`, text: `${date} ${atoLegislativo} ${project} ${author} ${context} ${status}`.toLowerCase() });
+            const cardTitle = `${atoLegislativo || 'Ato'} - ${project}`;
+            cachedCamaraSearchData.push({ id: cardId, title: cardTitle, desc: `Autor: ${author} | Contexto: ${context}`, text: `${date} ${atoLegislativo} ${project} ${author} ${context} ${status}`.toLowerCase() });
 
             return `
               <article id="${cardId}" class="print-target bg-white rounded-3xl border border-sky-100 shadow-sm overflow-hidden scroll-mt-24">
@@ -2434,27 +2480,61 @@ ${linkPlataforma}`;
                       </div>
                     </details>
                   </div>
+                  ${renderAcoesCartao(cardTitle, cardId)}
                 </div>
               </article>
             `;
           }).join('');
+          aplicarHashSePresente();
         }).catch(err => console.error(err));
     }
 
     const views = ['home', 'forum', 'agenda', 'orcamento', 'camara'];
 
     function navigateTo(viewName) {
-      const target = viewName.startsWith('forum-post-') ? 'forum' : (viewName.startsWith('camara-projeto-') ? 'camara' : (views.includes(viewName) ? viewName : 'home'));
+      const isOrcamentoItem = /^orcamento-(entradas|pastas)-\d+$/.test(viewName);
+      const target = viewName.startsWith('forum-post-')
+        ? 'forum'
+        : (viewName.startsWith('camara-projeto-')
+          ? 'camara'
+          : (isOrcamentoItem ? 'orcamento' : (views.includes(viewName) ? viewName : 'home')));
+
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         if (el) el.classList.toggle('hidden', v !== target);
       });
+
       if (target === 'home') {
         history.replaceState({view: 'home'}, '', window.location.pathname);
       } else {
-        history.pushState({view: target}, '', `#${target}`);
+        const hashTarget = viewName !== target ? viewName : target;
+        history.pushState({view: target, anchor: hashTarget}, '', `#${hashTarget}`);
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (isOrcamentoItem) {
+        const [, aba, idxStr] = viewName.split('-');
+        alternarAbaOrcamento(aba);
+        selecionarGrupoOrcamento(aba, idxStr);
+      }
+
+      const anchorEl = viewName !== target ? document.getElementById(viewName) : null;
+      if (anchorEl) {
+        setTimeout(() => anchorEl.scrollIntoView({ behavior: 'smooth' }), 80);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function aplicarHashSePresente() {
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (!hash) return;
+      if (hash.startsWith('forum-post-') && isMembroCadastrado()) {
+        navigateTo(hash);
+      } else if (hash.startsWith('camara-projeto-') && isFiliadoTSE()) {
+        navigateTo(hash);
+      } else if (/^orcamento-(entradas|pastas)-\d+$/.test(hash) && isFiliadoTSE()) {
+        navigateTo(hash);
+      }
     }
 
     window.addEventListener('popstate', (event) => {
@@ -2480,7 +2560,7 @@ ${linkPlataforma}`;
       loadOrcamentoData();
       loadCamaraData();
       carregarDadosSupabase();
-      history.replaceState({view: 'home'}, '', window.location.pathname);
+      history.replaceState({view: 'home'}, '', window.location.pathname + window.location.hash);
     });
   </script>
 </body>
