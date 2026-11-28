@@ -1653,8 +1653,7 @@ ${linkPlataforma}`;
         const formattedDate = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
         const category = entry.category && entry.category.length > 0 ? entry.category[0].term : 'Fórum Partido Verde';
         const postId = `forum-post-${index}`;
-        const postUrl = entry.link && entry.link.length > 0 ? entry.link.find(l => l.rel === 'alternate').href : '#';
-
+        const postUrl = `${window.location.origin}${window.location.pathname}#${postId}`;
         cachedForumSearchData.push({ id: postId, title: title, desc: contentHtml.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...', text: `${title} ${contentHtml} ${category}`.toLowerCase() });
 
         const extraPrintBtn = `<button type="button" onclick="imprimirPostagem('${postId}')" class="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors">🖨️ Imprimir Esta Pauta</button>`;
@@ -2538,6 +2537,35 @@ ${linkPlataforma}`;
       }
     }
 
+   function renderizarBannerEntradaLinkCompartilhado() {
+      const hash = (window.location.hash || '').replace(/^#/, '');
+      if (!hash) return;
+
+      const targetSectionId = hash.startsWith('forum-post-')
+        ? 'view-forum'
+        : (hash.startsWith('camara-projeto-')
+          ? 'view-camara'
+          : (/^orcamento-(entradas|pastas)-\d+$/.test(hash) ? 'view-orcamento' : null));
+
+      if (!targetSectionId) return;
+      const section = document.getElementById(targetSectionId);
+      if (!section || document.getElementById('banner-acesse-observatorio')) return;
+
+      const banner = document.createElement('div');
+      banner.id = 'banner-acesse-observatorio';
+      banner.className = 'no-print bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-800 text-white rounded-3xl p-4 sm:p-5 shadow-lg border border-emerald-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-fade-in';
+      banner.innerHTML = `
+        <div class="space-y-0.5">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-300">Você abriu um conteúdo compartilhado</span>
+          <p class="text-xs sm:text-sm font-bold text-white">Acompanhe os bairros, o orçamento, a Câmara e participe dos debates da cidade.</p>
+        </div>
+        <button type="button" onclick="navigateTo('home')" class="shrink-0 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm transition-colors">
+          🌿 ACESSE O OBSERVATÓRIO VERDE
+        </button>
+      `;
+      section.prepend(banner);
+    }
+
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.view) {
         views.forEach(v => {
@@ -2561,6 +2589,7 @@ ${linkPlataforma}`;
       loadOrcamentoData();
       loadCamaraData();
       carregarDadosSupabase();
+      renderizarBannerEntradaLinkCompartilhado();
       history.replaceState({view: 'home'}, '', window.location.pathname + window.location.hash);
     });
   </script>
